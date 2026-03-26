@@ -276,8 +276,52 @@ const TEKERLEMELER={
      {m:"Vakıf vakıfça vakıflanmış, vakıflanan vakıf vakıflamış, vakıf vakıf vakıflanmış vakıf.",n:"V'yi titreşimli söyle. Elini boğazına koy, V'de titreşim hissedilsin. F ile V karışmasın."},
      {m:"A-E-I-O-U, açık ağız, geniş ses, yukarı damak, dolu ünlü, A-E-I-O-U, aç sesin.",n:"Her ünlüde çeneni maksimum aç. Burun sesi varsa ağzı daha da aç. Net çıkana kadar tekrarla."}]
   ],
-  B:Array(7).fill(null).map(()=>[{m:"[Set B yakında eklenecek]",n:"Set A ile devam et."},{m:"[Set B yakında eklenecek]",n:"Set A ile devam et."},{m:"[Set B yakında eklenecek]",n:"Set A ile devam et."}]),
-  C:Array(7).fill(null).map(()=>[{m:"[Set C yakında eklenecek]",n:"Set A ile devam et."},{m:"[Set C yakında eklenecek]",n:"Set A ile devam et."},{m:"[Set C yakında eklenecek]",n:"Set A ile devam et."}])
+  B:[
+    [{m:"Papağan papa papaya bapar, papa papağana bapar, papağan papa bapar, ikisi de bapar.",n:"P ve B'yi karıştırma. P nefesli-sert, B titreşimli-yumuşak. Hız artınca fark korunsun."},
+     {m:"Bebek biberden biberli börek yemiş, biberli börek bebeği biberletmiş, bebek biber yememiş.",n:"B-B ardarda gelince dudaklar yorulur. Her B'de tam kapan, tam aç. Yorulunca yavaşla."},
+     {m:"Memleketten mektup gelmiş, mektupla memleket mamur olmuş, mamur memleket mektup beklemiş.",n:"M'lerin arasındaki ünlüleri net söyle. M-E-M geçişi akıcı, M'ler birbirine yapışmasın."}],
+    [{m:"Tütüncü tütün tüter, tüten tütün tütüncüyü tütsüler, tütüncü tütün tütmemiş.",n:"T-T ardarda gelince dil yorulur. Her T'de dil diş arkasına tam vursun, hemen geri çekilsin."},
+     {m:"Dağdan dağa taş atar, attığı taş dağa değer, değen taş dağı dağıtır, dağ taşlanır.",n:"D ve T geçişi asıl zorluk. D yumuşak, T sert — geçişlerde fark kaybolmasın."},
+     {m:"Nineler nine nine diye bağırır, nine nineden nine ister, nine nineye ninni söyler.",n:"N sesi titreşimli çıkmalı. 'Nine' kelimesini her seferinde göğüsten söyle, buruna kaçırma."}],
+    [{m:"Keklik kekliğe kakırdı, kekliğin kekliği de kakırdı, kakırdayan keklikler kayalığa kaçtı.",n:"K-K ardarda gelince dil kökü yorulur. Her K'da dil kökü damağa vursun, net patlasın."},
+     {m:"Göğüs göğse gelmiş gürgen, gürgen göğüsleri göğüslemiş, göğüsleyen gürgen güçlenmiş.",n:"G-Ğ geçişi çok hızlı. Ğ'yi yutma — kısa da olsa hissettir. Yavaş başla, hızlan."},
+     {m:"Kağıt kağıda kağıtlanmış, kağıtlanan kağıt kağıtçıya gitmiş, kağıtçı kağıt kağıtlamış.",n:"Ğ'nin olduğu her yerde mikro-duraklama. Sonra akışa geri dön."}],
+    [{m:"Şişe şişeyi şişirir, şişiren şişe şişiriyi şişirince şişe şişişir, şişe şişmiş.",n:"Ş ardarda gelince dil pozisyonu kayar. Her Ş'de dil dişlerin arkasında sabit kalsın."},
+     {m:"Sazlıkta saz sazlığa saz çalmış, sazlığın sazı sazlıkta sazlanmış, saz sazlıkta.",n:"S-Z geçişi bu tekerlemedeki tuzak. S tiz-keskin, Z titreşimli. Farkı abartarak söyle."},
+     {m:"Jilet jileti jiletle jileter, jiletlenen jilet jiletçiye gider, jiletçi jileti jiletler.",n:"J sesi Türkçede nadir. Zorlanma, doğal çıksın. Ş'ye dönüştürme. Diş-dil arası titreşim."}],
+    [{m:"Çilingir çilingire çilingirlik öğretmiş, çilingir çilingirden çilingir almış, çilingirlemiş.",n:"Ç-Ç ardarda gelirken ritim korunsun. Ç patlar, hemen ünlüye geç, bekletme."},
+     {m:"Cümbüş cümbüşe cümbüşlemiş, cümbüşleyen cümbüş cümbüşçüye gitmiş, cümbüş cümbüşlü.",n:"C-Ç geçişi ana egzersiz. C yumuşak patlasın, Ç sert patlasın. İkisi net ayrışsın."},
+     {m:"Çaçaron çaça çaçaronluk yapmış, çaçaronun çaçası çaça çaça kaçmış, çaçaron çaçalamış.",n:"Ç-C-Ç geçişi hızlı. Yavaş başla, her sesi ayrı hisset. Hızlanınca kayma olursa yavaşla."}],
+    [{m:"Rüzgârlı rüzgârsız rüzgârlık, rüzgârsız rüzgârlı rüzgârlık, rüzgârlı rüzgâr rüzgârlamış.",n:"R ardarda gelince dil ucu yorulur. Her R'de titreşim olmalı — yutulursa dur, yeniden başla."},
+     {m:"Lale laleli lalelerle lalelendi, laleli lale lalelere lalelendi, laleler lalelenmiş.",n:"L'nin her birinde dil diş arkasına tam dayansın. L'ler birbirine karışmasın."},
+     {m:"Orman ormanı ormanlar, ormanlı orman ormanlığa gider, ormanlık orman ormanlanmış.",n:"R-M-N geçişleri yoğun. Akıcı seslerden patlayıcılara geçişi temiz tut."}],
+    [{m:"Fırtına fırtınayı fırtınalar, fırtınalanan fırtına fırtınalı fırtınaya fırlar, fırtınalmış.",n:"F ardarda gelince nefes tükenir. Diyaframdan besle — her F'de karın desteklesin."},
+     {m:"Vakvak vaklamış, vaklayan vakvak vaklamaktan vazgeçmiş, vazgeçen vakvak vaklamış yine.",n:"V-V ardarda. Her V'de ses telleri titreşmeli — elini boğazına koy, titreşim hissedilsin."},
+     {m:"Üç ulu orta Anadolu ovası, ovada ova ova açılır, açılan ova ovayı örter, örtülmüş.",n:"Ü-Ö-A-O ünlü geçişleri yoğun. Her ünlü ayrı ve net çıksın, birbirine karışmasın."}]
+  ],
+  C:[
+    [{m:"Pipetçi pipet yapar, pip pip pip diye pip pip pipetler, pipetçinin pip pipeti pipetlenmiş.",n:"P-P-P patlama dizisi — diyaframdan besle. Nefes tükenirse dur, derin nefes al, devam et."},
+     {m:"Bembeyaz bir bebek bembeyaz bir battaniyeye bürünmüş, bembeyaz bebek bürünmüş battaniyeye.",n:"B-M-B geçişi bu seviyede hız gerektirir. Dudaklar yorulmadan ritmi koru."},
+     {m:"Mum mumdan mumlanmış, mumlu mum mumcuya gitmiş, mumcu mumu mumlamış, mum mumlanmış.",n:"M-M ardarda titreşim kesilmemeli. Her M'den ünlüye geçerken ses akmalı, kesilmemeli."}],
+    [{m:"Titrek titreğe titreşmiş, titreşen titrek titreğe titreşince titrek titremiş, titrek titremiş.",n:"T-T dizisi dil ucunu yorar. Hız artınca T'ler kayar — tempoyu düşür, netliği koru."},
+     {m:"Dondurma dondurmayı dondurmuş, dondurulan dondurma dondurucuya gitmiş, dondurmuş.",n:"D-D-D ardarda — D'ler yumuşak ama net. Sert olmak zorunda değil, ama silinmemeli."},
+     {m:"Nar narı narlıkta narlıklar, narlıklı nar narlığa gider, narlık narlanınca narlanır.",n:"N-N-N titreşimi sürekli. Bir N biterken diğeri başlar — araya sessizlik girmesin."}],
+    [{m:"Küçük kükreme küçük kükremiş, küçük kükremeden küçük kükreme çıkmış, küçük kükremeler.",n:"K-K ardarda en yüksek tempo. Dil kökü hız artınca pozisyon bozabilir — netlik hızdan önce gelir."},
+     {m:"Gögercin göğercine göğermiş, göğermiş göğercin göğerge göğermiş, göğercin göğermiş.",n:"G-Ğ geçişi çok yoğun. Ğ'yi atlama — her birini hisset. Set C'nin en zor tekerlemesi."},
+     {m:"Kıkır kıkır kıkırdamış kıkırdayan kıkırdaktan, kıkırdak kıkırdaya kıkır demiş, kıkırdakmış.",n:"K-R geçişi sürpriz. Dil kökünden dil ucuna hızlı geçiş — egzersizin özü bu."}],
+    [{m:"Şişişmiş şişişe şişişmiş gibi şişmiş, şişişen şişişe şişişikten şişmiş, şişişmiş şişe.",n:"Ş-Ş-Ş yoğun sibilant. Dişlerin ardında tut — her Ş dışarı çıksın, içe kaçmasın."},
+     {m:"Sonsuz sessiz sonsuzluk, sessiz sonsuzlukta ses sonsuz, sonsuz ses sessizliği bozmuş.",n:"S-S-Z geçişi. S keskin, Z titreşimli. 'Sonsuz sessiz' geçişi bu seviyenin sınavı."},
+     {m:"Zürafalar zıplar, zıplayan zürafalar zıplayarak uzaklaşır, uzaklaşan zürafalar zıplamış.",n:"Z-Z ardarda. Her Z'de ses telleri titreşmeli — S gibi değil, titreşimli. Farkı hisset."}],
+    [{m:"Çıkrıkçı çıkrık çıkarır, çıkarılan çıkrık çıkrıkçıya çıkar, çıkrıkçı çıkrığı çıkarmış.",n:"Ç-R kombinasyonu zor. Ç patlar, hemen R'ye geç — dil ucu titreşime hazır olsun."},
+     {m:"Cırcırböceği cırlar, cırlayan cırcırböceği cırlamaktan cırıltıya varır, cırcır cırlamış.",n:"C-R-C dizisi. C'ler yumuşak, R'ler titreşimli. Aralarındaki kontrast kaybolmasın."},
+     {m:"Çarçur çarçurlanmış, çarçurlanan çarçur çarçurcu çarçuruna çarçur olmuş, çarçurlanmış.",n:"Ç-R-Ç en hızlı tempo. Yavaş başla — Ç-R geçişini tam hisset — sonra hızlan."}],
+    [{m:"Rüzgâr lüzumsuz lülüleri savurur, lülüler lüzumsuzca savrulur, lülüler rüzgâra savrulmuş.",n:"R-L geçişi en yoğun haliyle. Dil ucu durmadan çalışıyor — tempo düşürme."},
+     {m:"Lalelerin lale lülüsü, lülülerin lale lalesi, laleli lülüler lüleli lalelerle lalelemiş.",n:"L-L-L dizisi en uzun. Her L'de dil diş arkasına tam dayansın. Yorulunca yavaşla."},
+     {m:"Ormanlar ormanlığa ormanlanır, ormanlıklar ormanla ormanlaşır, ormanlaşan orman ormanlı.",n:"R-M-N-L dört akıcı ses bir arada. Spikerin zirve egzersizi. Netlik tempodan önce gelir."}],
+    [{m:"Fısıltı fısıldamış fısıltıya, fısıldayan fısıltı fısıltıcıya gitmiş, fısıltı fısıldamış.",n:"F-F dizisi nefes tüketir. Her F'de karın desteklesin — diyafram nefesi burada kritik."},
+     {m:"Vızıltı vızıldamış vızıltıya, vızıldayan vızıltı vızıltıcıya gitmiş, vızıltı vızıldamış.",n:"V-V titreşimli dizi. Her V'de ses teli titreşmeli. F-V farkını bilinçli hisset."},
+     {m:"İri iri örümcekler iri ağlar örmüş, örülen iri ağlar iri örümceklere iri örmüş, örülmüş.",n:"İ-Ö-Ü ünlü dizisi — ağız şekli sürekli değişiyor. Her ünlüde çene ve dudak netlesin."}]
+  ]
 };
 
 const METINLER=[
