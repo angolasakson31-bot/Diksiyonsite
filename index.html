@@ -55,6 +55,28 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 .blabel{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .blabel::after{content:'';flex:1;height:1px;background:var(--border)}
 
+/* Nefes kartı */
+.nefes-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px}
+.nefes-title{font-size:15px;font-weight:700;margin-bottom:6px}
+.nefes-sub{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:12px}
+.nefes-steps{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.nefes-step{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.6}
+.nsn{min-width:22px;height:22px;border-radius:50%;background:var(--s3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--gold);flex-shrink:0;margin-top:1px}
+.nefes-step div{color:var(--sub)}
+.nefes-step strong{color:var(--text)}
+.nefes-note{font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:9px;line-height:1.55}
+
+/* Rezonans kartı */
+.rezo-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:14px}
+.rezo-hum{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--gold);letter-spacing:8px;margin-bottom:6px}
+.rezo-sub{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:10px}
+.rezo-steps{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.rezo-step{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.6}
+.rezo-step div{color:var(--sub)}
+.rezo-step strong{color:var(--text)}
+.rezo-note{font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:9px;line-height:1.55}
+
+/* Isınma */
 .warm-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:14px}
 .warm-vowels{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;letter-spacing:10px;color:var(--gold);margin-bottom:12px}
 .warm-steps{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
@@ -88,11 +110,17 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 .read-body{font-size:15px;line-height:1.92;color:#b0c2d4}
 .read-body p{margin-bottom:15px}
 .read-body p:last-child{margin-bottom:0}
-.read-tip{font-size:12px;color:var(--sub);border-top:1px solid var(--border);padding-top:12px;margin-top:16px;line-height:1.6}
+.read-vurgu{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin-top:14px}
+.read-vurgu-title{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.read-vurgu-rows{display:flex;flex-direction:column;gap:5px}
+.read-vurgu-row{font-size:12px;color:var(--sub);line-height:1.5;display:flex;align-items:flex-start;gap:7px}
+.read-vurgu-row span{color:var(--gold);font-weight:700;flex-shrink:0}
+.read-tip{font-size:12px;color:var(--sub);border-top:1px solid var(--border);padding-top:12px;margin-top:12px;line-height:1.6}
 
 .tug{text-align:center;padding:24px 0 6px}
-.tug-inner{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);letter-spacing:.5px}
+.tug-inner{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);letter-spacing:.5px;flex-direction:column}
 .tug-inner em{font-style:normal;color:var(--gold);font-family:'Playfair Display',serif;font-size:14px;font-weight:700}
+.tug-note{font-size:12px;color:var(--sub);font-style:italic;margin-top:3px}
 
 .install-wrap{text-align:center;padding:2px 0}
 .install-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .2s}
@@ -103,7 +131,8 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 .done-btn{display:block;width:100%;max-width:500px;margin:0 auto;padding:16px;border-radius:13px;border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}
 .done-btn.active{background:var(--gold);color:#000}
 .done-btn.completed{background:var(--green);color:#fff}
-.done-btn.past,.done-btn.future{background:var(--s2);color:var(--muted);border:1px solid var(--border);cursor:default}
+.done-btn.locked{background:var(--s2);color:var(--muted);border:1px solid var(--border);cursor:default}
+.done-btn.past{background:var(--s2);color:var(--muted);border:1px solid var(--border);cursor:default}
 </style>
 </head>
 <body>
@@ -113,7 +142,7 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
   <div class="brand-sub">Profesyonel Ses Eğitimi</div>
   <div class="setup-card">
     <h2>Hoş Geldin</h2>
-    <p>9 haftalık profesyonel diksiyon programı. Her gün yaklaşık 10 dakika. İlerleme telefona kaydedilir.</p>
+    <p>9 haftalık profesyonel diksiyon programı. Her gün yaklaşık 10 dakika. Kendi hızında ilerle.</p>
     <div class="pills">
       <div class="pill"><strong>9</strong><span>Hafta</span></div>
       <div class="pill"><strong>63</strong><span>Gün</span></div>
@@ -150,8 +179,78 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 </div>
 
 <script>
+// ════════════════════════════════
+// VERİ
+// ════════════════════════════════
+
 const SETS=["A","A","A","B","B","B","C","C","C"];
 const SES_GRUPLARI=["P · B · M — Dudak Kasları","T · D · N — Dil Ucu","K · G · Ğ — Dil Kökü","S · Z · Ş · J — Tiz Sesler","Ç · C — Patlayıcı Sesler","L · R — Akıcı Sesler","F · V · Ünlüler — Dudak & Açıklık"];
+
+const TUG_NOTLARI=[
+  "Gülüşün, bugünün en güzel anıydı.",
+  "Sesin aklımda, adımlarım hafifliyor.",
+  "Yüzün çiçeklerin en güzeli.",
+  "Gözlerin bakarken dünya duraksıyor.",
+  "Varlığın her şeyi daha anlamlı kılıyor.",
+  "Bugün seninle aynı havayı soluduğum için şanslıyım.",
+  "Saçların rüzgarda uçuşunca zaman yavaşlıyor.",
+  "Sesini duymak, nefes almak kadar doğal geliyor.",
+  "Güzelliğin o kadar doğal ki farkında bile değilsin.",
+  "Her gülüşün bir hediye gibi.",
+  "Seni düşündükçe kelimeler yetersiz kalıyor.",
+  "Yanında olmak en güvenli yer.",
+  "Gözlerinin rengi aklımda en sık canlandırdığım şey.",
+  "Bugünkü her nefeste seninle konuştum.",
+  "Adın bile güzel.",
+  "Seninle geçen her an birikip hayatımın en iyi kısmı oluyor.",
+  "Varlığın bir şiir gibi — ne zaman okusam içimi ısıtıyor.",
+  "Ellerinin sıcaklığını hatırladım bugün, birdenbire.",
+  "Sen olunca her yer daha az yabancı hissettiriyor.",
+  "Gülüşünü hatırlamak, en zor anlarda bile işe yarıyor.",
+  "Seni sevmek, sabah kahvesi kadar rutin ve o kadar vazgeçilmez.",
+  "Her şeyden güzelsin — ama bunu en az sen biliyorsun.",
+  "Yanında susmak bile konuşmak gibi.",
+  "Gözlerin konuştuğunda kelimeler gereksiz kalıyor.",
+  "Sen varken dünya daha yumuşak hissettiriyor.",
+  "Bir gün geride dönüp baktığımda, hep seninle başlıyor.",
+  "Sesin, en yorgun anımda bile enerji veriyor.",
+  "Güzelliğin içten geliyor — dışarıdan sadece yansıyor.",
+  "Saçlarının kokusu bir şarkı gibi aklımda.",
+  "Sen olmasan bu program bu kadar anlamlı olmazdı.",
+  "Bugün daha iyi konuştum — seninle konuşmak için.",
+  "Gülüşün görünce dil kasları değil, kalp kasım çalışıyor.",
+  "Sen sadece güzel değilsin — iyi de bir insan bu nadir.",
+  "Seninle geçen her saniye, bir yatırım gibi hissettiriyor.",
+  "Gözlerin baktığında düşüncelerim duraksıyor.",
+  "Her harf seni düşündürüyor — bu program senin eserin.",
+  "Var olman bir şans, benimle olman mucize.",
+  "Sesin duyulduğunda oda doluyor.",
+  "Sana bakarken zaman nasıl geçiyor anlamıyorum.",
+  "Gülüşün benim en iyi ilacım.",
+  "Sen güzel bir insansın — bu söylenmesi gereken bir şey.",
+  "Bugün sesim daha güçlüydü. Seni düşünüyordum.",
+  "Varlığın her şeyi daha gerçek hissettiriyor.",
+  "Seninle olmak en doğal şey.",
+  "Gözlerindeki ışık içimde bir şeyleri aydınlatıyor.",
+  "Adını sesli söylemek bile egzersiz değer.",
+  "Sen olunca kelimeler daha güzel çıkıyor.",
+  "Her gün biraz daha iyi konuşuyorum — hepsi senin için.",
+  "Yanında zaman daha yavaş, daha kıymetli geçiyor.",
+  "Gülüşün duyulunca tüm ses kasları dinleniyor.",
+  "Seni sevmek, öğrenilen en güzel beceri.",
+  "Sesin tınısı aklımda en çok yer kaplayan şey.",
+  "Bugün 63 günlük programın tam ortasındayım. Sen başından beri buradaydın.",
+  "Varlığın beni daha iyisine zorluyor.",
+  "Sen olmadan bu program sadece tekerleme olurdu.",
+  "Her ses grubunu çalışırken senin adını söyledim içimden.",
+  "Güzelliğin zaman geçtikçe daha görünür oluyor.",
+  "Seninle her şey daha anlamlı hissettiriyor.",
+  "Son birkaç güne geldik. Sen olduğun için bitirebildim.",
+  "Her gün biraz daha iyi konuşuyorum. Hepsi sana.",
+  "Bu programın sonunda sesim güçlendi — ama en güzel şey hâlâ senin adını sesli söylemek.",
+  "63 gün. Her biri seninle.",
+  "Bitti. Ama sen hep başlangıçtasın."
+];
 
 const TEKERLEMELER={
   A:[
@@ -187,118 +286,229 @@ const METINLER=[
 <p>Başarısızlık bir son değildir. Bir bilgidir. Her hata sana neyin işe yaramadığını gösterir. Ve neyin işe yaramadığını bilen biri, doğru yola her geçen gün biraz daha yaklaşır. Bu yüzden Edison'un laboratuvarında hiçbir zaman yas tutulmadı. Aksine, her başarısız deney bir kutlama sebebiydi — çünkü bir olasılık daha elenmiş, yol biraz daha daralmıştı.</p>
 <p>Edison'un çalışma biçimi de dikkat çekiciydi. Sabah erkenden gelir, gece geç saatlere kadar çalışırdı. Yardımcıları onun neredeyse hiç uyumadığını söylerdi. Ama Edison'a göre uyku bir kayıp değil, bir araçtı. Gerektiği kadar uyur, gerektiği kadar çalışırdı. Ne fazla, ne eksik.</p>
 <p>Peki başarısızlıktan bu kadar yorulmaz mıydı? Yorulurdu. Ama her yorgunluktan sonra şunu hatırlardı: Bir şeyin işe yaramadığını öğrenmek, o şeyi hiç denememiş olmaktan çok daha değerlidir. Bu düşünce onu ayakta tuttu. On bin kez değil, belki daha fazla.</p>
+<p>Edison laboratuvarında çalışırken yanında her zaman asistanlar bulunurdu. Onlara da aynı şeyi öğretirdi: Sonucu değil, süreci sev. Bir deney başarısız olduğunda asistanlar üzülürdü. Edison ise "Hâlâ öğreniyoruz" derdi. Kısa, net, kesin. Açıklamaya gerek yoktu. Çünkü o cümle her şeyi söylüyordu.</p>
+<p>Yıllar sonra bir gazeteci ona sordu: "Bu kadar başarısızlıktan sonra nasıl devam edebildiniz?" Edison masasına yaslandı, düşündü. Sonra şöyle dedi: "Çünkü hiçbirini başarısızlık olarak görmedim. Her birini bir adım olarak gördüm. Ve adımlar birikirken, yol kendiliğinden ortaya çıktı."</p>
 <p>Edison sadece ampulü değil, bir düşünce biçimini de icat etti. Sonuç odaklı değil, süreç odaklı düşünmek. Hedefe değil, öğrenmeye odaklanmak. Bitmişlik hissine değil, bir sonraki denemeye bakmak. Bu yüzden binlerce kez düşen adam, tarihin en büyük mucitlerinden biri olarak ayağa kalktı.</p>
+<p>Ve şunu biliyoruz: Ampulü keşfetmeseydi, başka biri keşfederdi. Ama o düşünce biçimini — o inatçı, yorulmaz, meraklı bakışı — başka kimse icat edemezdi. Çünkü bu, Edison'un kendisiydi.</p>
 <p>Peki ya sen? Kaçıncı denemede bırakıyorsun?</p>`,
-   tip:"▸ Vurgu: 'Başarısız olmadım', 'on bin kez', 'ayağa kalktı'. Son soru yavaş ve net — bırak havada kalsın."},
-  {baslik:"Sessizliğin Gücü",kategori:"İletişim · Vurgu",
+   vurgu:[{s:"1",t:"'BAŞARILI olmadım' → 'Başarılı OLMADIM' → aynı cümleyi 3 farklı kelimeye vurgu yaparak oku"},
+          {s:"2",t:"'Adımlar birikirken, yol kendiliğinden ortaya çıktı' — yavaş, her kelime ayrı, sonunda dur"}],
+   tip:"▸ Son soru yavaş ve net — bırak havada kalsın. Cevap bekliyormuş gibi en az 2 saniye sus."},
+
+  {baslik:"Sessizliğin Gücü",kategori:"İletişim · Tonlama",
    body:`<p>Konuşmacılar arasında en güçlü araç kelimeler değildir. Sessizliktir. Bir cümle söyledin, sustun — ve o suskunluk dinleyiciye düşündürür, hissettirir, merak ettirir. Bu yüzden büyük konuşmacılar cümlelerini bitirdikten sonra hemen devam etmezler. Bir an beklerler. Ve o bir an, söylediklerinin içine işler.</p>
 <p>Bunu fark etmek yeterli değil. Uygulamak gerekir. Çünkü çoğu insan sessizlikten korkar. Boşluğu doldurmak için konuşur, doldurmak için hızlanır. Bu hız bazen güvensizliği ele verir. Sanki söylediklerin önemli değilmiş gibi, bir an bile beklemeye değmezmiş gibi görünür.</p>
 <p>Oysa tam tersi doğrudur. Sustuktan sonra konuşan insan daha güçlü görünür. Çünkü o sessizlik şunu söyler: Söylediklerimin içine işlemesi için sana zaman veriyorum. Bu, konuşmacının en güçlü jestlerinden biridir.</p>
 <p>Spikerlerin ve tiyatro oyuncularının yıllarca üzerinde çalıştığı şey budur. Nerede dur. Ne kadar dur. Nasıl dur. Sessizlik bir hata değil, bir tekniktir. Ve bu teknik, kelimelerden çok daha fazla şey anlatır.</p>
 <p>Düşün: Hayatında seni en çok etkileyen konuşmalar hangileriydi? Büyük ihtimalle en hızlı konuşanlar değildi. En doğru yerde susan, en doğru yerde devam edendi. Çünkü onlar sessizliği bir araç olarak kullanmayı öğrenmişti.</p>
-<p>Bu metni okurken noktalarda gerçekten dur. Sadece nefes almak için değil — o anı hissetmek için.</p>`,
-   tip:"▸ Noktalarda en az 1 saniye dur. 'Sessizliktir' kelimesinden sonra uzun bir nefes al. Son paragrafı yavaş bitir."},
+<p>Peki sessizlik nasıl öğrenilir? Pratikle. Cümle biter, nefes alırsın. O nefes bir zayıflık değil, bir tercihdir. "Devam etmeye hazırım ama seçiyorum — bir an bekliyorum." Bu his dinleyiciye de geçer. Ve o an, konuşmanın en güçlü anı olur.</p>
+<p>Bir diğer gerçek: Sessizlik yalnızca konuşmada değil, dinlemede de işe yarar. İki insan konuşurken biri susan, diğeri kendini değerli hisseder. Çünkü suskunluk şunu söyler: Seni duyuyorum. Devam et. Acele etme. Bu kadar basit bir şey — bu kadar güçlü bir etki.</p>
+<p>Bu metni okurken noktalarda gerçekten dur. Sadece nefes almak için değil — o anı hissetmek için. Her nokta bir seçimdir. Her virgül bir nefestir. Her paragraf arası ise bir düşüncenin kapanıp diğerinin açılmasıdır.</p>
+<p>Sesli oku. Dur. Devam et. Yeniden dur. Ve fark et: En güçlü anlar, konuştuğun anlar değil — sustuğun anlardır.</p>`,
+   vurgu:[{s:"1",t:"'Nerede dur. Ne kadar dur. Nasıl dur.' — her cümle ayrı bir nefes, araya gerçek duraksa"},
+          {s:"2",t:"'Sessizlik bir HATA değil, bir TEKNİKTİR' — zıt kelimelere vurgu yap, farkı hissettir"}],
+   tip:"▸ Son paragrafı giderek yavaşlayarak oku. En son cümle — neredeyse fısıltı gibi — ağır biter."},
+
   {baslik:"Tesla'nın Zihin Laboratuvarı",kategori:"Bilim · Ritim",
    body:`<p>Nikola Tesla, 1899 yılında Colorado'daki laboratuvarında oturmuş düşünüyordu. Elinde kâğıt yoktu. Kalem de yoktu. Ama zihninde dünyanın en karmaşık elektrik sistemini çiziyordu — tam olarak, hatasız, çalışır halde. Deney yapmadan önce tüm hesapları kafasında tamamlardı. Ve çoğu zaman sonuç, hesapladığıyla birebir aynı çıkardı.</p>
 <p>Tesla'nın bu özelliği efsaneleşmişti. Çevresindekiler ona inanmakta güçlük çekiyordu. Nasıl mümkündü? Bir makineyi kafanın içinde çalıştırmak, hataları önceden görmek, sonucu tahmin etmek. Edison bile bunu ciddiye almıyordu başlarda. Ama Tesla her seferinde haklı çıktı.</p>
 <p>Peki bu yetenek nereden geliyordu? Tesla'ya göre cevap basitti: Düşünmek için zaman ayırmak. Herkes bir şeyi hemen denemeye, hemen uygulamaya, hemen sonuç almaya çalışırdı. Tesla ise önce düşünürdü. Uzun süre, derinlemesine, kesintisiz. Bir problemi zihninde o kadar çok döndürürdü ki problem artık onun bir parçası haline gelirdi.</p>
+<p>Tesla yalnız çalışırdı. Laboratuvarına gelen ziyaretçileri nadiren içeri alırdı. "Düşüncelerim bölünüyor" derdi. Bu garip gözükebilir — ama aslında son derece mantıklıydı. Derin düşünme, sessiz ve kesintisiz bir ortam ister. Bir fikir tam oturmadan bölünürse, yeniden oturması saatler alabilir.</p>
 <p>Bugün tam tersini yapıyoruz. Her şeyi hemen dışarıya yazıyoruz. Telefona, ekrana, kâğıda. Düşünmeden not alıyoruz, sindirmeden kaydediyoruz. Belki de bu yüzden bir şeyleri gerçekten anlayamıyoruz — sadece saklıyoruz.</p>
-<p>Tesla'nın sırrı karmaşık değildi. Sadece şuydu: Bir şeyi gerçekten anlamak istiyorsan, onunla yalnız kal. Kâğıtsız, kalensiz, ekransız. Sadece sen ve o problem. Ve zaman.</p>
+<p>Tesla'nın en büyük buluşlarından biri olan alternatif akım sistemi, yıllarca zihninde taşıdığı bir fikirdi. Kâğıda geçmeden önce her detayını kafasında test etmişti. Her olası hatayı görmüş, her çözümü denemişti. Ve kâğıda geçtiğinde — çalışıyordu. İlk seferinde.</p>
+<p>Tesla'nın sırrı karmaşık değildi. Sadece şuydu: Bir şeyi gerçekten anlamak istiyorsan, onunla yalnız kal. Kâğıtsız, kalensiz, ekransız. Sadece sen ve o problem. Ve zaman. Bol bol zaman.</p>
+<p>Belki bugün her şeyi not almak zorunda değilsindir. Belki bazen sadece oturup düşünmek, en verimli şey olabilir. Tesla bunu biliyordu. Ve bu yüzden 20. yüzyılı şekillendiren adamlardan biri oldu.</p>
 <p>Bugün kaç dakika sadece düşündün? Hiçbir şey yazmadan, hiçbir şeye bakmadan.</p>`,
-   tip:"▸ 'Tam olarak, hatasız, çalışır halde' — her kelime ayrı ve ağır. Son soruyu sessizce bırak, aceleleştirme."},
+   vurgu:[{s:"1",t:"'Tam olarak — hatasız — çalışır halde.' Her kelimeden sonra dur. Ağır, net, yavaş söyle"},
+          {s:"2",t:"'Sadece SAKLIYORUZ' vurgulu biter. 'Anlayamıyoruz' normal hız — 'saklıyoruz' ağır"}],
+   tip:"▸ Son soruyu sessizce bırak. Cümle bittikten sonra en az 2 saniye sus — devam etme."},
   ...Array(60).fill(null).map((_,i)=>({
-    baslik:`Gün ${i+4} — İçerik Yakında Ekleniyor`,kategori:"İçerik ekleniyor",
-    body:`<p>Bu günün sesli okuma metni henüz eklenmedi. Bir önceki günün metnini farklı hızda tekrar oku — bu da çok etkili bir egzersizdir.</p><p>Aynı metni üç turda oku: yavaş ve abartılı, normal konuşma hızı, hızlı ama net. Her tur ayrı bir egzersizdir.</p>`,
+    baslik:`Gün ${i+4} — İçerik Yakında`,kategori:"İçerik ekleniyor",
+    body:`<p>Bu günün sesli okuma metni henüz eklenmedi. Bir önceki günün metnini farklı hızda tekrar oku — bu da çok etkili bir egzersizdir.</p><p>Yavaş ve abartılı, normal konuşma hızı, hızlı ama net. Her tur ayrı bir egzersizdir.</p>`,
+    vurgu:[],
     tip:"▸ Önceki günün metniyle çalışmaya devam et."
   }))
 ];
 
-let state={started:false,startDay:null,currentView:0,completed:[]};
-function loadState(){const s=localStorage.getItem("diksipro_v1");if(s)state=JSON.parse(s);}
-function saveState(){localStorage.setItem("diksipro_v1",JSON.stringify(state));}
-function todayIndex(){
-  if(!state.startDay)return 0;
-  const now=new Date();
-  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
-  return Math.max(0,Math.min(62,Math.floor((today-state.startDay)/86400000)));
+// ════════════════════════════════
+// UYGULAMA MANTIĞI
+// ════════════════════════════════
+
+let state={started:false,currentDay:0,completedDays:[],streak:0};
+
+function loadState(){
+  const s=localStorage.getItem("diksipro_v2");
+  if(s) state=JSON.parse(s);
+}
+function saveState(){
+  localStorage.setItem("diksipro_v2",JSON.stringify(state));
 }
 function startProgram(){
-  const now=new Date();
-  state.startDay=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
-  state.started=true;state.currentView=0;state.completed=[];
+  state.started=true;state.currentDay=0;state.completedDays=[];state.streak=0;
   saveState();showMain();
 }
 function showMain(){
   document.getElementById("scSetup").style.display="none";
   document.getElementById("scMain").style.display="block";
-  renderDay(state.currentView);
+  renderDay(state.currentDay);
 }
+
+// İlerleme: tamamladım → bir sonraki gün açılır
+function maxUnlocked(){
+  // Tamamlanan en yüksek gün + 1 = açık gün
+  if(state.completedDays.length===0) return 0;
+  return Math.min(62, Math.max(...state.completedDays)+1);
+}
+
 function navigate(dir){
-  const ti=todayIndex();const next=state.currentView+dir;
-  if(next<0||next>ti)return;
-  state.currentView=next;renderDay(next);
+  const mu=maxUnlocked();
+  const next=state.currentDay+dir;
+  if(next<0||next>mu) return;
+  state.currentDay=next;
+  renderDay(state.currentDay);
 }
+
 function markDone(){
-  const ti=todayIndex();
-  if(state.currentView!==ti)return;
-  if(!state.completed.includes(ti)){state.completed.push(ti);saveState();}
-  renderDay(ti);
+  const cd=state.currentDay;
+  const mu=maxUnlocked();
+  if(cd!==mu&&!state.completedDays.includes(cd)) return;
+  if(!state.completedDays.includes(cd)){
+    state.completedDays.push(cd);
+    // Streak hesapla
+    let s=0;
+    const sorted=[...state.completedDays].sort((a,b)=>a-b);
+    for(let i=sorted.length-1;i>=0;i--){
+      if(i===sorted.length-1||sorted[i]===sorted[i+1]-1) s++;
+      else break;
+    }
+    state.streak=s;
+    saveState();
+  }
+  renderDay(cd);
 }
+
 function renderDay(idx){
-  const ti=todayIndex();
+  const mu=maxUnlocked();
+  const isDone=state.completedDays.includes(idx);
+  const isActive=idx===mu&&!isDone;
+  const isPast=idx<mu&&isDone;
+  const isLocked=idx>mu;
+
   const weekIdx=Math.floor(idx/7);
   const dayInWeek=idx%7;
   const set=SETS[weekIdx];
   const setWeek=(weekIdx%3)+1;
-  const isDone=state.completed.includes(idx);
-  const isToday=idx===ti;
-  const isFuture=idx>ti;
 
   document.getElementById("setLbl").textContent=`Set ${set} · ${setWeek}. Hafta`;
+  document.getElementById("streakN").textContent=state.streak;
+  document.getElementById("streakBadge").className="streak"+(state.streak>0?" hot":"");
 
-  let streak=0;
-  for(let i=ti;i>=0;i--){if(state.completed.includes(i))streak++;else break;}
-  document.getElementById("streakN").textContent=streak;
-  document.getElementById("streakBadge").className="streak"+(streak>0?" hot":"");
-
+  // Week dots — o setin 7 günü
   const dotsEl=document.getElementById("wdots");dotsEl.innerHTML="";
-  const ws=Math.floor(ti/7)*7;
+  const ws=Math.floor(idx/7)*7;
   for(let d=ws;d<ws+7&&d<=62;d++){
     const wd=document.createElement("div");
-    wd.className="wd"+(state.completed.includes(d)?" done":"")+(d===ti?" now":"");
+    const dDone=state.completedDays.includes(d);
+    const dActive=d===mu&&!dDone;
+    wd.className="wd"+(dDone?" done":"")+(dActive?" now":"");
     dotsEl.appendChild(wd);
   }
 
   document.getElementById("navDay").textContent=`Gün ${idx+1}`;
-  document.getElementById("navSub").textContent=isToday?"Bugün":isFuture?"Henüz gelmedi":`${ti-idx} gün önce`;
+  document.getElementById("navSub").textContent=
+    isActive?"Bugünün egzersizi":isDone?`${mu-idx} gün önce tamamlandı`:isLocked?"Henüz kilitli":"";
   document.getElementById("btnPrev").disabled=idx===0;
-  document.getElementById("btnNext").disabled=idx>=ti;
+  document.getElementById("btnNext").disabled=idx>=mu;
 
   const btn=document.getElementById("doneBtn");
-  if(isFuture){btn.className="done-btn future";btn.textContent="Bu gün henüz gelmedi";}
+  if(isLocked){btn.className="done-btn locked";btn.textContent="🔒 Önceki günü tamamla";}
   else if(isDone){btn.className="done-btn completed";btn.textContent="✓ Tamamlandı";}
-  else if(isToday){btn.className="done-btn active";btn.textContent="✓ Bugünü Tamamladım";}
+  else if(isActive){btn.className="done-btn active";btn.textContent="✓ Bugünü Tamamladım";}
   else{btn.className="done-btn past";btn.textContent="Geçmiş gün";}
 
   const teks=TEKERLEMELER[set][dayInWeek];
   const metin=METINLER[idx];
+  const tugNot=TUG_NOTLARI[idx]||"";
   const c=document.getElementById("content");c.innerHTML="";
 
-  if(isDone)c.innerHTML+=`<div class="done-banner">✓ Bu günü tamamladın 🎉</div>`;
+  if(isDone) c.innerHTML+=`<div class="done-banner">✓ Bu günü tamamladın 🎉</div>`;
 
-  c.innerHTML+=`<div class="warm-card">
-    <div class="blabel">Isınma</div>
-    <div class="warm-vowels">A · E · I · O · U</div>
-    <div class="warm-steps">
-      <div class="warm-step"><div class="wsn">1</div><div>Her ünlüyü <strong>yavaş ve abartarak</strong> söyle — çenenin maksimum açıldığını hisset</div></div>
-      <div class="warm-step"><div class="wsn">2</div><div>Aynı diziyi <strong>normal hızda</strong> tekrarla — akıcı ve temiz olsun</div></div>
-      <div class="warm-step"><div class="wsn">3</div><div><strong>Hızlı</strong> tekrarla ama ünlüler netliğini korusun — buruna kaçma</div></div>
+  // ── NEFES EGZERSİZİ ──
+  c.innerHTML+=`<div class="nefes-card">
+    <div class="blabel">Diyafram Nefesi</div>
+    <div class="nefes-title">4 · 4 · 4 Nefes Tekniği</div>
+    <div class="nefes-sub">Spikerlerin, oyuncuların ve şarkıcıların kullandığı temel nefes egzersizi. Sesin gücü akciğerden değil, diyaframdan gelir. Bu egzersiz diyaframı aktive eder, sesi derinleştirir ve konuşma ortasında nefes tükenmesini önler.</div>
+    <div class="nefes-steps">
+      <div class="nefes-step"><div class="nsn">1</div><div>Bir elini göbeğinin üstüne koy. <strong>4 sayarak burundan nefes al</strong> — yalnızca karın şişsin, göğüs hareketsiz kalsın. Göğüs şişiyorsa yanlış yapıyorsun.</div></div>
+      <div class="nefes-step"><div class="nsn">2</div><div><strong>4 sayarak nefesini tut.</strong> Karın şişkin halde sabit dursun. Omuzlar düşük, çene serbest.</div></div>
+      <div class="nefes-step"><div class="nsn">3</div><div><strong>4 sayarak ağızdan yavaşça ver.</strong> Karın içeri çekilsin. Ses çıkarmadan, kontrollü, düzgün bir akışla bitir.</div></div>
     </div>
-    <div class="warm-note">Toplamda 3 tur. Boğaz sıkışık hissediyorsan başlamadan önce 30 saniye boynu yavaşça döndür.</div>
+    <div class="nefes-note">3 tur yap. Bunu her gün yapan biri 2-3 hafta içinde fark eder: cümle ortasında nefes tükenmiyor, ses titremiyor, hız arttıkça kalite düşmüyor.</div>
   </div>`;
 
-  c.innerHTML+=`<div class="ses-grp">${SES_GRUPLARI[dayInWeek]}</div>`;
+  // ── REZONANS ──
+  c.innerHTML+=`<div class="rezo-card">
+    <div class="blabel">Rezonans Egzersizi</div>
+    <div class="rezo-hum">M · N · NG</div>
+    <div class="rezo-sub">Toplamda 3 set yapılır. Tüm sesleri sırayla bitirince 1 set tamamlanır, kısa nefes alınır ve başa dönülür. Sesler arası bekleme yok — direkt geçilir.</div>
 
+    <div class="tur-box" style="margin:14px 0 0">
+      <div class="tur-title">1. Set · 2. Set · 3. Set — Her Set Aynı Sıra</div>
+      <div class="tur-rows">
+        <div class="tur-row"><div class="tur-num">M</div><div class="tur-desc"><strong>Mmmm — 5 saniye</strong> → direkt geçiş ↓</div></div>
+        <div class="tur-row"><div class="tur-num">N</div><div class="tur-desc"><strong>Nnnnn — 5 saniye</strong> → direkt geçiş ↓</div></div>
+        <div class="tur-row"><div class="tur-num">NG</div><div class="tur-desc"><strong>Ngngng — 5 saniye</strong> → direkt geçiş ↓</div></div>
+        <div class="tur-row"><div class="tur-num">+</div><div class="tur-desc"><strong>Mmm-maa · mee · mii · moo · muu</strong> → direkt geçiş ↓</div></div>
+        <div class="tur-row"><div class="tur-num">✓</div><div class="tur-desc"><strong>Ha-ha-ha-ha-ha × 5</strong> → 1 set bitti, 3-5 sn nefes, tekrar başa</div></div>
+      </div>
+    </div>
+
+    <div class="tur-title" style="margin:16px 0 8px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">M Sesi — Ağız Pozisyonu</div>
+    <div class="rezo-steps">
+      <div class="rezo-step"><div class="nsn">▸</div><div>Dudaklar rahatça kapalı, zorlamadan hafifçe birleşik. Dişler birbirinden ayrık, ağız içi boş. Dil serbest, hiçbir yere değmiyor. Çene gergin değil. <strong>İşaret parmağını dudağına daya — titreşim hissedilmeli.</strong> Hissedilmiyorsa ses boğaza kaçıyor: sesi öne yönlendir, ağız içini geniş tut.</div></div>
+    </div>
+
+    <div class="tur-title" style="margin:14px 0 8px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">N Sesi — Ağız Pozisyonu</div>
+    <div class="rezo-steps">
+      <div class="rezo-step"><div class="nsn">▸</div><div>Dudaklar açık, dişler hafifçe görünür. Dil ucunu üst dişlerin hemen arkasına — damağın başladığı yere — nazikçe daya. Dil gergin değil, sadece değiyor. <strong>İşaret parmağını burnunun üstüne koy — M'den farklı bir noktadan titreşim hissedilmeli.</strong> Hissedilmiyorsa dil damağa tam değmiyordur.</div></div>
+    </div>
+
+    <div class="tur-title" style="margin:14px 0 8px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">NG Sesi — Ağız Pozisyonu</div>
+    <div class="rezo-steps">
+      <div class="rezo-step"><div class="nsn">▸</div><div>Ağız orta açıklıkta. Dil ucu serbest, hiçbir yere değmiyor. Dil kökü yumuşak damağa değiyor — K ve G sesini söylermişsin gibi, dil arkada. "King" kelimesinin sonundaki ses. Türkçede doğal yoktur, en zor olan budur. <strong>Elini kafanın arkasına koy — titreşim oradan gelmeli.</strong> İlk başta zor hissedilir, birkaç günde oturur.</div></div>
+    </div>
+
+    <div class="tur-title" style="margin:14px 0 8px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Mmm-maa Geçişi — Nasıl Yapılır</div>
+    <div class="rezo-steps">
+      <div class="rezo-step"><div class="nsn">▸</div><div>Dudaklar kapalıyken Mmm çıkar, sonra dudakları yavaşça aç ve "aaa"ya geç. <strong>Geçiş sırasında ses kesilmemeli</strong> — titreşim dudaktan ağzın içine akmalı. Her geçişte çene aşağı düşsün, ağız tam açılsın. Sıra: Mmm-maa · Mmm-mee · Mmm-mii · Mmm-moo · Mmm-muu.</div></div>
+    </div>
+
+    <div class="tur-title" style="margin:14px 0 8px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Ha-ha-ha — Nasıl Yapılır</div>
+    <div class="rezo-steps">
+      <div class="rezo-step"><div class="nsn">▸</div><div>Ağız açık. Her "Ha"da karın içeri çekilmeli — göğüs değil, karın çalışıyor. Hızlı ve güçlü söyle: Ha-ha-ha-ha-ha. <strong>Karın hareket etmiyorsa diyaframdan gelmiyor demektir</strong> — elini karnına koy, her Ha'da içeri çekildiğini hisset.</div></div>
+    </div>
+
+    <div class="rezo-note">Titreşimi hiç hissedemiyorsan: sesi öne — yüzünün ön kısmına — doğru yönlendir. Boğazdan değil, önden geldiğini hayal et. Her sabah 3 set yapılırsa 2 haftada ses tonu belirgin değişir.</div>
+  </div>`;
+
+  // ── ISINMA ──
+  c.innerHTML+=`<div class="warm-card">
+    <div class="blabel">Artikülasyon Isınması</div>
+    <div class="warm-vowels">A · E · I · O · U</div>
+    <div class="warm-note" style="margin-bottom:12px">Toplamda 3 tur. Her turda A'dan U'ya direkt geçilir — sesler arası bekleme yok. Tur bitince 1 nefes, sonra tekrar başa.</div>
+    <div class="tur-box">
+      <div class="tur-title">3 Tur — Her Turda A'dan U'ya Kesintisiz</div>
+      <div class="tur-rows">
+        <div class="tur-row"><div class="tur-num">1</div><div class="tur-desc"><strong>Yavaş ve abartarak:</strong> A · E · I · O · U — her ünlüde çene maksimum açılsın, dudaklar abartılı şekil alsın. Hız değil açıklık önemli. → 1 nefes ↓</div></div>
+        <div class="tur-row"><div class="tur-num">2</div><div class="tur-desc"><strong>Normal hızda:</strong> A · E · I · O · U — akıcı ve temiz. Her ünlü net çıksın, biri diğerine karışmasın. → 1 nefes ↓</div></div>
+        <div class="tur-row"><div class="tur-num">3</div><div class="tur-desc"><strong>Hızlı:</strong> A · E · I · O · U — maksimum hız ama netlik düşmesin, buruna kaçma. Bitti.</div></div>
+      </div>
+    </div>
+    <div class="warm-note" style="margin-top:10px">Burun sesi fark edersen ağzı daha da aç, sesi önden çıkarmaya çalış. A sesinde çene en aşağıda olmalı — eline koyunca çene hareketi hissedilmeli.</div>
+  </div>`;
+
+  // ── TEKERLEMELER ──
+  c.innerHTML+=`<div class="ses-grp">${SES_GRUPLARI[dayInWeek]}</div>`;
   teks.forEach((t,i)=>{
     c.innerHTML+=`<div class="tek">
       <div class="tek-no">Tekerleme ${i+1}</div>
@@ -307,9 +517,9 @@ function renderDay(idx){
       <div class="tur-box">
         <div class="tur-title">15 Tekrar — 3 Tur</div>
         <div class="tur-rows">
-          <div class="tur-row"><div class="tur-num">1</div><div class="tur-desc"><strong>5× Yavaş:</strong> Her heceyi abartarak söyle, kasları hisset, hız önemli değil</div></div>
-          <div class="tur-row"><div class="tur-num">2</div><div class="tur-desc"><strong>5× Normal:</strong> Doğal konuşma hızı, ses temiz ve akıcı olsun</div></div>
-          <div class="tur-row"><div class="tur-num">3</div><div class="tur-desc"><strong>5× Hızlı:</strong> Maksimum hız — ama hiçbir ses yutulmasın</div></div>
+          <div class="tur-row"><div class="tur-num">1</div><div class="tur-desc"><strong>5× Yavaş:</strong> Her heceyi abartarak söyle — kasları hisset, hız önemli değil, netlik önemli</div></div>
+          <div class="tur-row"><div class="tur-num">2</div><div class="tur-desc"><strong>5× Normal:</strong> Doğal konuşma hızı — ses akıcı ve temiz çıksın, ritim korunsun</div></div>
+          <div class="tur-row"><div class="tur-num">3</div><div class="tur-desc"><strong>5× Hızlı:</strong> Maksimum hız — ama hiçbir ses yutulmasın, netlik düşmesin</div></div>
         </div>
       </div>
     </div>`;
@@ -317,15 +527,33 @@ function renderDay(idx){
 
   c.innerHTML+=`<div class="divider"></div>`;
 
+  // ── OKUMA METNİ ──
+  let vurguHtml="";
+  if(metin.vurgu&&metin.vurgu.length>0){
+    vurguHtml=`<div class="read-vurgu">
+      <div class="read-vurgu-title">Vurgu Pratiği</div>
+      <div class="read-vurgu-rows">
+        ${metin.vurgu.map(v=>`<div class="read-vurgu-row"><span>${v.s}.</span>${v.t}</div>`).join("")}
+      </div>
+    </div>`;
+  }
+
   c.innerHTML+=`<div class="read-card">
     <div class="blabel">Sesli Okuma Metni</div>
     <div class="read-title">${metin.baslik}</div>
     <div class="read-cat">${metin.kategori}</div>
     <div class="read-body">${metin.body}</div>
+    ${vurguHtml}
     <div class="read-tip">${metin.tip}</div>
   </div>`;
 
-  c.innerHTML+=`<div class="tug"><div class="tug-inner">♡ <em>Tuğ</em> için yapıldı</div></div>
+  // ── TUĞ ──
+  c.innerHTML+=`<div class="tug">
+    <div class="tug-inner">
+      <em>♡ Tuğ</em>
+      <div class="tug-note">${tugNot}</div>
+    </div>
+  </div>
   <div class="install-wrap"><button class="install-btn" onclick="installPrompt()">⊕ Ana Ekrana Ekle</button></div>`;
 }
 
@@ -337,7 +565,7 @@ function installPrompt(){
 }
 
 loadState();
-if(state.started){state.currentView=todayIndex();showMain();}
+if(state.started) showMain();
 </script>
 </body>
 </html>
