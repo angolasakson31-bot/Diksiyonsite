@@ -9,23 +9,10 @@
 <title>DiksiPro</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:     #080b10;
-  --s1:     #0f1520;
-  --s2:     #16202e;
-  --s3:     #1e2d40;
-  --gold:   #c8a84b;
-  --text:   #dce6f0;
-  --sub:    #8fa3b8;
-  --muted:  #4a5d72;
-  --border: #1e2d40;
-  --green:  #2e9e5e;
-  --r:      14px;
-}
+:root{--bg:#080b10;--s1:#0f1520;--s2:#16202e;--s3:#1e2d40;--gold:#c8a84b;--text:#dce6f0;--sub:#8fa3b8;--muted:#4a5d72;--border:#1e2d40;--green:#2e9e5e;--r:14px}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
 
-/* ── SETUP ── */
 #scSetup{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;padding:40px 20px;text-align:center}
 .brand-name{font-family:'Playfair Display',serif;font-size:56px;font-weight:700;letter-spacing:-2px;line-height:1}
 .brand-name em{color:var(--gold);font-style:normal}
@@ -39,11 +26,10 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 .pill span{font-size:10px;color:var(--muted);margin-top:2px;display:block}
 .btn-gold{width:100%;padding:16px;background:var(--gold);color:#000;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .15s}
 .btn-gold:active{opacity:.8}
+.tug-setup{margin-top:22px;font-size:11px;color:var(--muted);letter-spacing:1px}
+.tug-setup em{font-style:normal;color:var(--gold);font-family:'Playfair Display',serif;font-size:14px;font-weight:700}
 
-/* ── MAIN ── */
 #scMain{display:none}
-
-/* Header */
 .hdr{background:var(--s1);border-bottom:1px solid var(--border);padding:14px 18px 12px;position:sticky;top:0;z-index:100}
 .hdr-r1{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .hdr-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}
@@ -57,7 +43,6 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 .wd.done{background:var(--green)}
 .wd.now{background:var(--gold);width:10px;height:10px}
 
-/* Nav */
 .nav{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--s2);border-bottom:1px solid var(--border)}
 .nav-btn{background:none;border:1px solid var(--border);color:var(--sub);border-radius:9px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
 .nav-btn:disabled{opacity:.2;cursor:default}
@@ -66,32 +51,37 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 .nav-day{font-size:15px;font-weight:700}
 .nav-sub{font-size:11px;color:var(--muted);margin-top:1px}
 
-/* Content */
 .content{padding:16px 14px 120px;max-width:500px;margin:0 auto}
-
-/* Block label */
 .blabel{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .blabel::after{content:'';flex:1;height:1px;background:var(--border)}
 
-/* Warmup */
 .warm-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:14px}
-.warm-vowels{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;letter-spacing:10px;color:var(--gold);margin-bottom:6px}
-.warm-note{font-size:12px;color:var(--sub);line-height:1.55}
+.warm-vowels{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;letter-spacing:10px;color:var(--gold);margin-bottom:12px}
+.warm-steps{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.warm-step{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.55}
+.wsn{min-width:20px;height:20px;border-radius:50%;background:var(--s3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--gold);flex-shrink:0;margin-top:1px}
+.warm-step div{color:var(--sub)}
+.warm-step strong{color:var(--text)}
+.warm-note{font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:9px;line-height:1.5}
 
-/* Ses grubu başlığı */
 .ses-grp{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin:20px 0 10px;display:flex;align-items:center;gap:8px}
 .ses-grp::after{content:'';flex:1;height:1px;background:var(--border)}
 
-/* Tekerleme */
 .tek{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:8px;position:relative;overflow:hidden}
 .tek::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);opacity:.4;border-radius:3px 0 0 3px}
 .tek-no{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
-.tek-text{font-family:'Playfair Display',serif;font-size:16px;line-height:1.75;color:var(--text);font-style:italic;margin-bottom:12px}
-.tek-note{font-size:12px;color:var(--sub);border-top:1px solid var(--border);padding-top:10px;line-height:1.6}
+.tek-text{font-size:16px;line-height:1.8;color:var(--text);font-weight:500;margin-bottom:12px}
+.tek-note{font-size:12px;color:var(--sub);border-top:1px solid var(--border);padding-top:10px;line-height:1.6;margin-bottom:10px}
+.tur-box{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:11px 13px}
+.tur-title{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.tur-rows{display:flex;flex-direction:column;gap:6px}
+.tur-row{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.5}
+.tur-num{min-width:20px;height:20px;border-radius:50%;background:var(--s3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--gold);flex-shrink:0;margin-top:1px}
+.tur-desc{color:var(--sub)}
+.tur-desc strong{color:var(--text);font-weight:600}
 
 .divider{height:1px;background:var(--border);margin:22px 0}
 
-/* Okuma */
 .read-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:20px 18px}
 .read-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:4px}
 .read-cat{font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
@@ -100,21 +90,24 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 .read-body p:last-child{margin-bottom:0}
 .read-tip{font-size:12px;color:var(--sub);border-top:1px solid var(--border);padding-top:12px;margin-top:16px;line-height:1.6}
 
-/* Done banner */
-.done-banner{background:rgba(46,158,94,.1);border:1px solid rgba(46,158,94,.25);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--green);font-weight:600;text-align:center}
+.tug{text-align:center;padding:24px 0 6px}
+.tug-inner{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);letter-spacing:.5px}
+.tug-inner em{font-style:normal;color:var(--gold);font-family:'Playfair Display',serif;font-size:14px;font-weight:700}
 
-/* Done bar */
+.install-wrap{text-align:center;padding:2px 0}
+.install-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .2s}
+.install-btn:active{background:var(--s2);color:var(--sub)}
+
+.done-banner{background:rgba(46,158,94,.1);border:1px solid rgba(46,158,94,.25);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--green);font-weight:600;text-align:center}
 .done-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 14px 24px;background:linear-gradient(transparent,var(--bg) 38%)}
-.done-btn{display:block;width:100%;max-width:500px;margin:0 auto;padding:16px;border-radius:13px;border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.3px}
+.done-btn{display:block;width:100%;max-width:500px;margin:0 auto;padding:16px;border-radius:13px;border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}
 .done-btn.active{background:var(--gold);color:#000}
 .done-btn.completed{background:var(--green);color:#fff}
-.done-btn.past{background:var(--s2);color:var(--muted);border:1px solid var(--border);cursor:default}
-.done-btn.future{background:var(--s2);color:var(--muted);border:1px solid var(--border);cursor:default}
+.done-btn.past,.done-btn.future{background:var(--s2);color:var(--muted);border:1px solid var(--border);cursor:default}
 </style>
 </head>
 <body>
 
-<!-- SETUP -->
 <div id="scSetup">
   <div class="brand-name">Diksi<em>Pro</em></div>
   <div class="brand-sub">Profesyonel Ses Eğitimi</div>
@@ -128,9 +121,9 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
     </div>
     <button class="btn-gold" onclick="startProgram()">Programa Başla →</button>
   </div>
+  <div class="tug-setup">♡ <em>Tuğ</em> için</div>
 </div>
 
-<!-- MAIN -->
 <div id="scMain">
   <div class="hdr">
     <div class="hdr-r1">
@@ -142,7 +135,6 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
       <div class="wdots" id="wdots"></div>
     </div>
   </div>
-
   <div class="nav">
     <button class="nav-btn" id="btnPrev" onclick="navigate(-1)">← Önceki</button>
     <div class="nav-mid">
@@ -151,326 +143,201 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
     </div>
     <button class="nav-btn" id="btnNext" onclick="navigate(1)">Sonraki →</button>
   </div>
-
   <div class="content" id="content"></div>
-
   <div class="done-bar">
     <button class="done-btn active" id="doneBtn" onclick="markDone()">✓ Bugünü Tamamladım</button>
   </div>
 </div>
 
 <script>
-// ════════════════════════════════════════════════
-// PROGRAM VERİSİ — 63 GÜN
-// ════════════════════════════════════════════════
-// Ses grubu döngüsü (7 günlük):
-// G1: P-B-M | G2: T-D-N | G3: K-G-Ğ
-// G4: S-Z-Ş-J | G5: Ç-C | G6: L-R | G7: F-V+Ünlüler
+const SETS=["A","A","A","B","B","B","C","C","C"];
+const SES_GRUPLARI=["P · B · M — Dudak Kasları","T · D · N — Dil Ucu","K · G · Ğ — Dil Kökü","S · Z · Ş · J — Tiz Sesler","Ç · C — Patlayıcı Sesler","L · R — Akıcı Sesler","F · V · Ünlüler — Dudak & Açıklık"];
 
-const SETS = ["A","A","A","B","B","B","C","C","C"]; // 9 hafta
-const SES_GRUPLARI = [
-  "P · B · M — Dudak Kasları",
-  "T · D · N — Dil Ucu",
-  "K · G · Ğ — Dil Kökü",
-  "S · Z · Ş · J — Tiz Sesler",
-  "Ç · C — Patlayıcı Sesler",
-  "L · R — Akıcı Sesler",
-  "F · V · Ünlüler — Dudak & Açıklık"
-];
-
-// Tekerlemeler: 3 set × 7 ses grubu × 3 tekerleme = 63 tekerleme
-// İleride icerik.js dosyasından yüklenecek, şimdilik Set A tam, B-C placeholder
-const TEKERLEMELER = {
-  A: [
-    // Gün 1 — P·B·M
-    [
-      {m:"Bir berber bir berbere gel beraber bir berber dükkanı açalım demiş, berber de berbere neden açalım ki demiş.",
-       n:"▸ Her B'de dudaklar tam kapansın. İlk 2 turda yavaş ve net, 3. turda hızlan ama B sesi yutulmasın."},
-      {m:"Pire pireyi arar, pireyi bulamayan pire pireden pire alır, alan da pirelenmiş.",
-       n:"▸ P'de nefes patlamasını hisset — elini ağzının önüne tut, her P'de hava çarpsın. Nefes yoksa P doğru değil."},
-      {m:"Büyük balıkçı balığa çıkmış, balık balıkçıya bakmış, bakışmışlar, balık baygın balığa dalmış.",
-       n:"▸ B-L geçişini pürüzsüz tut. B patlasın, L akıcı olsun. Ritim kopmadan 5 kez tekrarla."}
-    ],
-    // Gün 2 — T·D·N
-    [
-      {m:"Deden dededen, dede de dededen, dedenin dedesi de dededen gelmiş, dededen dede.",
-       n:"▸ D'yi dil ucuyla diş arkasına vur. Keskin ve kısa. Her D bir tokmak gibi — yumuşatma, netleştir."},
-      {m:"Tandır tandırda tın tın tınlar, tandırın tını benim tandır tınımdır, tın tın tın.",
-       n:"▸ T-N arasındaki farkı abartarak hisset. T sert patlasın, N titreşimli çıksın. Tempolu söyle."},
-      {m:"Ninni ninniye ninnilerin ninnisi, ninnicinin ninnisi de ninni ninnisidir, ninni dinle.",
-       n:"▸ N'yi titreşimli söyle. Burnuna değil, göğsüne çek. N boğumlanması öne, dil arkaya gitmesin."}
-    ],
-    // Gün 3 — K·G·Ğ
-    [
-      {m:"Karga karganın kargasına gak demiş, karganın kargası da ona gak gak demiş, kargalar gaklaşmış.",
-       n:"▸ K'yı dil kökünden fırlat, G'yi yumuşat. K sert — G yumuşak. Bu zıtlığı bilerek abartarak söyle."},
-      {m:"Köpek köpeğin köpeğine havladı, köpeğin köpeği de havladı, ikisi de birbirine havladı.",
-       n:"▸ Ğ'yi yutma — hafifçe uzat, bir ses gibi muamele et. K-G-Ğ üçlüsü dil kökünde çalışıyor."},
-      {m:"Güğüm güğümlerin güğümü, güğümlenen güğüm güğümlü güğümdür, güğüm güğümlenir.",
-       n:"▸ G-Ğ geçişi dil kökünde hassas kontrol ister. Yavaş başla, her sesi ayrı ayrı hisset."}
-    ],
-    // Gün 4 — S·Z·Ş·J
-    [
-      {m:"Şu köşe yaz köşesi, bu köşe kış köşesi, şu köşe de yaz kış köşesidir, köşe köşedir.",
-       n:"▸ Ş'yi dişlerin arkasında tut, sızırtı sesi dışarı çıksın. Her 'köşe'de kısa bir dur, ritmi koru."},
-      {m:"Sosis sosisçide pişer, sosisçi sosise sos yapar, soslu sosis sosis sosisçide pişer.",
-       n:"▸ S keskin ve tiz çıksın, Z'ye kaçırma. S-S-S ardarda gelince sibilant egzersizi yapıyorsun."},
-      {m:"Jandarma janjanlı giyinmiş, janjanlı jandarma şanlı şanlı yürümüş, jan jan jan yürümüş.",
-       n:"▸ J hafif ve sürtünmeli — zorlamadan doğal çıksın. Ş ile J'yi karıştırma, ikisi farklı nokta."}
-    ],
-    // Gün 5 — Ç·C
-    [
-      {m:"Çok çalışan çalışkan çocuk çalışmayan çocuktan çok daha fazla çalışır, çalışkan çok çalışır.",
-       n:"▸ Ç kısa ve keskin patlasın, uzatma. Her Ç'den hemen sonrakine geç, enerji kaybetme."},
-      {m:"Cacıkçı cacık yapar, cacıkçının cacığı çok cacıklı bir cacıktır, cacıkçı cacıklamış.",
-       n:"▸ C yumuşak — Ç sert. İkisi arasındaki farkı kasıtlı abartarak söyle. C-Ç-C-Ç diye tekrarla."},
-      {m:"Çiçekçi çiçek satar, çiçekçinin çiçeği her mevsim çiçek çiçek açar, çiçekler açmış.",
-       n:"▸ Ç'de dil damağa değsin, hemen geri çekilsin. Hızlandıkça doğruluk düşmesin."}
-    ],
-    // Gün 6 — L·R
-    [
-      {m:"Sarı sarımsak sarı sarımsak, sarı sarımsağın sarısı sarıdır, sarı sarımsak sarıdır.",
-       n:"▸ R'yi dil ucuyla titret. Yutturma — titreşimi bir an bile hisset ve devam et. Türkçe R güçlü olmalı."},
-      {m:"Limona liman, limanda limon, limonluk limanlık, limanlı limonluktur, limon limonluk.",
-       n:"▸ L'yi dil ucu ile diş arkasına tam daya. Temiz, net çıksın. L havada kaybolmasın."},
-      {m:"Rüzgâr rüzgârları savurur, savrulan rüzgâr rüzgârsız kalır, rüzgârsız yerde rüzgâr eser.",
-       n:"▸ R-L geçişi spikerin sınavıdır. Hızlandıkça bu geçişe dikkat et. En az 5 kez tekrarla."}
-    ],
-    // Gün 7 — F·V + Ünlüler
-    [
-      {m:"Fıkırcı fıkra fırlatır, fırlatılan fıkra fıkırcıya fırlar, fıkırcı fıkra fırlamış.",
-       n:"▸ F'de üst dişler alt dudağa hafifçe değsin, hava sızırtısı çıksın. F'yi patlatma, süzülsün."},
-      {m:"Vakıf vakıfça vakıflanmış, vakıflanan vakıf vakıflamış, vakıf vakıf vakıflanmış vakıf.",
-       n:"▸ V'yi titreşimli söyle — f gibi değil. V'de ses telleri çalışır. Elini boğazına koy, titreşim hissedilsin."},
-      {m:"A-E-I-O-U, açık ağız, geniş ses, yukarı damak, dolu ünlü, A-E-I-O-U, aç.",
-       n:"▸ Her ünlüde çeneni maksimum aç. Burun sesi varsa ağzı daha da aç. Ünlüler temiz çıkana kadar tekrarla."}
-    ]
+const TEKERLEMELER={
+  A:[
+    [{m:"Bir berber bir berbere gel beraber bir berber dükkanı açalım demiş, berber de berbere neden açalım ki demiş.",n:"Her B'de dudaklar tam kapansın. İlk 2 turda yavaş ve net, 3. turda hızlan ama B sesi yutulmasın."},
+     {m:"Pire pireyi arar, pireyi bulamayan pire pireden pire alır, alan da pirelenmiş.",n:"P'de nefes patlamasını hisset — elini ağzının önüne tut, her P'de hava çarpsın. Hava yoksa P doğru değil."},
+     {m:"Büyük balıkçı balığa çıkmış, balık balıkçıya bakmış, bakışmışlar, balık baygın balığa dalmış.",n:"B-L geçişini pürüzsüz tut. B patlasın, L akıcı olsun. Ritim kopmadan devam et."}],
+    [{m:"Deden dededen, dede de dededen, dedenin dedesi de dededen gelmiş, dededen dede.",n:"D'yi dil ucuyla diş arkasına vur. Keskin ve kısa. Her D bir tokmak gibi — yumuşatma, netleştir."},
+     {m:"Tandır tandırda tın tın tınlar, tandırın tını benim tandır tınımdır, tın tın tın.",n:"T-N arasındaki farkı abartarak hisset. T sert patlasın, N titreşimli çıksın. Tempolu söyle."},
+     {m:"Ninni ninniye ninnilerin ninnisi, ninnicinin ninnisi de ninni ninnisidir, ninni dinle.",n:"N'yi titreşimli söyle. Burnuna değil, göğsüne çek. N boğumlanması öne, dil arkaya gitmesin."}],
+    [{m:"Karga karganın kargasına gak demiş, karganın kargası da ona gak gak demiş, kargalar gaklaşmış.",n:"K'yı dil kökünden fırlat, G'yi yumuşat. K sert — G yumuşak. Bu zıtlığı bilerek abartarak söyle."},
+     {m:"Köpek köpeğin köpeğine havladı, köpeğin köpeği de havladı, ikisi de birbirine havladı.",n:"Ğ'yi yutma — hafifçe uzat, bir ses gibi muamele et. K-G-Ğ üçlüsü dil kökünde çalışıyor."},
+     {m:"Güğüm güğümlerin güğümü, güğümlenen güğüm güğümlü güğümdür, güğüm güğümlenir.",n:"G-Ğ geçişi dil kökünde hassas kontrol ister. Yavaş başla, her sesi ayrı ayrı hisset."}],
+    [{m:"Şu köşe yaz köşesi, bu köşe kış köşesi, şu köşe de yaz kış köşesidir, köşe köşedir.",n:"Ş'yi dişlerin arkasında tut, sızırtı sesi dışarı çıksın. Her köşede hafifçe dur, ritmi koru."},
+     {m:"Sosis sosisçide pişer, sosisçi sosise sos yapar, soslu sosis sosis sosisçide pişer.",n:"S keskin ve tiz çıksın, Z'ye kaçırma. S-S-S ardarda gelince sibilant egzersizi yapıyorsun."},
+     {m:"Jandarma janjanlı giyinmiş, janjanlı jandarma şanlı şanlı yürümüş, jan jan jan yürümüş.",n:"J hafif ve sürtünmeli — zorlamadan doğal çıksın. Ş ile J'yi karıştırma, ikisi farklı nokta."}],
+    [{m:"Çok çalışan çalışkan çocuk çalışmayan çocuktan çok daha fazla çalışır, çalışkan çok çalışır.",n:"Ç kısa ve keskin patlasın, uzatma. Her Ç'den hemen sonrakine geç, enerji kaybetme."},
+     {m:"Cacıkçı cacık yapar, cacıkçının cacığı çok cacıklı bir cacıktır, cacıkçı cacıklamış.",n:"C yumuşak — Ç sert. İkisi arasındaki farkı kasıtlı abartarak söyle. C-Ç-C-Ç diye tekrarla."},
+     {m:"Çiçekçi çiçek satar, çiçekçinin çiçeği her mevsim çiçek çiçek açar, çiçekler açmış.",n:"Ç'de dil damağa değsin, hemen geri çekilsin. Hızlandıkça doğruluk düşmesin."}],
+    [{m:"Sarı sarımsak sarı sarımsak, sarı sarımsağın sarısı sarıdır, sarı sarımsak sarıdır.",n:"R'yi dil ucuyla titret. Yutturma — titreşimi bir an bile hisset. Türkçe R güçlü olmalı."},
+     {m:"Limona liman, limanda limon, limonluk limanlık, limanlı limonluktur, limon limonluk.",n:"L'yi dil ucu ile diş arkasına tam daya. Temiz, net çıksın. L havada kaybolmasın."},
+     {m:"Rüzgâr rüzgârları savurur, savrulan rüzgâr rüzgârsız kalır, rüzgârsız yerde rüzgâr eser.",n:"R-L geçişi spikerin sınavıdır. Hızlandıkça bu geçişe dikkat et. En az 5 kez tekrarla."}],
+    [{m:"Fıkırcı fıkra fırlatır, fırlatılan fıkra fıkırcıya fırlar, fıkırcı fıkra fırlamış.",n:"F'de üst dişler alt dudağa hafifçe değsin, hava sızırtısı çıksın. F'yi patlatma, süzülsün."},
+     {m:"Vakıf vakıfça vakıflanmış, vakıflanan vakıf vakıflamış, vakıf vakıf vakıflanmış vakıf.",n:"V'yi titreşimli söyle. Elini boğazına koy, V'de titreşim hissedilsin. F ile V karışmasın."},
+     {m:"A-E-I-O-U, açık ağız, geniş ses, yukarı damak, dolu ünlü, A-E-I-O-U, aç sesin.",n:"Her ünlüde çeneni maksimum aç. Burun sesi varsa ağzı daha da aç. Net çıkana kadar tekrarla."}]
   ],
-  // SET B ve C — sonraki konuşmalarda eklenecek
-  B: Array(7).fill(null).map((_,i) => [
-    {m:"[Set B içeriği yakında eklenecek — Set A ile devam et]", n:"▸ Şu an Set A tekerlemeleriyle çalışmaya devam edebilirsin."},
-    {m:"[Set B içeriği yakında eklenecek — Set A ile devam et]", n:"▸ Şu an Set A tekerlemeleriyle çalışmaya devam edebilirsin."},
-    {m:"[Set B içeriği yakında eklenecek — Set A ile devam et]", n:"▸ Şu an Set A tekerlemeleriyle çalışmaya devam edebilirsin."}
-  ]),
-  C: Array(7).fill(null).map((_,i) => [
-    {m:"[Set C içeriği yakında eklenecek — Set A ile devam et]", n:"▸ Şu an Set A tekerlemeleriyle çalışmaya devam edebilirsin."},
-    {m:"[Set C içeriği yakında eklenecek — Set A ile devam et]", n:"▸ Şu an Set A tekerlemeleriyle çalışmaya devam edebilirsin."},
-    {m:"[Set C içeriği yakında eklenecek — Set A ile devam et]", n:"▸ Şu an Set A tekerlemeleriyle çalışmaya devam edebilirsin."}
-  ])
+  B:Array(7).fill(null).map(()=>[{m:"[Set B yakında eklenecek]",n:"Set A ile devam et."},{m:"[Set B yakında eklenecek]",n:"Set A ile devam et."},{m:"[Set B yakında eklenecek]",n:"Set A ile devam et."}]),
+  C:Array(7).fill(null).map(()=>[{m:"[Set C yakında eklenecek]",n:"Set A ile devam et."},{m:"[Set C yakında eklenecek]",n:"Set A ile devam et."},{m:"[Set C yakında eklenecek]",n:"Set A ile devam et."}])
 };
 
-// Okuma metinleri — 63 metin, şimdilik 3 tam, kalanlar placeholder
-const METINLER = [
-  // Gün 1
-  {baslik:"Edison'un 10.000 Deneyi",kategori:"Tarih · Akıcılık",
-   body:`<p>Thomas Edison, ampulü icat etmeden önce binlerce kez başarısız oldu. Bir gazeteci bunu yüzüne vurduğunda Edison şöyle yanıt verdi: "Başarısız olmadım. İşe yaramayan binlerce yöntemi keşfettim."</p>
-<p>Bu bakış açısı her şeyi değiştirir. Başarısızlık bir son değildir, bir bilgidir. Her hata sana neyin işe yaramadığını gösterir. Neyin işe yaramadığını bilen biri ise doğru yola her geçen gün biraz daha yaklaşır.</p>
-<p>Edison sadece ampulü değil, bir düşünce biçimini de icat etti. Sonuç odaklı değil, süreç odaklı düşünmek. Hedefe değil, öğrenmeye odaklanmak. Bu yüzden binlerce kez düşen adam, tarihin en büyük mucitlerinden biri olarak ayağa kalktı.</p>
+const METINLER=[
+  {baslik:"Edison'un 10.000 Deneyi",kategori:"Tarih · Kararlılık",
+   body:`<p>Thomas Edison, ampulü icat etmeden önce binlerce kez başarısız oldu. Bir gazeteci bunu yüzüne vurduğunda Edison şöyle yanıt verdi: "Başarısız olmadım. İşe yaramayan binlerce yöntemi keşfettim." Bu cümleyi ilk okuduğunda belki sıradan gelir. Ama üzerinde durduğunda her şeyin değiştiğini fark edersin.</p>
+<p>Başarısızlık bir son değildir. Bir bilgidir. Her hata sana neyin işe yaramadığını gösterir. Ve neyin işe yaramadığını bilen biri, doğru yola her geçen gün biraz daha yaklaşır. Bu yüzden Edison'un laboratuvarında hiçbir zaman yas tutulmadı. Aksine, her başarısız deney bir kutlama sebebiydi — çünkü bir olasılık daha elenmiş, yol biraz daha daralmıştı.</p>
+<p>Edison'un çalışma biçimi de dikkat çekiciydi. Sabah erkenden gelir, gece geç saatlere kadar çalışırdı. Yardımcıları onun neredeyse hiç uyumadığını söylerdi. Ama Edison'a göre uyku bir kayıp değil, bir araçtı. Gerektiği kadar uyur, gerektiği kadar çalışırdı. Ne fazla, ne eksik.</p>
+<p>Peki başarısızlıktan bu kadar yorulmaz mıydı? Yorulurdu. Ama her yorgunluktan sonra şunu hatırlardı: Bir şeyin işe yaramadığını öğrenmek, o şeyi hiç denememiş olmaktan çok daha değerlidir. Bu düşünce onu ayakta tuttu. On bin kez değil, belki daha fazla.</p>
+<p>Edison sadece ampulü değil, bir düşünce biçimini de icat etti. Sonuç odaklı değil, süreç odaklı düşünmek. Hedefe değil, öğrenmeye odaklanmak. Bitmişlik hissine değil, bir sonraki denemeye bakmak. Bu yüzden binlerce kez düşen adam, tarihin en büyük mucitlerinden biri olarak ayağa kalktı.</p>
 <p>Peki ya sen? Kaçıncı denemede bırakıyorsun?</p>`,
-   tip:"▸ Vurgu: 'binlerce kez', 'başarısız olmadım', 'ayağa kalktı'. Son soru yavaş ve net — dinleyiciye bırak."},
-
-  // Gün 2
-  {baslik:"Sessizliğin Gücü",kategori:"Psikoloji · Vurgu",
-   body:`<p>Konuşmacılar arasında en güçlü araç kelimeler değildir. Sessizliktir. Bir cümle söyledin, sustun — ve o suskunluk seni dinleyene düşündürür, hissettirir, merak ettiriri.</p>
-<p>Büyük spikerlerin ortak özelliği budur. Hızlı konuşmak değil, doğru yerde durmak. Bir nokta koyduktan sonra bir nefes almak. İzleyiciye düşünme fırsatı vermek.</p>
-<p>Sessizlik zayıflık değildir. Aksine, sesi olan insanlar sustuktan sonra daha güçlü konuşurlar. Çünkü dinleyici o boşluğu doldurmak için sana odaklanır.</p>
-<p>Bu metni okurken noktalarda tam dur. Virgüllerde nefes al. Sessizliği hisset.</p>`,
-   tip:"▸ Noktalarda gerçekten dur — en az 1 saniye. 'Sessizliktir' kelimesinden sonra uzun bir nefes al."},
-
-  // Gün 3
-  {baslik:"Nikola Tesla'nın Kayıp Sırrı",kategori:"Bilim · Ritim",
-   body:`<p>Nikola Tesla, 1899 yılında Colorado'daki laboratuvarında oturmuş düşünüyordu. Elinde kâğıt yoktu. Kalem de yoktu. Ama zihninde dünyanın en karmaşık elektrik sistemini çiziyordu — tam olarak, hatasız, çalışır halde.</p>
-<p>Tesla, büyük fikirlerini hiç kâğıda dökmeden önce zihninde tamamlardı. Yıllar süren bu içsel çalışma onun en büyük silahıydı. Çünkü bir fikri kafanızda tutabilmek için onu gerçekten anlamanız gerekir.</p>
-<p>Bugün her şeyi dışarıya yazıyoruz. Telefona, ekrana, kâğıda. Belki de bu yüzden bir şeyleri gerçekten anlayamıyoruz — sadece saklıyoruz.</p>
-<p>Tesla'nın sırrı belki de şuydu: Düşünmek için zaman ayırmak.</p>`,
-   tip:"▸ 'Tam olarak, hatasız, çalışır halde' — her kelime ayrı, ağır. 'Sadece saklıyoruz' vurgulu biter."},
-
-  // Gün 4–63 — placeholder (sonraki konuşmalarda eklenecek)
-  ...Array(60).fill(null).map((_, i) => ({
-    baslik: `Gün ${i+4} — İçerik Yakında`,
-    kategori: "İçerik ekleniyor",
-    body: `<p>Bu günün okuma metni henüz eklenmedi. Bir önceki günün metnini tekrar okuyabilirsin — aynı metni farklı hızda okumak da çok faydalı bir egzersizdir.</p>
-<p>Yavaş ve abartılı → Normal hızda → Hızlı ama net. Bu üç turla herhangi bir metni tam bir egzersize dönüştürebilirsin.</p>`,
-    tip: "▸ Bir önceki günün metniyle çalışmaya devam et."
+   tip:"▸ Vurgu: 'Başarısız olmadım', 'on bin kez', 'ayağa kalktı'. Son soru yavaş ve net — bırak havada kalsın."},
+  {baslik:"Sessizliğin Gücü",kategori:"İletişim · Vurgu",
+   body:`<p>Konuşmacılar arasında en güçlü araç kelimeler değildir. Sessizliktir. Bir cümle söyledin, sustun — ve o suskunluk dinleyiciye düşündürür, hissettirir, merak ettirir. Bu yüzden büyük konuşmacılar cümlelerini bitirdikten sonra hemen devam etmezler. Bir an beklerler. Ve o bir an, söylediklerinin içine işler.</p>
+<p>Bunu fark etmek yeterli değil. Uygulamak gerekir. Çünkü çoğu insan sessizlikten korkar. Boşluğu doldurmak için konuşur, doldurmak için hızlanır. Bu hız bazen güvensizliği ele verir. Sanki söylediklerin önemli değilmiş gibi, bir an bile beklemeye değmezmiş gibi görünür.</p>
+<p>Oysa tam tersi doğrudur. Sustuktan sonra konuşan insan daha güçlü görünür. Çünkü o sessizlik şunu söyler: Söylediklerimin içine işlemesi için sana zaman veriyorum. Bu, konuşmacının en güçlü jestlerinden biridir.</p>
+<p>Spikerlerin ve tiyatro oyuncularının yıllarca üzerinde çalıştığı şey budur. Nerede dur. Ne kadar dur. Nasıl dur. Sessizlik bir hata değil, bir tekniktir. Ve bu teknik, kelimelerden çok daha fazla şey anlatır.</p>
+<p>Düşün: Hayatında seni en çok etkileyen konuşmalar hangileriydi? Büyük ihtimalle en hızlı konuşanlar değildi. En doğru yerde susan, en doğru yerde devam edendi. Çünkü onlar sessizliği bir araç olarak kullanmayı öğrenmişti.</p>
+<p>Bu metni okurken noktalarda gerçekten dur. Sadece nefes almak için değil — o anı hissetmek için.</p>`,
+   tip:"▸ Noktalarda en az 1 saniye dur. 'Sessizliktir' kelimesinden sonra uzun bir nefes al. Son paragrafı yavaş bitir."},
+  {baslik:"Tesla'nın Zihin Laboratuvarı",kategori:"Bilim · Ritim",
+   body:`<p>Nikola Tesla, 1899 yılında Colorado'daki laboratuvarında oturmuş düşünüyordu. Elinde kâğıt yoktu. Kalem de yoktu. Ama zihninde dünyanın en karmaşık elektrik sistemini çiziyordu — tam olarak, hatasız, çalışır halde. Deney yapmadan önce tüm hesapları kafasında tamamlardı. Ve çoğu zaman sonuç, hesapladığıyla birebir aynı çıkardı.</p>
+<p>Tesla'nın bu özelliği efsaneleşmişti. Çevresindekiler ona inanmakta güçlük çekiyordu. Nasıl mümkündü? Bir makineyi kafanın içinde çalıştırmak, hataları önceden görmek, sonucu tahmin etmek. Edison bile bunu ciddiye almıyordu başlarda. Ama Tesla her seferinde haklı çıktı.</p>
+<p>Peki bu yetenek nereden geliyordu? Tesla'ya göre cevap basitti: Düşünmek için zaman ayırmak. Herkes bir şeyi hemen denemeye, hemen uygulamaya, hemen sonuç almaya çalışırdı. Tesla ise önce düşünürdü. Uzun süre, derinlemesine, kesintisiz. Bir problemi zihninde o kadar çok döndürürdü ki problem artık onun bir parçası haline gelirdi.</p>
+<p>Bugün tam tersini yapıyoruz. Her şeyi hemen dışarıya yazıyoruz. Telefona, ekrana, kâğıda. Düşünmeden not alıyoruz, sindirmeden kaydediyoruz. Belki de bu yüzden bir şeyleri gerçekten anlayamıyoruz — sadece saklıyoruz.</p>
+<p>Tesla'nın sırrı karmaşık değildi. Sadece şuydu: Bir şeyi gerçekten anlamak istiyorsan, onunla yalnız kal. Kâğıtsız, kalensiz, ekransız. Sadece sen ve o problem. Ve zaman.</p>
+<p>Bugün kaç dakika sadece düşündün? Hiçbir şey yazmadan, hiçbir şeye bakmadan.</p>`,
+   tip:"▸ 'Tam olarak, hatasız, çalışır halde' — her kelime ayrı ve ağır. Son soruyu sessizce bırak, aceleleştirme."},
+  ...Array(60).fill(null).map((_,i)=>({
+    baslik:`Gün ${i+4} — İçerik Yakında Ekleniyor`,kategori:"İçerik ekleniyor",
+    body:`<p>Bu günün sesli okuma metni henüz eklenmedi. Bir önceki günün metnini farklı hızda tekrar oku — bu da çok etkili bir egzersizdir.</p><p>Aynı metni üç turda oku: yavaş ve abartılı, normal konuşma hızı, hızlı ama net. Her tur ayrı bir egzersizdir.</p>`,
+    tip:"▸ Önceki günün metniyle çalışmaya devam et."
   }))
 ];
 
-// ════════════════════════════════════════════════
-// UYGULAMA MANTIĞI
-// ════════════════════════════════════════════════
-
-let state = {
-  started: false,
-  startDay: null,     // program başlangıç tarihi (timestamp, gece 00:00)
-  currentView: 0,     // şu an görüntülenen gün indeksi (0-62)
-  completed: []       // tamamlanan gün indeksleri
-};
-
-function loadState() {
-  const s = localStorage.getItem("diksipro_v1");
-  if (s) state = JSON.parse(s);
+let state={started:false,startDay:null,currentView:0,completed:[]};
+function loadState(){const s=localStorage.getItem("diksipro_v1");if(s)state=JSON.parse(s);}
+function saveState(){localStorage.setItem("diksipro_v1",JSON.stringify(state));}
+function todayIndex(){
+  if(!state.startDay)return 0;
+  const now=new Date();
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+  return Math.max(0,Math.min(62,Math.floor((today-state.startDay)/86400000)));
 }
-function saveState() {
-  localStorage.setItem("diksipro_v1", JSON.stringify(state));
+function startProgram(){
+  const now=new Date();
+  state.startDay=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+  state.started=true;state.currentView=0;state.completed=[];
+  saveState();showMain();
 }
-
-function todayIndex() {
-  if (!state.startDay) return 0;
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  const diff = Math.floor((today - state.startDay) / 86400000);
-  return Math.max(0, Math.min(62, diff));
-}
-
-function startProgram() {
-  const now = new Date();
-  state.startDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  state.started = true;
-  state.currentView = 0;
-  state.completed = [];
-  saveState();
-  showMain();
-}
-
-function showMain() {
-  document.getElementById("scSetup").style.display = "none";
-  document.getElementById("scMain").style.display = "block";
+function showMain(){
+  document.getElementById("scSetup").style.display="none";
+  document.getElementById("scMain").style.display="block";
   renderDay(state.currentView);
 }
-
-function navigate(dir) {
-  const ti = todayIndex();
-  const next = state.currentView + dir;
-  if (next < 0 || next > ti) return; // ileriye geçemez (sadece bugüne kadar)
-  state.currentView = next;
-  renderDay(state.currentView);
+function navigate(dir){
+  const ti=todayIndex();const next=state.currentView+dir;
+  if(next<0||next>ti)return;
+  state.currentView=next;renderDay(next);
 }
-
-function markDone() {
-  const ti = todayIndex();
-  if (state.currentView !== ti) return;
-  if (!state.completed.includes(ti)) {
-    state.completed.push(ti);
-    saveState();
-  }
+function markDone(){
+  const ti=todayIndex();
+  if(state.currentView!==ti)return;
+  if(!state.completed.includes(ti)){state.completed.push(ti);saveState();}
   renderDay(ti);
 }
+function renderDay(idx){
+  const ti=todayIndex();
+  const weekIdx=Math.floor(idx/7);
+  const dayInWeek=idx%7;
+  const set=SETS[weekIdx];
+  const setWeek=(weekIdx%3)+1;
+  const isDone=state.completed.includes(idx);
+  const isToday=idx===ti;
+  const isFuture=idx>ti;
 
-function getDayMeta(idx) {
-  // idx: 0-62
-  const weekIdx = Math.floor(idx / 7);       // 0-8
-  const dayInWeek = idx % 7;                  // 0-6
-  const set = SETS[weekIdx];                  // A/B/C
-  const setWeek = (weekIdx % 3) + 1;          // 1-3
-  const sesGrp = SES_GRUPLARI[dayInWeek];
+  document.getElementById("setLbl").textContent=`Set ${set} · ${setWeek}. Hafta`;
 
-  // Tekerleme setini bul (Set A haftası 0-2, B 3-5, C 6-8)
-  const setKey = set;
-  const teks = TEKERLEMELER[setKey][dayInWeek];
+  let streak=0;
+  for(let i=ti;i>=0;i--){if(state.completed.includes(i))streak++;else break;}
+  document.getElementById("streakN").textContent=streak;
+  document.getElementById("streakBadge").className="streak"+(streak>0?" hot":"");
 
-  return { weekIdx, dayInWeek, set, setWeek, sesGrp, teks };
-}
-
-function renderDay(idx) {
-  const ti = todayIndex();
-  const meta = getDayMeta(idx);
-  const metin = METINLER[idx];
-  const isDone = state.completed.includes(idx);
-  const isToday = idx === ti;
-  const isFuture = idx > ti;
-
-  // Header
-  document.getElementById("setLbl").textContent = `Set ${meta.set} · ${meta.setWeek}. Hafta`;
-
-  // Streak
-  let streak = 0;
-  for (let i = ti; i >= 0; i--) {
-    if (state.completed.includes(i)) streak++;
-    else break;
-  }
-  document.getElementById("streakN").textContent = streak;
-  const sb = document.getElementById("streakBadge");
-  sb.className = "streak" + (streak > 0 ? " hot" : "");
-
-  // Week dots (son 7 gün)
-  const dotsEl = document.getElementById("wdots");
-  dotsEl.innerHTML = "";
-  const weekStart = Math.floor(ti / 7) * 7;
-  for (let d = weekStart; d < weekStart + 7 && d <= 62; d++) {
-    const wd = document.createElement("div");
-    wd.className = "wd" + (state.completed.includes(d) ? " done" : "") + (d === ti ? " now" : "");
+  const dotsEl=document.getElementById("wdots");dotsEl.innerHTML="";
+  const ws=Math.floor(ti/7)*7;
+  for(let d=ws;d<ws+7&&d<=62;d++){
+    const wd=document.createElement("div");
+    wd.className="wd"+(state.completed.includes(d)?" done":"")+(d===ti?" now":"");
     dotsEl.appendChild(wd);
   }
 
-  // Nav
-  document.getElementById("navDay").textContent = `Gün ${idx + 1}`;
-  document.getElementById("navSub").textContent =
-    isToday ? "Bugün" : isFuture ? "Henüz gelmedi" : `${ti - idx} gün önce`;
-  document.getElementById("btnPrev").disabled = idx === 0;
-  document.getElementById("btnNext").disabled = idx >= ti;
+  document.getElementById("navDay").textContent=`Gün ${idx+1}`;
+  document.getElementById("navSub").textContent=isToday?"Bugün":isFuture?"Henüz gelmedi":`${ti-idx} gün önce`;
+  document.getElementById("btnPrev").disabled=idx===0;
+  document.getElementById("btnNext").disabled=idx>=ti;
 
-  // Done button
-  const btn = document.getElementById("doneBtn");
-  if (isFuture) {
-    btn.className = "done-btn future"; btn.textContent = "Bu gün henüz gelmedi";
-  } else if (isDone) {
-    btn.className = "done-btn completed"; btn.textContent = "✓ Tamamlandı";
-  } else if (isToday) {
-    btn.className = "done-btn active"; btn.textContent = "✓ Bugünü Tamamladım";
-  } else {
-    btn.className = "done-btn past"; btn.textContent = "Geçmiş gün";
-  }
+  const btn=document.getElementById("doneBtn");
+  if(isFuture){btn.className="done-btn future";btn.textContent="Bu gün henüz gelmedi";}
+  else if(isDone){btn.className="done-btn completed";btn.textContent="✓ Tamamlandı";}
+  else if(isToday){btn.className="done-btn active";btn.textContent="✓ Bugünü Tamamladım";}
+  else{btn.className="done-btn past";btn.textContent="Geçmiş gün";}
 
-  // Content
-  const c = document.getElementById("content");
-  c.innerHTML = "";
+  const teks=TEKERLEMELER[set][dayInWeek];
+  const metin=METINLER[idx];
+  const c=document.getElementById("content");c.innerHTML="";
 
-  // Tamamlandı banner
-  if (isDone) {
-    c.innerHTML += `<div class="done-banner">✓ Bu günü tamamladın 🎉</div>`;
-  }
+  if(isDone)c.innerHTML+=`<div class="done-banner">✓ Bu günü tamamladın 🎉</div>`;
 
-  // Isınma
-  c.innerHTML += `
-    <div class="warm-card">
-      <div class="blabel">Isınma</div>
-      <div class="warm-vowels">A · E · I · O · U</div>
-      <div class="warm-note">Her ünlüde çeneni maksimum aç — abartarak söyle. 3 tur yap, her turda biraz daha hızlan. Burun sesini ağza çek.</div>
+  c.innerHTML+=`<div class="warm-card">
+    <div class="blabel">Isınma</div>
+    <div class="warm-vowels">A · E · I · O · U</div>
+    <div class="warm-steps">
+      <div class="warm-step"><div class="wsn">1</div><div>Her ünlüyü <strong>yavaş ve abartarak</strong> söyle — çenenin maksimum açıldığını hisset</div></div>
+      <div class="warm-step"><div class="wsn">2</div><div>Aynı diziyi <strong>normal hızda</strong> tekrarla — akıcı ve temiz olsun</div></div>
+      <div class="warm-step"><div class="wsn">3</div><div><strong>Hızlı</strong> tekrarla ama ünlüler netliğini korusun — buruna kaçma</div></div>
+    </div>
+    <div class="warm-note">Toplamda 3 tur. Boğaz sıkışık hissediyorsan başlamadan önce 30 saniye boynu yavaşça döndür.</div>
+  </div>`;
+
+  c.innerHTML+=`<div class="ses-grp">${SES_GRUPLARI[dayInWeek]}</div>`;
+
+  teks.forEach((t,i)=>{
+    c.innerHTML+=`<div class="tek">
+      <div class="tek-no">Tekerleme ${i+1}</div>
+      <div class="tek-text">${t.m}</div>
+      <div class="tek-note">${t.n}</div>
+      <div class="tur-box">
+        <div class="tur-title">15 Tekrar — 3 Tur</div>
+        <div class="tur-rows">
+          <div class="tur-row"><div class="tur-num">1</div><div class="tur-desc"><strong>5× Yavaş:</strong> Her heceyi abartarak söyle, kasları hisset, hız önemli değil</div></div>
+          <div class="tur-row"><div class="tur-num">2</div><div class="tur-desc"><strong>5× Normal:</strong> Doğal konuşma hızı, ses temiz ve akıcı olsun</div></div>
+          <div class="tur-row"><div class="tur-num">3</div><div class="tur-desc"><strong>5× Hızlı:</strong> Maksimum hız — ama hiçbir ses yutulmasın</div></div>
+        </div>
+      </div>
     </div>`;
-
-  // Ses grubu
-  c.innerHTML += `<div class="ses-grp">${meta.sesGrp}</div>`;
-
-  // Tekerlemeler
-  meta.teks.forEach((t, i) => {
-    c.innerHTML += `
-      <div class="tek">
-        <div class="tek-no">Tekerleme ${i+1}</div>
-        <div class="tek-text">${t.m}</div>
-        <div class="tek-note">${t.n}</div>
-      </div>`;
   });
 
-  // Divider
-  c.innerHTML += `<div class="divider"></div>`;
+  c.innerHTML+=`<div class="divider"></div>`;
 
-  // Okuma
-  c.innerHTML += `
-    <div class="read-card">
-      <div class="blabel">Sesli Okuma</div>
-      <div class="read-title">${metin.baslik}</div>
-      <div class="read-cat">${metin.kategori}</div>
-      <div class="read-body">${metin.body}</div>
-      <div class="read-tip">${metin.tip}</div>
-    </div>`;
+  c.innerHTML+=`<div class="read-card">
+    <div class="blabel">Sesli Okuma Metni</div>
+    <div class="read-title">${metin.baslik}</div>
+    <div class="read-cat">${metin.kategori}</div>
+    <div class="read-body">${metin.body}</div>
+    <div class="read-tip">${metin.tip}</div>
+  </div>`;
+
+  c.innerHTML+=`<div class="tug"><div class="tug-inner">♡ <em>Tuğ</em> için yapıldı</div></div>
+  <div class="install-wrap"><button class="install-btn" onclick="installPrompt()">⊕ Ana Ekrana Ekle</button></div>`;
 }
 
-// Init
+let deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",(e)=>{e.preventDefault();deferredPrompt=e;});
+function installPrompt(){
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;});}
+  else alert("Ana ekrana eklemek için:\n\nAndroid: Tarayıcı menüsü → 'Ana ekrana ekle'\niPhone: Paylaş → 'Ana Ekrana Ekle'");
+}
+
 loadState();
-if (state.started) {
-  state.currentView = todayIndex();
-  showMain();
-}
+if(state.started){state.currentView=todayIndex();showMain();}
 </script>
 </body>
 </html>
