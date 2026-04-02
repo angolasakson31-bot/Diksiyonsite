@@ -883,13 +883,6 @@ function showMain(){
 function maxUnlocked(){
   if(state.completedDays.length === 0) return 0;
   const lastCompleted = Math.max(...state.completedDays);
-  const lastCompletedAt = state.completedAt ? state.completedAt[lastCompleted] : null;
-  if(lastCompletedAt){
-    const now = new Date();
-    const completedDate = new Date(lastCompletedAt);
-    const nextMidnight = new Date(completedDate.getFullYear(), completedDate.getMonth(), completedDate.getDate()+1, 0, 0, 0);
-    if(now < nextMidnight) return lastCompleted;
-  }
   return Math.min(62, lastCompleted + 1);
 }
 function navigate(dir){
