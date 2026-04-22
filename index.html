@@ -137,6 +137,13 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 .done-btn.active{background:var(--gold);color:#000}
 .done-btn.completed{background:var(--green);color:#fff}
 .done-btn.locked,.done-btn.past{background:var(--s2);color:var(--muted);border:1px solid var(--border);cursor:default}
+
+/* TEKERLEME SAYACI */
+.tur-counter{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.tur-dot{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);background:var(--s3);cursor:pointer;transition:background .15s,border-color .15s,transform .1s;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.tur-dot:active{transform:scale(.88)}
+.tur-dot.active{background:var(--gold);border-color:var(--gold)}
+.tur-row.tur-done .tur-num{background:var(--green);border-color:var(--green);color:#fff}
 </style>
 </head>
 <body>
@@ -862,6 +869,19 @@ const METINLER = [
 // ═══════════════════════════════════════
 
 let state = {started:false, currentDay:0, completedDays:[], streak:0};
+let tekState = {};
+
+function toggleTekDot(key, dotIdx){
+  const cur = tekState[key] || 0;
+  tekState[key] = dotIdx < cur ? dotIdx : dotIdx + 1;
+  const cont = document.getElementById('tdots-' + key);
+  const row  = document.getElementById('trow-' + key);
+  if(!cont || !row) return;
+  cont.querySelectorAll('.tur-dot').forEach(function(d, i){
+    d.classList.toggle('active', i < tekState[key]);
+  });
+  row.classList.toggle('tur-done', tekState[key] >= 5);
+}
 
 function loadState(){
   const s = localStorage.getItem("diksipro_v3");
@@ -913,6 +933,7 @@ function markDone(){
 }
 
 function renderDay(idx){
+  tekState = {};
   const mu = maxUnlocked();
   const isDone = state.completedDays.includes(idx);
   const isActive = idx === mu && !isDone;
@@ -1021,18 +1042,33 @@ function renderDay(idx){
 
   // 4. TEKERLEMELER
   c.innerHTML += '<div class="ses-grp">' + SES_GRUPLARI[dayInWeek] + '</div>';
+  const turLabels = [
+    ['5× Yavaş', 'Her heceyi abartarak söyle — kasları hisset, hız değil netlik önemli'],
+    ['5× Normal', 'Doğal konuşma hızı — ses akıcı ve temiz çıksın'],
+    ['5× Hızlı',  'Maksimum hız — ama hiçbir ses yutulmasın']
+  ];
   teks.forEach(function(t, i){
+    let turRowsHtml = '';
+    turLabels.forEach(function(lbl, j){
+      const key = idx + '-' + i + '-' + j;
+      let dots = '';
+      for(let d = 0; d < 5; d++){
+        dots += '<div class="tur-dot" onclick="toggleTekDot(\'' + key + '\',' + d + ')"></div>';
+      }
+      turRowsHtml +=
+        '<div class="tur-row" id="trow-' + key + '">' +
+        '<div class="tur-num">' + (j+1) + '</div>' +
+        '<div class="tur-desc"><strong>' + lbl[0] + ':</strong> ' + lbl[1] +
+        '<div class="tur-counter" id="tdots-' + key + '">' + dots + '</div></div>' +
+        '</div>';
+    });
     c.innerHTML += '<div class="tek">' +
       '<div class="tek-no">Tekerleme ' + (i+1) + '</div>' +
       '<div class="tek-text">' + t.m + '</div>' +
       '<div class="tek-note">' + t.n + '</div>' +
       '<div class="tur-box">' +
-      '<div class="tur-title">15 Tekrar — 3 Tur</div>' +
-      '<div class="tur-rows">' +
-      '<div class="tur-row"><div class="tur-num">1</div><div class="tur-desc"><strong>5× Yavaş:</strong> Her heceyi abartarak söyle — kasları hisset, hız değil netlik önemli</div></div>' +
-      '<div class="tur-row"><div class="tur-num">2</div><div class="tur-desc"><strong>5× Normal:</strong> Doğal konuşma hızı — ses akıcı ve temiz çıksın</div></div>' +
-      '<div class="tur-row"><div class="tur-num">3</div><div class="tur-desc"><strong>5× Hızlı:</strong> Maksimum hız — ama hiçbir ses yutulmasın</div></div>' +
-      '</div></div></div>';
+      '<div class="tur-title">15 Tekrar — 3 Tur &nbsp;·&nbsp; Dokunarak işaretle</div>' +
+      '<div class="tur-rows">' + turRowsHtml + '</div></div></div>';
   });
 
   c.innerHTML += '<div class="divider"></div>';
