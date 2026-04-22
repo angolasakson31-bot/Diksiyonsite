@@ -205,13 +205,13 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 
 const SETS = ["A","A","A","B","B","B","C","C","C"];
 const SES_GRUPLARI = [
-  "P · B · M — Dudak Kasları",
-  "T · D · N — Dil Ucu",
-  "K · G · Ğ — Dil Kökü",
-  "S · Z · Ş · J — Tiz Sesler",
-  "Ç · C — Patlayıcı Sesler",
-  "L · R — Akıcı Sesler",
-  "F · V · Ünlüler — Dudak & Açıklık"
+  "P · B · M — Dudak / Bilabial",
+  "T · D · N — Dil Ucu / Alveolar Patlayıcı",
+  "S · Z · L · R — Alveolar Devamlılar",
+  "Ş · J · Ç · C — Postalveolar",
+  "K · G · H — Velar & Gırtlak",
+  "F · V · Y — Labiodental & Palatal",
+  "A · E · I · İ · O · Ö · U · Ü — Ünlüler"
 ];
 
 // 63 günlük şiirler — Tuğ için
@@ -284,34 +284,34 @@ const SIIRLER = [
 // TEKERLEMELER
 const TEKERLEMELER = {
   A: [
-    // Gün 1 — P·B·M
-    [{m:"Bir berber bir berbere gel beraber bir berber dükkanı açalım demiş, berber de berbere neden açalım ki demiş.",n:"Her B'de dudaklar tam kapansın. İlk 2 turda yavaş ve net, 3. turda hızlan ama B sesi yutulmasın."},
-     {m:"Pire pireyi arar, pireyi bulamayan pire pireden pire alır, alan da pirelenmiş.",n:"P'de nefes patlamasını hisset — elini ağzının önüne tut, her P'de hava çarpsın. Hava yoksa P doğru değil."},
-     {m:"Büyük balıkçı balığa çıkmış, balık balıkçıya bakmış, bakışmışlar, balık baygın balığa dalmış.",n:"B-L geçişini pürüzsüz tut. B patlasın, L akıcı olsun. Ritim kopmadan devam et."}],
-    // Gün 2 — T·D·N
-    [{m:"Deden dededen, dede de dededen, dedenin dedesi de dededen gelmiş, dededen dede.",n:"D'yi dil ucuyla diş arkasına vur. Keskin ve kısa. Her D bir tokmak gibi — yumuşatma, netleştir."},
-     {m:"Tandır tandırda tın tın tınlar, tandırın tını benim tandır tınımdır, tın tın tın.",n:"T-N arasındaki farkı abartarak hisset. T sert patlasın, N titreşimli çıksın. Tempolu söyle."},
-     {m:"Ninni ninniye ninnilerin ninnisi, ninnicinin ninnisi de ninni ninnisidir, ninni dinle.",n:"N'yi titreşimli söyle. Burnuna değil, göğsüne çek. N boğumlanması öne, dil arkaya gitmesin."}],
-    // Gün 3 — K·G·Ğ
-    [{m:"Karga karganın kargasına gak demiş, karganın kargası da ona gak gak demiş, kargalar gaklaşmış.",n:"K'yı dil kökünden fırlat, G'yi yumuşat. K sert — G yumuşak. Bu zıtlığı bilerek abartarak söyle."},
-     {m:"Köpek köpeğin köpeğine havladı, köpeğin köpeği de havladı, ikisi de birbirine havladı.",n:"Ğ'yi yutma — hafifçe uzat, bir ses gibi muamele et. K-G-Ğ üçlüsü dil kökünde çalışıyor."},
-     {m:"Güğüm güğümlerin güğümü, güğümlenen güğüm güğümlü güğümdür, güğüm güğümlenir.",n:"G-Ğ geçişi dil kökünde hassas kontrol ister. Yavaş başla, her sesi ayrı ayrı hisset."}],
-    // Gün 4 — S·Z·Ş·J
-    [{m:"Şu köşe yaz köşesi, bu köşe kış köşesi, şu köşe de yaz kış köşesidir, köşe köşedir.",n:"Ş'yi dişlerin arkasında tut, sızırtı sesi dışarı çıksın. Her köşede hafifçe dur, ritmi koru."},
-     {m:"Sosis sosisçide pişer, sosisçi sosise sos yapar, soslu sosis sosis sosisçide pişer.",n:"S keskin ve tiz çıksın, Z'ye kaçırma. S-S-S ardarda gelince sibilant egzersizi yapıyorsun."},
-     {m:"Jandarma janjanlı giyinmiş, janjanlı jandarma şanlı şanlı yürümüş, jan jan jan yürümüş.",n:"J hafif ve sürtünmeli — zorlamadan doğal çıksın. Ş ile J'yi karıştırma, ikisi farklı nokta."}],
-    // Gün 5 — Ç·C
-    [{m:"Çok çalışan çalışkan çocuk çalışmayan çocuktan çok daha fazla çalışır, çalışkan çok çalışır.",n:"Ç kısa ve keskin patlasın, uzatma. Her Ç'den hemen sonrakine geç, enerji kaybetme."},
-     {m:"Cacıkçı cacık yapar, cacıkçının cacığı çok cacıklı bir cacıktır, cacıkçı cacıklamış.",n:"C yumuşak — Ç sert. İkisi arasındaki farkı kasıtlı abartarak söyle. C-Ç-C-Ç diye tekrarla."},
-     {m:"Çiçekçi çiçek satar, çiçekçinin çiçeği her mevsim çiçek çiçek açar, çiçekler açmış.",n:"Ç'de dil damağa değsin, hemen geri çekilsin. Hızlandıkça doğruluk düşmesin."}],
-    // Gün 6 — L·R
-    [{m:"Sarı sarımsak sarı sarımsak, sarı sarımsağın sarısı sarıdır, sarı sarımsak sarıdır.",n:"R'yi dil ucuyla titret. Yutturma — titreşimi bir an bile hisset. Türkçe R güçlü olmalı."},
-     {m:"Limona liman, limanda limon, limonluk limanlık, limanlı limonluktur, limon limonluk.",n:"L'yi dil ucu ile diş arkasına tam daya. Temiz, net çıksın. L havada kaybolmasın."},
-     {m:"Rüzgâr rüzgârları savurur, savrulan rüzgâr rüzgârsız kalır, rüzgârsız yerde rüzgâr eser.",n:"R-L geçişi spikerin sınavıdır. Hızlandıkça bu geçişe dikkat et. En az 5 kez tekrarla."}],
-    // Gün 7 — F·V+Ünlüler
-    [{m:"Fıkırcı fıkra fırlatır, fırlatılan fıkra fıkırcıya fırlar, fıkırcı fıkra fırlamış.",n:"F'de üst dişler alt dudağa hafifçe değsin, hava sızırtısı çıksın. F'yi patlatma, süzülsün."},
-     {m:"Vakıf vakıfça vakıflanmış, vakıflanan vakıf vakıflamış, vakıf vakıf vakıflanmış vakıf.",n:"V'yi titreşimli söyle. Elini boğazına koy, V'de titreşim hissedilsin. F ile V karışmasın."},
-     {m:"A-E-I-O-U, açık ağız, geniş ses, yukarı damak, dolu ünlü, A-E-I-O-U, aç sesin.",n:"Her ünlüde çeneni maksimum aç. Burun sesi varsa ağzı daha da aç. Net çıkana kadar tekrarla."}]
+    // Gün 1 — P·B·M — Dudak / Bilabial
+    [{m:"Bir berber bir berbere gel beraber bir berber dükkanı açalım demiş, berber de berbere ben berber olmam demiş.",n:"B için dudaklar tam kapansın, hava biriksin, sonra patlasın. Elini boğazına koy: B'de titreşim var, P'de yok — bu farkı hisset."},
+     {m:"Pazar pazarda pazar pazar dolaşır, pazarlayan pazarcı pazar pazar pazarlar, pazar pazarlanmış.",n:"P için elini ağzının önüne tut: her P'de hava çarpsın. Çarpmıyorsa P yutulmuş. P sessiz patlama, B sesli patlama."},
+     {m:"Maymun maymunlara maymunluk yapar, maymunlayan maymun maymundan maymunca öğrenir, maymunlaşmış.",n:"M için dudaklar rahatça kapansın, ses buruna yönlensin. Parmağını burnunun altına koy: titreşim hissedilmeli. M'den ünlüye geçişte dudaklar yavaşça açılsın."}],
+    // Gün 2 — T·D·N — Dil Ucu / Alveolar Patlayıcı
+    [{m:"Deden dededen, dedenin dedesi de dededen, dedelerin dedesi dedeler içinde dedelerin dedesidir.",n:"D için dil ucu alveolar sırta vur — tokmak gibi bas, çek. D glottal değil, dil ucu sesidir. Göğüs titreşimi hissedilmeli."},
+     {m:"Tütüncü tütün tüter, tüten tütün tütüncüyü tütsüler, tütüncü tütünü tütmemiş, tütün tütmüş.",n:"T-T ardarda gelince dil yorulur. Her T'de dil alveolar sırta tam vursun, hemen geri çekilsin. Geç çekilirse ses patlamamış."},
+     {m:"Ninni nineden nine ister, nine nineye ninni söyler, ninemin ninni sesi ninnilerin ninnisidir.",n:"N titreşimli çıkmalı — parmağını burnunun altına tut, her N'de titreşim hissedilsin. Göğüsten söylenince daha otoriter çıkar."}],
+    // Gün 3 — S·Z·L·R — Alveolar Devamlılar
+    [{m:"Sazlıkta saz sazlandı, sazlanan saz seslendi, sazın sesi sazlığa seslendi, saz sazlıkta seslendi.",n:"S için dil ucu alveolar sırta yaklaş ama değdirme — ince hava akışı geçmeli. Elini ağzının önüne tut: S'de sürekli ince hava var, patlama yok. Tiz ve keskin çıksın."},
+     {m:"Lale laleli lalelerle lalelendi, laleli lale lalelerin lalesi arasında laleledi, laleler laleledi.",n:"L için dil ucu alveolar sırta tam dayansın. Hava dil ucunun YAN taraflarından akıyor — ortadan değil. L'yi uzat: 'lllll' — yanlarda hava var."},
+     {m:"Rüzgar rüzgarlı rüzgarlıkta rüzgarlanır, rüzgarlanan rüzgar rüzgarsız rüzgarlığa döner, rüzgar.",n:"R için dil ucu alveolar sırta hafifçe dayanıp titremeli. Titreşim hissedilmiyorsa dil çok sert basıyor — baskıyı azalt. 'drrr...' dene."}],
+    // Gün 4 — Ş·J·Ç·C — Postalveolar
+    [{m:"Şu köşe yaz köşesi, bu köşe kış köşesi, şu köşede yaz kış köşesi var, köşe köşedir her köşe.",n:"Ş için dil ucu S'den daha geride, postalveolar bölgeye. Hava akışı daha geniş, daha az tiz. 'sss-şşş' geçişini dene: dil geriye kayarken sesi duy."},
+     {m:"Çiçekçi çiçek çiçekliğe çiçekler, çiçeklenen çiçekçi çiçeğe çiçek açtırır, çiçek çiçekler.",n:"Ç bir T+Ş kombinasyonu — önce dil kapanır, sonra açılır ve Ş sesi çıkar. İki aşama: dur → aç. Ç'yi Ş'ye dönüştürme, dur aşamasını atlama."},
+     {m:"Ceviz cevizden ceviz ister, cevizci cevize ceviz biçer, cevizli cevizci ceviz cevizledi.",n:"C Ç'nin sesli versiyonu — aynı dur→aç mekanizması ama ses teli titreşiyor. Elini boğazına koy: C'de titreşim var, Ç'de yok."}],
+    // Gün 5 — K·G·H — Velar & Gırtlak
+    [{m:"Karga karganın kargasına gak demiş, karganın kargası da karganın kargasına gak gak demiş.",n:"K için dil KÖKÜ yumuşak damağa vurur — dil ucu hareketsiz. Elini boğazın altına koy, K'da hava patlamasını hisset. K sert patlayıcı."},
+     {m:"Göğüs göğse gelmiş gürgen, gürgen göğüsleri göğüslemiş, göğüsleyen güçlü gürgen güçlenmiş.",n:"G K'nın sesli versiyonu — aynı dil kökü mekanizması, ses teli titreşiyor. K-G-K-G diye geçiş yap: elini boğazında tut, titreşim açılıp kapanıyor."},
+     {m:"Halı halıya halılandı, halılanan halı halıcıya gitti, halıcı halıyı halıladı, halı halılı hali.",n:"H Türkçenin tek gırtlak sesi — dil veya dudak hareketi yok. Nefes kanalını hafifçe daraltarak sıcak hava akışı oluştur. H zayıf üfleme değil, kontrollü nefes."}],
+    // Gün 6 — F·V·Y — Labiodental & Palatal
+    [{m:"Fıkra fıkradan fıkra çıkar, fıkradan çıkan fıkra fıkracıya gider, fıkracı fıkrayı fıkralar.",n:"F için üst diş alt dudağa hafifçe değsin — hava bu temas noktasından süzülür. Patlama değil, sürtünme. Elini ağzının önüne tut: sürekli ince hava akışı."},
+     {m:"Vapur vapurdan vapur ister, vapurun vapuru vapur vapur yol gider, vapur vapurlanmış vapurlu.",n:"V F'nin sesli versiyonu — aynı diş-dudak teması, ses teli titreşiyor. Elini boğazına koy: V'de titreşim var, F'de yok."},
+     {m:"Yılan yılandan yılan öğrenir, yılanan yılan yılanlıktan yılan öğretir, yılan yılanlaşmış.",n:"Y için dil GÖVDESI sert damağa doğru yükselir — İ ünlüsü gibi ama daha kapalı. 'yyyy...' diye uzat: sabit yaklaşım sesi çıkmalı, patlama yok."}],
+    // Gün 7 — Ünlüler — A·E·I·İ·O·Ö·U·Ü
+    [{m:"Açık ağızla alt alta arka arka, alta alınan açık ağız altın altına açılır, akan su açık ağız.",n:"A en açık ünlü — çene maksimum iner. Parmağını çenenin altına koy, aşağı indiğini hisset. A'yı koyu ve geniş söyle — öne taşıma, yuvarlama."},
+     {m:"İnce ipek işlendi, işlenen ince ipek inceleşti, incelenen ince ipek iğnelendi, ince ipek indi.",n:"İ en ön-yüksek ünlü — dil gövdesi ileriye ve yukarı, dudaklar gülümseme gibi. 'İİİİ' uzatarak pozisyonu hisset. Bulanık söylenirse anlaşılırlık düşer."},
+     {m:"Öğle öğleden öğleye öğlenir, öğleyen öğlenci öğleden öğle öğleniyor, öğle öğledi öğle.",n:"Ö ön-yuvarlak: dil İ pozisyonunda ama dudaklar O gibi yuvarlak. 'İ yap, dudakları yuvarlat → Ö.' Bu iki adımı hisset: dil=İ, dudak=O."}]
   ],
   B: [
     [{m:"Papağan papa papaya bapar, papa papağana bapar, papağan papa bapar, ikisi de bapar.",n:"P ve B'yi karıştırma. P nefesli-sert, B titreşimli-yumuşak. Hız artınca fark korunsun."},
