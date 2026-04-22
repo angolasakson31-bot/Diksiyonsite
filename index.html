@@ -92,7 +92,7 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 .tek{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:8px;position:relative;overflow:hidden}
 .tek::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);opacity:.4;border-radius:3px 0 0 3px}
 .tek-no{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
-.tek-text{font-size:16px;line-height:1.8;color:var(--text);font-weight:500;margin-bottom:12px}
+.tek-text{font-size:18px;line-height:1.8;color:var(--text);font-weight:500;margin-bottom:12px}
 .tek-note{font-size:12px;color:var(--sub);border-top:1px solid var(--border);padding-top:10px;line-height:1.6;margin-bottom:10px}
 
 /* TUR BOX */
@@ -137,6 +137,15 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 .done-btn.active{background:var(--gold);color:#000}
 .done-btn.completed{background:var(--green);color:#fff}
 .done-btn.locked,.done-btn.past{background:var(--s2);color:var(--muted);border:1px solid var(--border);cursor:default}
+
+/* NEFES ZAMANLAYICİSİ */
+.breath-timer{margin-top:14px;border-top:1px solid var(--border);padding-top:12px}
+.breath-btn{background:var(--s3);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;width:100%;transition:all .2s}
+.breath-btn:active{opacity:.8}
+.breath-display{flex-direction:column;align-items:center;padding:16px 0 4px;gap:4px}
+.breath-phase{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.breath-count{font-family:'Playfair Display',serif;font-size:68px;font-weight:700;line-height:1;transition:color .4s}
+.breath-set{font-size:11px;color:var(--muted);margin-top:2px}
 
 /* TEKERLEME SAYACI */
 .tur-counter{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
@@ -871,6 +880,65 @@ const METINLER = [
 let state = {started:false, currentDay:0, completedDays:[], streak:0};
 let tekState = {};
 
+// ── Nefes zamanlayıcısı ──
+let breathInterval = null;
+let breathSt = {phase:0, count:4, set:1};
+const BREATH_PHASES = ['Nefes Al','Tut','Ver'];
+const BREATH_COLORS = ['#2e9e5e','#c8a84b','#5b8fc9'];
+
+function toggleBreath(){
+  if(breathInterval){ stopBreath(); } else { startBreath(); }
+}
+function startBreath(){
+  breathSt = {phase:0, count:4, set:1};
+  const disp = document.getElementById('breathDisplay');
+  const btn  = document.getElementById('breathBtn');
+  if(!disp || !btn) return;
+  disp.style.display = 'flex';
+  btn.textContent = '■ Durdur';
+  updateBreathDisplay();
+  breathInterval = setInterval(breathTick, 1000);
+}
+function stopBreath(){
+  clearInterval(breathInterval);
+  breathInterval = null;
+  const disp = document.getElementById('breathDisplay');
+  const btn  = document.getElementById('breathBtn');
+  if(disp) disp.style.display = 'none';
+  if(btn){ btn.textContent = '▶ Zamanlayıcıyı Başlat'; btn.disabled = false; }
+}
+function breathTick(){
+  breathSt.count--;
+  if(breathSt.count <= 0){
+    breathSt.phase++;
+    if(breathSt.phase > 2){
+      breathSt.phase = 0;
+      breathSt.set++;
+      if(breathSt.set > 3){
+        clearInterval(breathInterval);
+        breathInterval = null;
+        const btn = document.getElementById('breathBtn');
+        const disp = document.getElementById('breathDisplay');
+        if(disp) disp.style.display = 'none';
+        if(btn){ btn.textContent = '✓ 3 Set Tamamlandı'; btn.disabled = true; }
+        return;
+      }
+    }
+    breathSt.count = 4;
+  }
+  updateBreathDisplay();
+}
+function updateBreathDisplay(){
+  const ph = document.getElementById('breathPhase');
+  const cn = document.getElementById('breathCount');
+  const st = document.getElementById('breathSet');
+  if(!ph) return;
+  ph.textContent = BREATH_PHASES[breathSt.phase];
+  cn.textContent = breathSt.count;
+  cn.style.color  = BREATH_COLORS[breathSt.phase];
+  st.textContent  = 'Set ' + breathSt.set + ' / 3';
+}
+
 function toggleTekDot(key, dotIdx){
   const cur = tekState[key] || 0;
   tekState[key] = dotIdx < cur ? dotIdx : dotIdx + 1;
@@ -933,6 +1001,7 @@ function markDone(){
 }
 
 function renderDay(idx){
+  if(breathInterval){ clearInterval(breathInterval); breathInterval = null; }
   tekState = {};
   const mu = maxUnlocked();
   const isDone = state.completedDays.includes(idx);
@@ -997,6 +1066,14 @@ function renderDay(idx){
     '<div class="nefes-step"><div class="nsn">3</div><div><strong>4 sayarak ağızdan yavaşça ver.</strong> Karın içeri çekilsin. Ses çıkarmadan, kontrollü, düzgün bir akışla bitir. → Kısa nefes al, tekrar başa dön.</div></div>' +
     '</div>' +
     '<div class="nefes-note">3 seti bitirince: cümle ortasında nefes tükenmez, ses titreşmez, hız arttıkça kalite düşmez.</div>' +
+    '<div class="breath-timer">' +
+      '<button class="breath-btn" id="breathBtn" onclick="toggleBreath()">▶ Zamanlayıcıyı Başlat</button>' +
+      '<div class="breath-display" id="breathDisplay" style="display:none">' +
+        '<div class="breath-phase" id="breathPhase">Nefes Al</div>' +
+        '<div class="breath-count" id="breathCount">4</div>' +
+        '<div class="breath-set" id="breathSet">Set 1 / 3</div>' +
+      '</div>' +
+    '</div>' +
     '</div>';
 
   // 2. REZONANS
