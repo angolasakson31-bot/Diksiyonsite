@@ -88,6 +88,14 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 .ses-grp{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin:20px 0 10px;display:flex;align-items:center;gap:8px}
 .ses-grp::after{content:'';flex:1;height:1px;background:var(--border)}
 
+/* HATIRLATMA BÖLÜMÜ */
+.review-section{background:var(--s1);border:1px solid #c8a84b55;border-radius:var(--r);padding:16px 18px;margin-bottom:14px}
+.review-sub{font-size:12px;color:var(--sub);margin-bottom:12px;line-height:1.5}
+.review-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#c8a84b;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.review-label::after{content:'';flex:1;height:1px;background:#c8a84b44}
+.review-tek{border-color:#c8a84b44 !important}
+.review-tek::before{background:#c8a84b !important;opacity:.7 !important}
+
 /* TEKERLEME */
 .tek{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:8px;position:relative;overflow:hidden}
 .tek::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);opacity:.4;border-radius:3px 0 0 3px}
@@ -575,6 +583,59 @@ const TEKERLEMELER = {
      {m:"Orman ördeği ötmüş uzaktan üzümde, öten ördek ormandan uzaktaki üzüme ulaşmış, orman ördek ötmüş.",n:"C3: O-Ö-U-Ü maksimum hız. Yuvarlak ünlülerin doruğu — dudak yuvarlığı maksimum hızda da korunmalı."},
      {m:"Akan ekenle ışık ince ormanlar örnek uzak üzler — A E I İ O Ö U Ü tümü maksimum hızda, hiç durmadan.",n:"C3: 8 ünlü maksimum hız. 63 günlük programın doruk egzersizi. Her ünlünün artikülasyon pozisyonu net, bir öncekini taşıma."},
      {m:"Arı elma ısırır ince orman ördekleri uzakta üzüm — A·E·I·İ·O·Ö·U·Ü kusursuz, hızlı, net, tam.",n:"C3: 63. Günün son tekerlemesi. 8 ünlü, gerçek Türkçe kelimeler, maksimum hız. Buraya kadar geldiysen sesin artık çalışıyor."}]
+  ]
+};
+
+// SPACED REPETITION — Her yeni haftanın 1. gününde önceki haftadan 2 hatırlatma tekerlemesi
+// Seçim mantığı: (1) Z/J/R — sesli ünsüzler en çabuk unutulur (2) U·Ü — arka ünlüler en geç otomatikleşir
+const REVIEW_TEKS = {
+  1: [ // A2 — A1'den hatırlatma
+    {m:"Zeytin zeytinci zevkle dizdi, dizilen zeytinler zengin zeytinciyi zengince zenginleştirmiş, zeytin.",
+     n:"[A1 Hatırlatma · Gün 3] Z S'nin sesli kardeşi — aynı artikülasyon noktası, titreşim eklendi. Elini boğazına koy: 'sss→zzz' geçişini hisset."},
+    {m:"Uzun üzüm uzaktan ululandı, ulu uzak üzüm üzülünce uzandı, üzüm uzunca uzaktan üzüldü, uzun.",
+     n:"[A1 Hatırlatma · Gün 7] U-Ü: her ikisinde dudaklar yuvarlak-öne, fark dil gövdesinin yeri. 'UUU-ÜÜÜ' yavaş geç — dil kaymasını hisset."}
+  ],
+  2: [ // A3 — A2'den hatırlatma
+    {m:"Rüzgar rüzgarda rüzgarlık rüzgarlanır, rüzgarlı rüzgar rüzgardan rüzgara döner, rüzgar rüzgardır.",
+     n:"[A2 Hatırlatma · Gün 3] R trilli dizi. Trill kayboluyorsa dil çok sert basıyor — baskıyı azalt, titreşmesine izin ver."},
+    {m:"Uzak üzüm uzaktan üzüme uzandı, uzanan uzak üzüm üzüme üzülmüş, üzüm uzaktan uzandı, uzak üzüm.",
+     n:"[A2 Hatırlatma · Gün 7] U-Ü hızda. Dudak pozisyonu: U'da geri-yuvarlak, Ü'de ön-yuvarlak. Farkı bilinçli koru."}
+  ],
+  3: [ // B1 — A3'ten hatırlatma
+    {m:"Ritmik ritim ritimciye ritimle ritimlendi, ritimlenen ritimci ritimli ritimde ritimlemiş, ritim ritmik.",
+     n:"[A3 Hatırlatma · Gün 3] R trilli uzun dizi. Trill kaybolursa dil sertleşmiş demektir. Baskıyı azalt, titreşmesine izin ver."},
+    {m:"Uzmanlaşmış üzmüş üzüntülü uzmanı uzak ülkeye uzaklaştırmış, uzaklaşan üzgün uzman üzüldü, uzman.",
+     n:"[A3 Hatırlatma · Gün 7] U-Ü hızlı geçiş. Her ikisinde dudaklar yuvarlak-kapalı. Fark sadece dil konumu — yuvarlık hiç kaybolmasın."}
+  ],
+  4: [ // B2 — B1'den hatırlatma
+    {m:"Sarı sazlar sazlıkta seslenir, zaman zaman sazlar sazlıktan uzaklaşır, ses zıplar saza geri.",
+     n:"[B1 Hatırlatma · Gün 3] S-Z geçişi: S'de titreşim kapalı (tiz-keskin), Z'de açık (titreşimli). Elini boğazına koy — bu anahtarı bilinçli yönet."},
+    {m:"Akarsu akarsuda akar, akan akarsu uzun uzun akarsulara akar, akarsular uzak uzak uzaklaşır.",
+     n:"[B1 Hatırlatma · Gün 7] A açık-arka, U kapalı-yuvarlak. A'dan U'ya geçişte ağız kapanıyor ve dudaklar yuvarlaklaşıyor — iki hareketi hisset."}
+  ],
+  5: [ // B3 — B2'den hatırlatma
+    {m:"Siz sizi sizin için söz söylediniz, söylediğiniz söz sizin için sizi söylemiş siniz, söz sizin sözünüz.",
+     n:"[B2 Hatırlatma · Gün 3] S-Z hızlı geçiş: tek fark titreşim. Aynı alveolar artikülasyon — sadece titreşim anahtarı açılıp kapanıyor."},
+    {m:"Üzgün uzaktan uzanmış, uzanan üzgün üzülmüş, üzülen uzak üzgün uzaktan uzandı, üzgün uzak üzüldü.",
+     n:"[B2 Hatırlatma · Gün 7] U-Ü hızlı kontrast. Dudaklar öne ve yuvarlak — fark dil konumu. Hızda yuvarlık azalmasın."}
+  ],
+  6: [ // C1 — B3'ten hatırlatma
+    {m:"Sizin söylediğiniz sözleri siz söylediniz, söylediğiniz söz sizi sizden söz söyletiyor, söz sizindir siz.",
+     n:"[B3 Hatırlatma · Gün 3] S-Z maksimum hız — tek fark titreşim. Bu hızda S ile Z farkını koru. Elini boğazında tut."},
+    {m:"Akan ekenle ekende akar, ışık işler içten, ormanlar örnek öğretir, uzak üzüm üzler — sekiz ünlü tam.",
+     n:"[B3 Hatırlatma · Gün 7] 8 ünlünün tamamı bir cümlede. Her birinde pozisyon net — bir öncekini taşıma. 8 farklı artikülasyon."}
+  ],
+  7: [ // C2 — C1'den hatırlatma
+    {m:"Rüzgar laleleri savurur, savrulan laleler rüzgarda süzülür, süzülen laleler rüzgarla savrulur.",
+     n:"[C1 Hatırlatma · Gün 3] R-L geçişi: trill (R) → lateral (L). Dil ucu durmadan değişiyor — bu diksiyon sınavının zirve egzersizi."},
+    {m:"Arı elma ısırır, ince orman ördekleri uzakta üzüm toplar, arı elma ısırır ince ince, uzakta üzüm.",
+     n:"[C1 Hatırlatma · Gün 7] 8 ünlü tam sırası: A·E·I·İ·O·Ö·U·Ü. Her birinde çene-dil-dudak net pozisyon — bir öncekini taşıma."}
+  ],
+  8: [ // C3 — C2'den hatırlatma
+    {m:"Sazlık rüzgarda zırıldadı, zırıldayan sazlık lalelerini sallayıp sürükledi, laleler sazlıkla sürüklendi.",
+     n:"[C2 Hatırlatma · Gün 3] S-Z-L-R bir arada yüksek hızda — Türkçe diksiyonun en zorlu alveolar egzersizi."},
+    {m:"Arı elma ısırır ince orman ördekleri uzakta üzüm toplar, arı ısırır ince elma ördek üzüm uzak.",
+     n:"[C2 Hatırlatma · Gün 7] 8 ünlü gerçek kelimelerle hızlı sıra. A·E·I·İ·O·Ö·U·Ü — her geçişte artikülasyon pozisyonu net."}
   ]
 };
 
@@ -1277,20 +1338,20 @@ function renderDay(idx){
   // 1. DİYAFRAM NEFESİ
   c.innerHTML += '<div class="nefes-card">' +
     '<div class="blabel">Diyafram Nefesi</div>' +
-    '<div class="nefes-title">4 · 4 · 4 Nefes Tekniği</div>' +
-    '<div class="nefes-sub">Sesin gücü akciğerden değil, diyaframdan gelir. Bu egzersiz diyaframı aktive eder, sesi derinleştirir ve konuşma ortasında nefes tükenmesini önler. 3 set yapılır — her set aşağıdaki 3 adımdan oluşur.</div>' +
+    '<div class="nefes-title">4 · 2 · 6 Nefes Tekniği</div>' +
+    '<div class="nefes-sub">Sesin gücü akciğerden değil, diyaframdan gelir. Uzun nefes verme (6 saniye) diyaframı aktive eder, sesi derinleştirir ve konuşma ortasında nefes tükenmesini önler. 5 set yapılır — her set aşağıdaki 3 adımdan oluşur.</div>' +
     '<div class="nefes-steps">' +
     '<div class="nefes-step"><div class="nsn">1</div><div>Bir elini göbeğinin üstüne koy. <strong>4 sayarak burundan nefes al</strong> — yalnızca karın şişsin, göğüs hareketsiz kalsın. Göğüs şişiyorsa yanlış yapıyorsun.</div></div>' +
-    '<div class="nefes-step"><div class="nsn">2</div><div><strong>4 sayarak nefesini tut.</strong> Karın şişkin halde sabit dursun. Omuzlar düşük, çene serbest.</div></div>' +
-    '<div class="nefes-step"><div class="nsn">3</div><div><strong>4 sayarak ağızdan yavaşça ver.</strong> Karın içeri çekilsin. Ses çıkarmadan, kontrollü, düzgün bir akışla bitir. → Kısa nefes al, tekrar başa dön.</div></div>' +
+    '<div class="nefes-step"><div class="nsn">2</div><div><strong>2 sayarak nefesini tut.</strong> Karın şişkin halde sabit dursun. Omuzlar düşük, çene serbest.</div></div>' +
+    '<div class="nefes-step"><div class="nsn">3</div><div><strong>6 sayarak ağızdan yavaşça ver.</strong> Karın içeri çekilsin. Uzun nefes verme diyaframı çalıştırır — sesi besleyen kas bu. Ses çıkarmadan, kontrollü, düzgün akışla bitir. → Tekrar başa dön.</div></div>' +
     '</div>' +
-    '<div class="nefes-note">3 seti bitirince: cümle ortasında nefes tükenmez, ses titreşmez, hız arttıkça kalite düşmez.</div>' +
+    '<div class="nefes-note">5 seti bitirince: cümle ortasında nefes tükenmez, ses titreşmez, hız arttıkça kalite düşmez.</div>' +
     '<div class="breath-timer">' +
       '<button class="breath-btn" id="breathBtn" onclick="toggleBreath()">▶ Zamanlayıcıyı Başlat</button>' +
       '<div class="breath-display" id="breathDisplay" style="display:none">' +
         '<div class="breath-phase" id="breathPhase">Nefes Al</div>' +
         '<div class="breath-count" id="breathCount">4</div>' +
-        '<div class="breath-set" id="breathSet">Set 1 / 3</div>' +
+        '<div class="breath-set" id="breathSet">Set 1 / 5</div>' +
       '</div>' +
     '</div>' +
     '</div>';
@@ -1336,7 +1397,23 @@ function renderDay(idx){
     '<div class="warm-note">Sesler arası direkt geçiş — bekleme yok. Burun sesi fark edersen ağzı daha da aç, sesi önden çıkar.</div>' +
     '</div>';
 
-  // 4. TEKERLEMELER
+  // 4a. HATIRLATMA — Yeni haftanın 1. günü: önceki haftadan 2 hatırlatma tekerlemesi
+  if(dayInWeek === 0 && weekIdx > 0 && REVIEW_TEKS[weekIdx]){
+    const revTeks = REVIEW_TEKS[weekIdx];
+    c.innerHTML += '<div class="review-section">' +
+      '<div class="review-label">↩ Hatırlatma · Önceki Haftadan</div>' +
+      '<div class="review-sub">Geçen haftanın en kritik iki sesi. Kısa bir tur geç — yeni haftaya böyle başla. Konuşmada en çabuk unutulan sesler seçildi.</div>';
+    revTeks.forEach(function(t, i){
+      c.innerHTML += '<div class="tek review-tek">' +
+        '<div class="tek-no">Hatırlatma ' + (i+1) + '</div>' +
+        '<div class="tek-text">' + t.m + '</div>' +
+        '<div class="tek-note">' + t.n + '</div>' +
+        '</div>';
+    });
+    c.innerHTML += '</div>';
+  }
+
+  // 4b. TEKERLEMELER
   c.innerHTML += '<div class="ses-grp">' + SES_GRUPLARI[dayInWeek] + '</div>';
   const turLabels = [
     ['5× Yavaş', 'Her heceyi abartarak söyle — kasları hisset, hız değil netlik önemli'],
