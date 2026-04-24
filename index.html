@@ -373,7 +373,7 @@ const TEKERLEMELER = {
      {m:"Vakıf vakit vakfedilmiş vakfa, vakfedilen vakit vakıf vakfa fayda vermiş, vakıf faydayla varlıklı.",n:"V-F hızlı geçiş — titreşim anahtarı C setinde maksimum hızda çalışıyor. V (açık titreşim) → F (kapalı titreşim) → V. Elini boğazında tut, bu anahtarı hisset."},
      {m:"Yüksek yaylada yayık yaylar, yaylı yayık yayladan yüksek yayılır, yayık yüksek yaylada yaylar.",n:"Y-Y-Y en yoğun palatal egzersiz. Dil gövdesi sürekli palatum'a yakın — yorulunca Y ünlüleşmeye başlar. Fark edince yavaşla, palatal pozisyonu yeniden kur."}],
     // Gün 7 — Ünlüler — 8 ünlü tam ustalık
-    [{m:"Ama eme ımı imi omo öme umu ümü, ama eme ımı imi omo öme umu ümü, açık net tam.",n:"8 ünlünün tam sırası: A-E-I-İ-O-Ö-U-Ü. Her birinde çene-dil-dudak net pozisyon alsın, bir öncekinin etkisini taşıma. A'dan Ü'ye giderken dudaklar öne çıkıyor, dil yükseliyor — bu haritayı hisset."},
+    [{m:"Arı elma ısırır, ince orman ördekleri uzakta üzüm toplar, arı elma ısırır ince ince, uzakta üzüm.",n:"8 ünlünün tam sırası: A(arı)·E(elma)·I(ısırır)·İ(ince)·O(orman)·Ö(ördek)·U(uzak)·Ü(üzüm). Her birinde çene-dil-dudak net pozisyon alsın, bir öncekinin etkisini taşıma. A'dan Ü'ye giderken dudaklar öne çıkıyor, dil yükseliyor — bu haritayı hisset."},
      {m:"Ekmek ekmeği ekmekçiye ekletmiş, ekmekçi ekmeği ekmekliğe ekmeklemiş, ekmek ekmeklenmiş.",n:"E ön-orta ünlü. Türkçe E hiçbir zaman çok açık olmaz — A'ya kaçmaz, İ'ye kaçmaz. 'EEE' uzatarak pozisyonu sabitle. Net E konuşmayı anlaşılır kılar."},
      {m:"Üzüm üzümü üzümlükte üzümler, üzümlenen üzüm üzümcüye üzüm üzüm gider, üzüm üzümlü.",n:"Ü ön-yüksek-yuvarlak: Türkçenin en zor ünlüsü — hem dudak yuvarlığı hem dil yüksekliği aynı anda gerekli. 'İ yap → dudakları yuvarlat → Ü.' Hız artınca yuvarlak kaybolmasın."},
      {m:"Orman ortasında ot otlandı, otlanan ot ormanı örter, örten ot ormanla ortaklaşır, ot orman olur.",n:"O arka-yuvarlak-orta: dudaklar yuvarlak, dil gövdesi arka-orta konumda. O-O dizisinde dudak yuvarlığı sürmeli — her O'da dudaklar tam yuvarlansın. Yuvarlık kaybolursa A'ya kaymış — fark edince yavaşla."}]
@@ -901,15 +901,17 @@ let tekState = {};
 
 // ── Nefes zamanlayıcısı ──
 let breathInterval = null;
-let breathSt = {phase:0, count:4, set:1};
-const BREATH_PHASES = ['Nefes Al','Tut','Ver'];
-const BREATH_COLORS = ['#2e9e5e','#c8a84b','#5b8fc9'];
+// 4-2-6: diyafram eğitimi için — uzun nefes verme diyaframı çalıştırır
+const BREATH_DURATIONS = [4, 2, 6];
+const BREATH_PHASES    = ['Nefes Al','Tut','Ver'];
+const BREATH_COLORS    = ['#2e9e5e','#c8a84b','#5b8fc9'];
+let breathSt = {phase:0, count:BREATH_DURATIONS[0], set:1};
 
 function toggleBreath(){
   if(breathInterval){ stopBreath(); } else { startBreath(); }
 }
 function startBreath(){
-  breathSt = {phase:0, count:4, set:1};
+  breathSt = {phase:0, count:BREATH_DURATIONS[0], set:1};
   const disp = document.getElementById('breathDisplay');
   const btn  = document.getElementById('breathBtn');
   if(!disp || !btn) return;
@@ -933,17 +935,17 @@ function breathTick(){
     if(breathSt.phase > 2){
       breathSt.phase = 0;
       breathSt.set++;
-      if(breathSt.set > 3){
+      if(breathSt.set > 5){
         clearInterval(breathInterval);
         breathInterval = null;
         const btn = document.getElementById('breathBtn');
         const disp = document.getElementById('breathDisplay');
         if(disp) disp.style.display = 'none';
-        if(btn){ btn.textContent = '✓ 3 Set Tamamlandı'; btn.disabled = true; }
+        if(btn){ btn.textContent = '✓ 5 Set Tamamlandı'; btn.disabled = true; }
         return;
       }
     }
-    breathSt.count = 4;
+    breathSt.count = BREATH_DURATIONS[breathSt.phase];
   }
   updateBreathDisplay();
 }
@@ -955,7 +957,7 @@ function updateBreathDisplay(){
   ph.textContent = BREATH_PHASES[breathSt.phase];
   cn.textContent = breathSt.count;
   cn.style.color  = BREATH_COLORS[breathSt.phase];
-  st.textContent  = 'Set ' + breathSt.set + ' / 3';
+  st.textContent  = 'Set ' + breathSt.set + ' / 5';
 }
 
 function toggleTekDot(key, dotIdx){
