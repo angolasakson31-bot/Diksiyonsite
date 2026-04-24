@@ -203,7 +203,7 @@ html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'
 // VERİ
 // ═══════════════════════════════════════
 
-const SETS = ["A","A","A","B","B","B","C","C","C"];
+const SETS = ["A1","A2","A3","B1","B2","B3","C1","C2","C3"];
 const SES_GRUPLARI = [
   "P · B · M — Dudak / Bilabial",
   "T · D · N — Dil Ucu / Alveolar Patlayıcı",
@@ -283,7 +283,7 @@ const SIIRLER = [
 
 // TEKERLEMELER
 const TEKERLEMELER = {
-  A: [
+  A1: [
     // Gün 1 — P·B·M — Dudak / Bilabial
     [{m:"Bir berber bir berbere gel beraber bir berber dükkanı açalım demiş, berber de berbere ben berber olmam demiş.",n:"B için dudaklar tam kapansın, hava biriksin, sonra patlasın. Elini boğazına koy: B'de titreşim var, P'de yok — bu farkı hisset."},
      {m:"Pazar pazarda pazar pazar dolaşır, pazarlayan pazarcı pazar pazar pazarlar, pazar pazarlanmış.",n:"P için elini ağzının önüne tut: her P'de hava çarpsın. Çarpmıyorsa P yutulmuş. P sessiz patlama, B sesli patlama."},
@@ -316,7 +316,7 @@ const TEKERLEMELER = {
      {m:"Orman ördekleri öteye öteye ötmüş, öten ördek orman ortasında oturmuş, orman ördekleri ötede.",n:"O (arka-yuvarlak-orta) ve Ö (ön-yuvarlak-orta): dudaklar her ikisinde yuvarlak, fark dil gövdesinin yeri. 'OOO-ÖÖÖ' geçişini dene: dudaklar yuvarlak sabit, dil gövdesi arka-ön hareket ediyor."},
      {m:"Uzun üzüm uzaktan ululandı, ulu uzak üzüm üzülünce uzandı, üzüm uzunca uzaktan üzüldü, uzun.",n:"U (arka-yuvarlak-kapalı) ve Ü (ön-yuvarlak-kapalı): dudaklar her ikisinde yuvarlak ve öne çıkmış, dil yüksek. U'da dil arkada, Ü'de önde. 'UUU-ÜÜÜ' geçişini dene: dudaklar sabit, dil kayıyor."}]
   ],
-  B: [
+  B1: [
     // Gün 1 — P·B·M — Minimal çift kontrast
     [{m:"Bal peteği balcıya balmumu, balcı peteği bala batırmış, bala batan petek ballanmış, bal balmumu.",n:"P-B hızlı geçiş: P sessiz (nefesli), B sesli (titreşimli). Elini boğazında tut — B'de titreşim açık, P'de kapalı. Hız artınca bu farkı koru."},
      {m:"Bebek biberli börek yiyor, biberli börek bebeği biber biber yakıyor, bebek biberi bırakmış.",n:"B-B ardarda gelince dudaklar yorulur. Her B'de tam kapan-tam aç. Yorulunca B'ler P'ye dönmeye başlar — titreşim kaybolur, fark edince yavaşla."},
@@ -347,7 +347,7 @@ const TEKERLEMELER = {
      {m:"Işık ışıklı ışıklanır, ışıklanan ışık ışıkçıya ışıklar, ışıkçı ışığı ışıklatmış, ışık ışıklı.",n:"I Türkçeye özgü: arka-yüksek-yuvarlak olmayan ünlü. Dil gövdesi geri ve yukarı, dudaklar düz. 'İİİ' söyle, dili yavaşça geriye kaydır → 'III'. Bu farkı hisset."},
      {m:"Eğer ince iğne eğilirse ince eğri içe işler, içe işleyen eğri iğne inceden eğilir, ince eğer.",n:"E (ön-orta-açık) ve İ (ön-kapalı): her ikisi ön ünlü, fark yükseklik. 'EEE-İİİ' geçişini dene: dil gövdesi yukarı çıkıyor, ağız kapanıyor. E'den İ'ye geçişte çene yavaşça kapanıyor — bu hareketi hisset."}]
   ],
-  C: [
+  C1: [
     // Gün 1 — P·B·M — Maksimum hız, üçlü kontrast
     [{m:"Pipetçi pipet yapar, pip pip pip diye pipetler, pipetçinin pip pipeti pipetlenmiş, pip pip pip.",n:"P-P-P yoğun patlama dizisi — diyaframdan besle. Her P için karın sıkılsın. Nefes tükenirse dur, derin al, devam et."},
      {m:"Bembeyaz bir bebek bembeyaz battaniyeye bürünmüş, bembeyaz bebek beyaz battaniyeden pembe çıkmış.",n:"B-M-B geçişi bu hızda zorlayıcı: B patlayıcı, M nazal, aynı dudak noktası. Dudaklar yorulmadan ritmi koru. Yorulunca B'ler M'ye karışmaya başlar."},
@@ -377,8 +377,139 @@ const TEKERLEMELER = {
      {m:"Ekmek ekmeği ekmekçiye ekletmiş, ekmekçi ekmeği ekmekliğe ekmeklemiş, ekmek ekmeklenmiş.",n:"E ön-orta ünlü. Türkçe E hiçbir zaman çok açık olmaz — A'ya kaçmaz, İ'ye kaçmaz. 'EEE' uzatarak pozisyonu sabitle. Net E konuşmayı anlaşılır kılar."},
      {m:"Üzüm üzümü üzümlükte üzümler, üzümlenen üzüm üzümcüye üzüm üzüm gider, üzüm üzümlü.",n:"Ü ön-yüksek-yuvarlak: Türkçenin en zor ünlüsü — hem dudak yuvarlığı hem dil yüksekliği aynı anda gerekli. 'İ yap → dudakları yuvarlat → Ü.' Hız artınca yuvarlak kaybolmasın."},
      {m:"Orman ortasında ot otlandı, otlanan ot ormanı örter, örten ot ormanla ortaklaşır, ot orman olur.",n:"O arka-yuvarlak-orta: dudaklar yuvarlak, dil gövdesi arka-orta konumda. O-O dizisinde dudak yuvarlığı sürmeli — her O'da dudaklar tam yuvarlansın. Yuvarlık kaybolursa A'ya kaymış — fark edince yavaşla."}]
-  ]
-};
+  ],
+  A2: [
+    // Gün 1 — P·B·M — İzolasyon Hafta 2
+    [{m:"Pembe papatya papağana pahalı, pahalı papatya papağanı pek pek sevindirmiş, pembe papatya papağan.",n:"A2: P yoğunluğu arttı — daha uzun dizide her P patlamasını koru. Hız artınca P'ler bulanıklaşmasın, her patlama net duyulsun."},
+     {m:"Badem bademden badem ister, bademci bademe badem satar, bademli badem bademciye gitmiş, badem.",n:"A2: B dizisi uzadı. Yorulunca B P'ye dönmeye başlar — boğazındaki titreşimi izle, kaybolunca yavaşla."},
+     {m:"Mor mum mumlandı, mumlu mor mum mumcuya gitti, mumcunun mor mumu memnuniyetle mumlandı, mor mum.",n:"A2: M'den ünlüye geçişte ses akmalı. M'yi buruna değil göğse yönlendir — daha derin rezonans sesin gücünü artırır."}],
+    // Gün 2 — T·D·N — İzolasyon Hafta 2
+    [{m:"Tatlı tatlıcı tatlı yapar, tatlıcının tatlısı tatlıya tatlılık katar, tatlıcı tatlısından tatlı tatlıdır.",n:"A2: T-T dizisi uzadı. Her T'de dil alveolden hızla çekilmeli — gecikirsen T D'ye yumuşar. Dil: bas-çek, bas-çek."},
+     {m:"Denizde derin dalgalar dalga dalga döndü, dönen derin dalgalar denizi doldurmuş, deniz dalgalıdır.",n:"A2: D dizisi. Elini boğazında tut — her D'de titreşim sürekliliği. D'ler sertleşirse T'ye dönmüş, kontrol et."},
+     {m:"Nar nardan nar sıkmış, sıkılan nar narlıkta narlı nar olmuş, narlı narın narlığı nardan nardır.",n:"A2: N göğüsten gelsin. Uzun N dizisinde nazal akış kesilmemeli — N'den ünlüye geçerken ses akar, kesilmez."}],
+    // Gün 3 — S·Z·L·R — İzolasyon Hafta 2
+    [{m:"Sarmaşık sarmaşıklıkta sarmaşıkladı, sarmaşıklanan sarmaşık sarmaşığa sarmaşık sardı, sarmaşık.",n:"A2: S dizisi uzadı. S'nin tizliği sonuna kadar korunmalı — yorulunca boğazlılaşır. Tizliği kaybedince yavaşla."},
+     {m:"Zeytin zeytinli zeytinciye gitti, zeytinci zeytini zeytinlikten aldı, zeytinli zeytin zeytinde gezdi.",n:"A2: Z dizisi. Elini boğazında tut — titreşim kesilmemeli. Z S'ye dönüyorsa titreşim kaybolmuş demektir."},
+     {m:"Limon limonluğa limonladı, limonlayan limon limoncuyu limonunda limon limon limonladı, limon.",n:"A2: L uzun dizisi. Hava yan taraflardan aksın — L'yi uzat: 'lllll'. Ortadan hava geçiyorsa L doğru değil."},
+     {m:"Rüzgar rüzgarda rüzgarlık rüzgarlanır, rüzgarlı rüzgar rüzgardan rüzgara döner, rüzgar rüzgardır.",n:"A2: R dizisi uzadı. Trill kaybolmadan sürdür — yorulunca dil sertleşir, trill bozulur. Baskıyı hafiflet."}],
+    // Gün 4 — Ş·J·Ç·C — İzolasyon Hafta 2
+    [{m:"Şeftali şeftalide şeftalilendi, şeftalici şeftaliye şeftali sattı, şeftalili şeftali şeftalide şeftalilendi.",n:"A2: Ş dizisi uzadı. Dil postalveolar bölgede sabit kalmalı — öne kaçarsa S gibi çıkar. Geri tutmaya devam."},
+     {m:"Jiletçi jilet jiletledi, jiletlenen jilet jiletçiyle jiletlenmiş, jiletli jiletçi jiletini jiletledi.",n:"A2: J dizisi. J nadir ama bu egzersizde yoğun. Ş-J-Ş geçişi yap — titreşim anahtarının ne kadar kolay açıldığını hisset."},
+     {m:"Çilek çileklikte çileklendi, çilek çilekçiye çilek verdi, çilekçi çileği çilekliğe çilek koydu, çilek.",n:"A2: Ç dur→aç fazı net. Hızlandıkça dur aşaması kaybolmak ister — Ç Ş'ye dönüyorsa yavaşla ve dur fazını geri getir."},
+     {m:"Cevizli cevizci cevize ceviz koydu, cevizci cevizini cevizden ceviz ceviz dereye döktü, cevizci.",n:"A2: C dizisi. Elini boğazında tut — C'de titreşim her seferinde tam açılmalı. C Ç'ye dönüyorsa titreşim kaybolmuş."}],
+    // Gün 5 — K·G·H — İzolasyon Hafta 2
+    [{m:"Kayısı kayısıcıya kayısılık kayısı götürdü, kayısıcı kayısıyı kayısılıktan kayısı alır, kayısı kayısılık.",n:"A2: K dizisi uzadı. Dil kökü pozisyonunu koru — K'lar öne kayıp T'ye dönmeye başlarsa dil kökünü yeniden konumla."},
+     {m:"Güvercin güvercinliğe güvercinler güvercin götürdü, güvercinler güvercinliğe güvenle girdi, güvercin.",n:"A2: G dizisi. Elini boğazında tut — G'de titreşim kaybolursa K'ya dönmüş. Titreşim sürekliliğini koru."},
+     {m:"Harika harikalar yarattı, harika yaratan harikacı harikadan harika aldı, harikalar harika harikadır.",n:"A2: H güçlü nefesle desteklenmeli. Diyaframdan gelen H konuşmaya otorite katar — zayıf üfleme yetmez."}],
+    // Gün 6 — F·V·Y — İzolasyon Hafta 2
+    [{m:"Fındık fındıkçıya fındıklık fındık götürdü, fındıkçı fındığı fındıklıktan aldı, fındık fındıkçıda.",n:"A2: F'de diş-dudak teması hafif, sürtünme sürekli. Uzun F dizisinde nefes tükenir — diyaframdan besle."},
+     {m:"Viraj virajda virajladı, virajlayan virajcı virajını virajla döndü, viraj virajında virajlı virajdı.",n:"A2: V dizisi uzadı. F-V-F-V geçişini dene: titreşim anahtarının ritmi hissedilmeli. Hızda V F'ye dönmesin."},
+     {m:"Yelpaze yelpazeliğe yelpazelendi, yelpazeli yelpazeci yelpazeyi yelpazeliğe yelpaze koydu, yelpaze.",n:"A2: Y dizisi uzadı. Dil gövdesi palatum'a sabit yakın — Y'yi uzatırken 'yyyy' sabit ses duyulmalı, patlama yok."}],
+    // Gün 7 — Ünlüler — İzolasyon Hafta 2
+    [{m:"Atlar elmaları atladı, atlayan atlar elmalıktan elma aldı, atlar elma atladı, elmalı atlar ağır aldı.",n:"A2: A-E daha hızlı geçiş. A'dan E'ye geçişte dil öne kayarken çene sabit — ağız açıklığı eşit, dil hareketi fark."},
+     {m:"Işıl ışıl ışıklı ince ipek işlendi, ince ışıklı ışık içten ışıdı, ışıklı ince iç içe ışındı, ince.",n:"A2: I ve İ art arda. Hız artınca ikisi birbirine karışmaya başlar — dil gövdesinin yeri bilinçli kontrol edilmeli."},
+     {m:"Orman ördekleri ötüşerek ötlerine örnek ötmüş, örnek ötüşen ördekler ormanda oturarak ötmüş, ördek.",n:"A2: O ve Ö hız artınca dudak yuvarlığı kaybolabilir. Her ünlüde dudaklar tam yuvarlansın — yuvarlık azalınca yavaşla."},
+     {m:"Uzak üzüm uzaktan üzüme uzandı, uzanan uzak üzüm üzüme üzülmüş, üzüm uzaktan uzandı, uzak üzüm.",n:"A2: U ve Ü hızda birbirine karışabilir. Dudak pozisyonu: U'da geri-yuvarlak, Ü'de ön-yuvarlak. Farkı bilinçli yönet."}]
+  ],
+  A3: [
+    // Gün 1 — P·B·M — İzolasyon Hafta 3
+    [{m:"Plastik plaket plakaya yapıştırılmış, yapıştırılan plastik plaket plakayı plastiğe dönüştürmüş, plaka.",n:"A3: PL kümesi — P patladıktan hemen L geliyor, araya ünlü girme. P→L tek nefeste. En zor P egzersizi."},
+     {m:"Bütün bütünlükle bütünleşmiş, bütünleşen bütün bütünlüğe bütün bütün bütünlenmiş, bütün bütündür.",n:"A3: B maksimum yoğunluk. Hız artınca B'ler patlama gücünü kaybeder — her B için dudaklar tam kapanıp açılsın."},
+     {m:"Müzik müzisyene müzikal melodi vermiş, müzisyen müzikal melodiyi müzikle müziklendirmiş, müzik melodidir.",n:"A3: M-M ardarda uzun dizi. Nazal rezonans kesilmemeli — M'ler arası sessizlik girerse yanlış yapıyorsun. Sürekli akış."}],
+    // Gün 2 — T·D·N — İzolasyon Hafta 3
+    [{m:"Türkücü türküsünü türkülüklere türküleyerek söyledi, türkülü türkücü türküsünü türkülendirmiş, türkü.",n:"A3: T yüksek yoğunluk. Uzun dizide T'nin netliğini koru — her T alveolde eşit patlama gücüyle. Yorulunca dur."},
+     {m:"Doldurulan dolap dolabı doldurdu, dolduran dolap dolabına dolap dolap dolduruluyor, dolap dolu dolap.",n:"A3: D maksimum yoğunluk. Hızda D'ler T'ye dönmeye başlar — titreşimi boğazında izle, kaybolunca yavaşla."},
+     {m:"Nişanlı nişanlıya nişan taktı, nişanlanan nişanlı nişanlısıyla nişandan nişana nişanlanmış, nişan.",n:"A3: N rezonansı uzun dizi boyunca sürmeli. Parmağını göğsüne koy — N'lerde titreşim hissedilmeli, kesilmemeli."}],
+    // Gün 3 — S·Z·L·R — İzolasyon Hafta 3
+    [{m:"Sütlü sütçü sütü sütsüz süte sütlemiş, sütsüz sütçü sütlü sütten sütçülüğe sütlü süt koymuş, süt.",n:"A3: S yoğun uzun dizi. S tizliğini baştan sona koru — yorulunca ses boğazlılaşır. Tizlik kaybolunca dur, nefes al."},
+     {m:"Zümrüt zümrütlü zümrütçüye zümrütlük zümrüt verdi, zümrütçü zümrüdü zümrütçülüğe zümrüt dizdi.",n:"A3: Z yoğun dizi. Titreşim baştan sona sürmeli — Z S'ye dönüyorsa titreşim anahtarı kapanmış. Elini boğazında kontrol et."},
+     {m:"Leleli lale lalelendi, lalelenen lale lalelerin lalecisine laleli lale verdi, laleci laleledi, lale laleli.",n:"A3: L lateral akış yoğun dizi. Yorulunca L merkezi akışa dönebilir — 'lllll' uzatırken yanlarda hava var mı kontrol et."},
+     {m:"Ritmik ritim ritimciye ritimle ritimlendi, ritimlenen ritimci ritimli ritimde ritimlemiş, ritim ritmik.",n:"A3: R trilli dizi. En zor set — trill kaybolunca dil sertleşmiş demektir. Baskıyı azalt, titreşmesine izin ver."}],
+    // Gün 4 — Ş·J·Ç·C — İzolasyon Hafta 3
+    [{m:"Şampiyonluk şampiyona şampiyon şampiyonlaştırmış, şampiyon şampiyonluktan şampiyonluğa şampiyonladı.",n:"A3: Ş uzun yoğun dizi. Dil postalveolar bölgede kilitli — araya S karışmamalı. En yüksek Ş yoğunluğu egzersizi."},
+     {m:"Jübilenin jübilesi jübilelerde jiletçi jilet jiletledi, jiletli jübile jübilesinde jübilelendi, jübile.",n:"A3: J maksimum — Türkçenin en nadir sesi için en yoğun egzersiz. Ş-J karışmadan ayrı tutmaya devam."},
+     {m:"Çözümsüz çözümcü çözümleri çözümledi, çözümlenen çözümsüz çözümler çözücüye çözüm çözüm olmuş.",n:"A3: Ç yoğun uzun dizi. Hız arttıkça dur fazı kaybolur — Ç Ş'ye dönüyorsa yavaşla. Dur fazını asla atlatma."},
+     {m:"Canlı cansız cansızlığı canlılıkla canlandırmış, canlandıran canlı cansıza can canlılık vermiş, can.",n:"A3: C yoğun. Elini boğazında tut — C'de titreşim tam açık olmalı. C Ç'ye dönüyorsa titreşim kapanmış."}],
+    // Gün 5 — K·G·H — İzolasyon Hafta 3
+    [{m:"Kraliçe kralyı krallığa kral kılmış, kral krallıkta kraliçeyle krallık krallığa kral olmuş, krallık.",n:"A3: KR kümesi — K patlar, hemen R gelir. Dil kökü K'dan sonra alveole gidiyor, bunu hisset. En zor K egzersizi."},
+     {m:"Güçlü güçsüzü güçlendirmiş, güçlenen güçsüz güçlüye güçlendiğini göstermiş, güçlü güçlenmiş güçtür.",n:"A3: G yoğun uzun dizi. Titreşim baştan sona kesilmemeli — G K'ya dönüyorsa titreşim kapanmış. Kontrol et."},
+     {m:"Hazırlıklı hazırlıksızı hazırlamış, hazırlanan hazırlıksız hazırlıklıya hazırlandığını haber vermiş.",n:"A3: H uzun dizi — nefes yönetimi kritik. Her H diyaframdan beslensin. H'ler zayıflarsa diyafram desteği azalmış."}],
+    // Gün 6 — F·V·Y — İzolasyon Hafta 3
+    [{m:"Fotoğrafçı fotoğraflarını fotoğraflık fotoğrafa fotoğrafladı, fotoğraflanan fotoğraf fotoğraftı.",n:"A3: F uzun sürtünme dizisi. Nefes tüketir — diyaframdan besle. Hız artınca F fısıltıya dönmesin: sürtünme güçlü kalmalı."},
+     {m:"Varlıklı varlıksızı varsıllaştırmış, varsıllaşan varlıksız varlığını varlıklıya varlıkla göstermiş.",n:"A3: V yoğun dizi. F-V-F-V çok hızlı: titreşim anahtarı maksimum hızda çalışıyor. Elini boğazında tut."},
+     {m:"Yıldırım yıldırımlıktan yıldırımlanmış, yıldırımlanan yıldırımlık yıldırımcıya yıldırım gitmiş.",n:"A3: Y yoğun uzun dizi. Dil gövdesi palatum'a sabit yaklaşım — yorulunca Y ünlüleşir. Fark edince pozisyonu yeniden kur."}],
+    // Gün 7 — Ünlüler — İzolasyon Hafta 3
+    [{m:"Altın elmas altında elmasla alınmış, alınan altın elmas elmasçıya elması altınla almış, altın elmastan.",n:"A3: A-E hızlı geçiş uzun dizi. A arka-açık, E ön-açık — çene sabit, dil kayıyor. Hız artınca ikisi birbirine yaklaşır."},
+     {m:"Işıklı işliklerde işlenenler ışınlanmış, ışınlanan işlikler içten ışıklanmış, ışıklı işlik içten ışıdı.",n:"A3: I-İ hızlı geçiş uzun dizi. Dil gövdesi konumu bilinçli kontrol — hız artınca ikisi tek sese dönmeye başlar."},
+     {m:"Orijinal örneğini orijinali örnek örtüyle örtmüş, örtülen orijinal örnek oryantasyona oturtulmuş.",n:"A3: O-Ö uzun dizi. Dudak yuvarlığı her ünlüde tam — yuvarlık kaybolunca O ve Ö'ler A ve E'ye dönmeye başlar."},
+     {m:"Uzmanlaşmış üzmüş üzüntülü uzmanı uzak ülkeye uzaklaştırmış, uzaklaşan üzgün uzman üzüldü, uzman.",n:"A3: U-Ü hızlı geçiş. Her ikisinde dudaklar yuvarlak ve kapalı — fark sadece dil konumu. Yuvarlık hiç kaybolmasın."}]
+  ],
+  B2: [
+    // Gün 1 — P·B·M — Kontrast Hafta 2
+    [{m:"Biber turşusu bize pek pahalı, pahalı biber bize biberli bir bohça içinde geldi, biber pahalıdır biber.",n:"B2: P-B geçişi hızlandı. Boğazındaki titreşimi izle — P'de kapalı, B'de açık. Hız artınca fark kaybolmasın."},
+     {m:"Meyveli biberli börek beğenilmiş, beğenilen biberli böreği memleket memleketlere meşhur etti, börek.",n:"B2: B-M geçişi. Her ikisi dudak sesi ama M nazal, B patlayıcı. M'de ses buruna yönlenir, B'de değil — farkı hisset."},
+     {m:"Parmak mızrabı pembe parmakları mızraplıyor, mızraklı pembe parmaklar mızrap mızrap mızıkladı, parmak.",n:"B2: P-M kombinasyonu. P patlayıcı sessiz, M nazal sesli — aynı dudak, farklı yollar. Bu mekanizma farkını hisset."}],
+    // Gün 2 — T·D·N — Kontrast Hafta 2
+    [{m:"Dağda taş taşa dokunur, taşa dokunan dağ taşını dağlara taşlar, dağlı taş dağda dolaşır, taş dağdır.",n:"B2: T-D hızlı geçiş. T sessiz-sert, D sesli-yumuşak. Hız artınca fark kaybolmasın — boğazındaki titreşimi izle."},
+     {m:"Neden denize dalıyorsun, denizde neden dalıyorsun, denize neden daldığını denizden neden soruyorsun.",n:"B2: D-N geçişi. D patlayıcı sesli, N nazal sesli — aynı nokta, farklı yollar. N'de ses buruna yönleniyor, hisset."},
+     {m:"Notaları tutturan notalı tutturucu notacı notalandı, notacının tutturduğu nota tutturuldu, nota tuttu.",n:"B2: T-N geçişi. T sessiz patlayıcı, N sesli nazal — fark titreşim ve burun yolu. Bu iki mekanizma farkını aynı anda yönet."}],
+    // Gün 3 — S·Z·L·R — Kontrast Hafta 2
+    [{m:"Siz sizi sizin için söz söylediniz, söylediğiniz söz sizin için sizi söylemişsiniz, söz sizin sözünüz.",n:"B2: S-Z hızlı geçiş. Tek fark: titreşim. S'de kapalı, Z'de açık — aynı artikülasyon, sadece titreşim anahtarı."},
+     {m:"Rüzgarda laleler lara lara, lara rüzgar lalelerle laralı, laleler rüzgarda rüya lara rüzgarlı laleler.",n:"B2: L-R hızlı geçiş. L lateral akış, R trill — dil ucu aynı noktada ama mekanizma farklı. Bu geçiş diksiyon sınavı."},
+     {m:"Salonda sıralanan seyirciler sallandı, sallanan seyirciler salonu seyircilere seyrettirmiş, salon seyirci.",n:"B2: S-L geçişi. S sürtünmeli, L lateral akışlı. İkisinde de dil ucu alveolde ama hava yolu farklı — farkı hisset."},
+     {m:"Zor rüzgar zorla zemine sürükledi, sürüklenen zor rüzgar zorluğunu zerrece zorlamaz, zor rüzgar zorladı.",n:"B2: Z-R kombinasyonu. Z frikativ, R trill — her ikisi sesli. Geçişte titreşim kesilmemeli, hava yolu değişiyor."}],
+    // Gün 4 — Ş·J·Ç·C — Kontrast Hafta 2
+    [{m:"Şişede jiletlenmiş şişeler jiletli şişe jiletli jiletle şişişti, jilet şişeye şişe jilet jiletlendi, şişe.",n:"B2: Ş-J hızlı geçiş. Tek fark titreşim — Ş sessiz, J sesli. Aynı postalveolar artikülasyon. Titreşim anahtarı hızla açılıp kapanıyor."},
+     {m:"Çiçekli cama çiçek çiçeklendi, cama çiçeklenen çiçek camı çiçeklendirdi, cama çiçekli cam çiçekledi.",n:"B2: Ç-C hızlı geçiş. Her ikisi affricate, fark titreşim. Ç sessiz, C sesli — dur→aç mekanizması ikisinde de aynı."},
+     {m:"Şeker çöpçülüğünde şekerlendi, şekerli çöpçü çöpe şekerle şekerli çöp koydu, şeker çöpçüdür, şeker.",n:"B2: Ş-Ç kontrast. Ş frikativ, Ç affricate — her ikisi sessiz postalveolar. Ç'de dur fazı var Ş'de yok. Bu farkı hisset."},
+     {m:"Cevherli jiletçi cevherini jilet jilet dilimledi, jiletçi cevheri cevherliğine jiletledi, cevher jiletli.",n:"B2: J-C sesli postalveolar çifti. J frikativ, C affricate — her ikisi sesli. Dur fazı sadece C'de."}],
+    // Gün 5 — K·G·H — Kontrast Hafta 2
+    [{m:"Güçlü kaya kayalıktan güneşe haykırdı, haykıran güçlü kaya güneşte kayalanmış, güçlü kaya haykırdı.",n:"B2: K-G hızlı geçiş. K sessiz, G sesli velar — dil kökü aynı, titreşim farklı. Elini boğazında tut."},
+     {m:"Güneşli hava güneşlenmiş havada, güneşli havada güzellik güzel güneşle hayat güneşlenmiş, güneş.",n:"B2: G-H geçişi. G dil kökü sesi, H gırtlak sesi — farklı artikülasyon noktaları. G'den H'ye geçerken dil kökü serbest kalıyor."},
+     {m:"Hızlı kırk kişi kırk kere hızlıca koştu, koşan kırk kişi hızını kırkla katladı, kırk kişi hızlıdır.",n:"B2: K-H geçişi. K patlayıcı, H gırtlak sürtünmesiz — çok farklı mekanizmalar. Hızda K ile H arasındaki fark korunmalı."}],
+    // Gün 6 — F·V·Y — Kontrast Hafta 2
+    [{m:"Vefakâr fırsatçı vefasız fırsatla vefasızlık etti, vefasız fırsatçı vefakâra fırsat fırsat vermedi, vefa.",n:"B2: F-V hızlı geçiş. Tek fark titreşim — aynı diş-dudak teması. F'de kapalı, V'de açık. Hızda fark kaybolmasın."},
+     {m:"Yavaş vızıltı yavaş vızıldadı, vızıldayan yavaş vızıltı yavaşlayarak vızıltı yaydı, yavaş vızıltı yavaş.",n:"B2: V-Y geçişi. V labiodental, Y palatal — farklı noktalar. V'de dudak, Y'de dil aktif. Bu geçişteki mekanizma değişimi hisset."},
+     {m:"Yüksek fiyatlar yüksek fırından fırlatıldı, fırından fırlayan yüksek fiyat yükseldi, fiyat fırlatıldı.",n:"B2: F-Y kombinasyonu. F diş-dudak sürtünme, Y palatal yaklaşım — çok farklı sesler. Artikülasyon noktası değişiyor."}],
+    // Gün 7 — Ünlüler — Kontrast Hafta 2
+    [{m:"Altın elmas altında alınmış, alınan altın elmastan elması altınla almış, altın elmas alında alınmış.",n:"B2: A-E hızlı kontrast. Arka-açık / ön-açık. Hız artınca ikisi birbirine yaklaşır — dil gövdesinin yerini bilinçli izle."},
+     {m:"Işıl işıl ışıklı ince ipek içten ışınlanmış, içten ışınan ince ışıklı ipek ışıl ışıl işlenmiş, ince.",n:"B2: I-İ hızlı kontrast. Her ikisi kapalı-düz, fark dil konumu. Hız artınca I ve İ tek sese dönmeye başlar."},
+     {m:"Ormanın ördekleri ötüşerek ötlerine örnek ötmüş, örnek ötüşen ördekler ormanda otururken ötmüş.",n:"B2: O-Ö hızlı kontrast. Dudak yuvarlığı her ikisinde de korunmalı — fark dil konumu. Dudak yuvarlığını koru."},
+     {m:"Üzgün uzaktan uzanmış, uzanan üzgün üzülmüş, üzülen uzak üzgün uzaktan uzandı, üzgün uzak üzüldü.",n:"B2: U-Ü hızlı kontrast. Her ikisinde dudak öne ve yuvarlak — fark dil konumu. Hızda dudak yuvarlığı azalmasın."}]
+  ],
+  B3: [
+    // Gün 1 — P·B·M — Kontrast Hafta 3
+    [{m:"Pembeli biberli mamul paket bize geldi, mamul paket pembe biberiyle memnun memnun gelmiş, biber pembe.",n:"B3: P-B-M üçlüsü. P (sessiz), B (sesli patlayıcı), M (sesli nazal). Üç mekanizma aynı anda — yorulunca hepsi birbirine kayar."},
+     {m:"Papağan biberini pembeleştirmiş, pembeleştirilen biberli papağan pişman pişman biberci biberciyle buluşmuş.",n:"B3: P-B maksimum hız kontrast. Bu hızda titreşim anahtarı sürekli çalışıyor — kaybolunca yavaşla."},
+     {m:"Biberli memleket mamulü bir bohça içinde beherden birbiriyle bize biberli memnun paketlenerek geldi.",n:"B3: B-M yoğun. Dudak mekanizmaları: B tam kapan-patlat, M kapan-nazaldan aç. Hız artınca B'ler M'ye karışabilir."}],
+    // Gün 2 — T·D·N — Kontrast Hafta 3
+    [{m:"Nadiren tutarlı dürüst insan nadiren dinlenir, dinleyen tutarlı nadiren dürüstlendi, dürüst neden nadiren.",n:"B3: T-D-N üçlüsü. T sessiz, D sesli patlayıcı, N sesli nazal — üç farklı mekanizma aynı cümlede."},
+     {m:"Dağlarda taştan taş döküldü, dökülen taş dağı doldurdu, dağı dolduran taş dağlarda taş taş döküldü.",n:"B3: T-D maksimum hız. En hızlı tempoda bile T (sessiz) ve D (sesli) farkı korunmalı. Titreşim anahtarı kaçamaz."},
+     {m:"Neden denize daldığını denizden neden soruyorsun, denizde neden daldığını nadiren dürüstçe söyledin.",n:"B3: D-N maksimum hız. D patlayıcı, N nazal — mekanizma farkı hızda da korunmalı. N'de ses buruna yönleniyor."}],
+    // Gün 3 — S·Z·L·R — Kontrast Hafta 3
+    [{m:"Solmuş sazlar zulmeden rüzgarda, rüzgarda solmuş zulüm sazları sallayıp sürüklemiş, rüzgar sazları zorladı.",n:"B3: S-Z-L-R dörtlüsü. Dört farklı alveolar mekanizma aynı cümlede. Her birini yönet: S (frikativ), Z (sesli frikativ), L (lateral), R (trill)."},
+     {m:"Sizin söylediğiniz sözleri siz söylediniz, söylediğiniz söz sizi sizden söz söyletiyor, söz sizindir siz.",n:"B3: S-Z maksimum hız kontrast. Tek fark titreşim — hız arttıkça bu farkı korumak zorlaşır. En kritik egzersiz."},
+     {m:"Lara rala lara rala lalalar ralar ralar lalalar, lara rala laralar lara rala rala lara, lalalar ralar.",n:"B3: L-R maksimum hız geçiş. En zor diksiyon egzersizi — L lateral akış, R trill. Bu hızda dil ucu yorulur ama fark korunmalı."},
+     {m:"Zulüm sazlıkta laleler sızladı, sızlayan laleler zulümden lale lale uzaklaştı, laleler zulümden uzak.",n:"B3: Z-L kombinasyonu. Z frikativ sesli, L lateral sesli — her ikisi sesli ama mekanizma farklı."}],
+    // Gün 4 — Ş·J·Ç·C — Kontrast Hafta 3
+    [{m:"Şakacı jiletçi çarşıda cümbüş kurmuş, cümbüşlü çarşıda jiletli şişeler cümbür cemaat çarşıydı, şaka.",n:"B3: Ş-J-Ç-C dörtlüsü. Ş (sessiz frikativ), J (sesli frikativ), Ç (sessiz affricate), C (sesli affricate). Dört mekanizma."},
+     {m:"Cümbüşlü şişede cevherli şekil canlı canlı şişelendi, şişeli cevherli cümbüş canlıca şişeye girdi.",n:"B3: Ş-C uzak kontrast. Ş sessiz frikativ, C sesli affricate — hem seslilik hem tarz farkı. İkisini ayrı tut."},
+     {m:"Jiletli çarşı jilet çilingirle çınlatıldı, çınlayan jiletli çarşı jiletçi çilingirine jilet koydu, jilet.",n:"B3: J-Ç kontrast. J sesli frikativ, Ç sessiz affricate — çapraz kontrast. Hem seslilik hem mekanizma değişiyor."},
+     {m:"Şişeli jiletçi çarşıda canlı cümbüş yaparak şişe jiletledi, canlı cümbüş şişeli çarşıya jilet kattı.",n:"B3: Dört ses hızlı sıra. Ş→J→Ç→C: sessiz frikativ → sesli frikativ → sessiz affricate → sesli affricate. Sıralamayı hisset."}],
+    // Gün 5 — K·G·H — Kontrast Hafta 3
+    [{m:"Gökyüzü kararınca hava güneşliyken karardı, güneşli kararırken havanın gökyüzü karardı, hava güneş.",n:"B3: K-G-H üçlüsü. K (sessiz velar), G (sesli velar), H (gırtlak) — üç farklı artikülasyon. Üçünü aynı anda yönet."},
+     {m:"Güçlü kaya güneşe kavuşurken kararıyor, kararınca güçlü kaya güneşe kavuşmuş, kaya güneşle güçlendi.",n:"B3: K-G maksimum hız. Titreşim anahtarı bu hızda en kritik durumda — K'da kapalı, G'de açık, hiç karışmasın."},
+     {m:"Hava güzelleşince güneşli havalarda güzel hayat güneşlenmiş havada güzelleşiyor, güneş havalarda güzel.",n:"B3: G-H kontrast. G dil kökü sesi, H gırtlak sesi — çok farklı artikülasyon noktaları. Hızda her ikisi de korunmalı."}],
+    // Gün 6 — F·V·Y — Kontrast Hafta 3
+    [{m:"Yüksek vızıldayan fırtına yavaş yavaş fısıldadı, fısıldayan yavaş vızıltı yüksekten fırlatılmış, fırtına.",n:"B3: F-V-Y üçlüsü. F (sessiz labiodental), V (sesli labiodental), Y (sesli palatal) — üçünü aynı anda yönet."},
+     {m:"Vefasız fırsatçı vefakâra fırsat vermedi, vermediği fırsatı fırsatçı vefakâra vefayla geri vermiş, vefa.",n:"B3: F-V maksimum hız. Bu hızda titreşim anahtarı sürekli çalışıyor — F (kapalı) ve V (açık) farkı korunmalı."},
+     {m:"Yavaş vızıldayan yüksek vızıltı yavaşlayıp vızıltısını yaydı, yayılan vızıltı yavaş yavaş fısıldadı.",n:"B3: V-Y maksimum hız. Farklı artikülasyon noktaları hızla değişiyor — V dudak, Y dil gövdesi. Geçiş mekanizmasını izle."}],
+    // Gün 7 — Ünlüler — Kontrast Hafta 3
+    [{m:"Atlar elma ısırır ince ışık içinden izler, atlar elma alır ısırır, içten ışık ince iner, atlar eler.",n:"B3: A-E-I-İ dörtlüsü. Hepsi ön-arka, açık-kapalı kontrast. Hız artınca dört ünlü birbirine yaklaşır — bilinçli yönet."},
+     {m:"Orman ördeği uzaktan ötüyordu, ötmekte olan ördeği orman uzaktan ormanda otururdu, ördek ötmüş.",n:"B3: O-Ö-U-Ü dörtlüsü. Hepsi yuvarlak — fark açıklık ve arka/ön. Dudak yuvarlığı hepsinde korunmalı."},
+     {m:"Akan ekenle ekende akar, ışık işler içten, ormanlar örnek öğretir, uzak üzüm üzler — sekiz ünlü tam.",n:"B3: 8 ünlünün tamamı bir cümlede. Her birinde pozisyon net — bir öncekini taşıma. 8 farklı artikülasyon, 1 nefes."},
+     {m:"A E I İ O Ö U Ü: atlar eker ışık ince orman ördek uzak üzüm — sırayla, net, tam dura, eksik bırakma.",n:"B3: Doruk kontrast egzersizi. 8 ünlü bilinçli sırayla. Her geçişte artikülasyon pozisyonu değişiyor — bu haritayı ezberle."}]
+  ],
 
 // OKUMA METİNLERİ
 const METINLER = [
@@ -1038,7 +1169,7 @@ function renderDay(idx){
   const siir = SIIRLER[idx] || SIIRLER[SIIRLER.length-1];
 
   // Header
-  document.getElementById("setLbl").textContent = "Set " + set + " · " + setWeek + ". Hafta";
+  document.getElementById("setLbl").textContent = "Set " + set[0] + " · " + set[1] + ". Hafta";
   document.getElementById("streakN").textContent = state.streak;
   document.getElementById("streakBadge").className = "streak" + (state.streak > 0 ? " hot" : "");
 
