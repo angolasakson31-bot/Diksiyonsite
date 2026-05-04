@@ -30,6 +30,10 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Install Android SDK platforms
+        run: |
+          sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;26.1.10909125" --sdk_root=$ANDROID_SDK_ROOT
+
       - name: Install dependencies
         working-directory: DiksiProApp
         run: npm install --legacy-peer-deps
@@ -39,6 +43,31 @@ jobs:
         run: npx expo prebuild --platform android --clean
         env:
           EXPO_NO_DOTENV: 1
+
+      - name: Patch Android project (kotlinVersion + newArch fix)
+        working-directory: DiksiProApp/android
+        run: |
+          echo "=== build.gradle ==="
+          cat build.gradle
+
+          echo "=== gradle.properties ==="
+          cat gradle.properties
+
+          # expo-modules-gradle-plugin kotlinVersion gerektirir
+          if ! grep -q "kotlinVersion" build.gradle; then
+            echo "PATCH: kotlinVersion eksik, ekleniyor..."
+            sed -i 's/buildToolsVersion/kotlinVersion = "2.0.21"\n        buildToolsVersion/' build.gradle
+            echo "--- PATCHED build.gradle ---"
+            cat build.gradle
+          fi
+
+          # New Architecture devre disi birakildi (uyumluluk icin)
+          if ! grep -q "newArchEnabled" gradle.properties; then
+            echo "newArchEnabled=false" >> gradle.properties
+          fi
+
+          echo "=== FINAL gradle.properties ==="
+          cat gradle.properties
 
       - name: Build APK
         working-directory: DiksiProApp/android
