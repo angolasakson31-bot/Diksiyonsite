@@ -30,10 +30,10 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android SDK platforms
+      - name: Install Android SDK components
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;26.1.10909125" --sdk_root=$ANDROID_SDK_ROOT
 
-      - name: Install dependencies
+      - name: Install npm dependencies
         working-directory: DiksiProApp
         run: npm install --legacy-peer-deps
 
@@ -43,18 +43,9 @@ jobs:
         env:
           EXPO_NO_DOTENV: 1
 
-      - name: Patch kotlinVersion
-        working-directory: DiksiProApp/android
-        run: |
-          echo "=== build.gradle (oncesi) ==="
-          cat build.gradle
-          python3 $GITHUB_WORKSPACE/.github/scripts/patch_kotlin.py
-          echo "=== build.gradle (sonrasi) ==="
-          cat build.gradle
-
       - name: Build APK
         working-directory: DiksiProApp/android
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        run: ./gradlew assembleDebug --no-daemon
         env:
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m"
 
@@ -71,12 +62,12 @@ jobs:
           tag_name: preview-v${{ github.run_number }}
           name: "DiksiPro Preview v${{ github.run_number }}"
           body: |
-            ## DiksiPro Android APK — Test Surumu
+            ## DiksiPro Android APK
 
-            ### Telefona Kurulum
-            1. Asagidaki `app-debug.apk` dosyasina dokun → Indir
-            2. Telefon ayarlari → Guvenlik → **Bilinmeyen kaynaklara izin ver**
-            3. Indirilen APK'ya dokun → Yukle → Ac
+            ### Kurulum
+            1. `app-debug.apk` dosyasini indir
+            2. Telefon Ayarlar → Guvenlik → Bilinmeyen kaynaklara izin ver
+            3. APK'ya dokun → Yukle → Ac
           files: DiksiProApp/android/app/build/outputs/apk/debug/app-debug.apk
           token: ${{ secrets.GITHUB_TOKEN }}
           make_latest: true
