@@ -27,37 +27,44 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Install dependencies
         working-directory: DiksiProApp
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Expo Prebuild (Android native proje oluştur)
         working-directory: DiksiProApp
-        run: npx expo prebuild --platform android --clean
+        run: npx expo prebuild --platform android --clean --no-install
+        env:
+          EXPO_NO_DOTENV: 1
 
       - name: Build APK
         working-directory: DiksiProApp/android
         run: ./gradlew assembleDebug --no-daemon
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g"
 
-      - name: APK'yı artifact olarak yükle
+      - name: APK'yı artifact olarak yukle
         uses: actions/upload-artifact@v4
         with:
           name: DiksiPro-v${{ github.run_number }}
           path: DiksiProApp/android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
 
-      - name: GitHub Release oluştur ve APK ekle
+      - name: GitHub Release olustur ve APK ekle
         uses: softprops/action-gh-release@v2
         with:
           tag_name: preview-v${{ github.run_number }}
           name: "DiksiPro Preview v${{ github.run_number }}"
           body: |
-            ## DiksiPro Android APK — Test Sürümü
+            ## DiksiPro Android APK — Test Surumu
 
             ### Telefona Kurulum
-            1. Aşağıdaki `app-debug.apk` dosyasına dokun → İndir
-            2. Telefon ayarları → Güvenlik → **Bilinmeyen kaynaklara izin ver**
-            3. İndirilen APK'ya dokun → Yükle → Aç
+            1. Asagidaki `app-debug.apk` dosyasina dokun → Indir
+            2. Telefon ayarlari → Guvenlik → **Bilinmeyen kaynaklara izin ver**
+            3. Indirilen APK'ya dokun → Yukle → Ac
           files: DiksiProApp/android/app/build/outputs/apk/debug/app-debug.apk
           token: ${{ secrets.GITHUB_TOKEN }}
           make_latest: true
