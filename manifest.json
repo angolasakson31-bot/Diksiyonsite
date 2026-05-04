@@ -1,0 +1,11 @@
+{
+  "name": "DiksiPro — Profesyonel Ses Eğitimi",
+  "short_name": "DiksiPro",
+  "description": "9 haftalık profesyonel diksiyon ve ses eğitimi programı",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080b10",
+  "theme_color": "#080b10",
+  "lang": "tr",
+  "icons": []
+}
