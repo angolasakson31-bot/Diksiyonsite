@@ -31,88 +31,26 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Install Android SDK platforms
-        run: |
-          sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;26.1.10909125" --sdk_root=$ANDROID_SDK_ROOT
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;26.1.10909125" --sdk_root=$ANDROID_SDK_ROOT
 
       - name: Install dependencies
         working-directory: DiksiProApp
         run: npm install --legacy-peer-deps
 
-      - name: Expo Prebuild (Android native proje oluştur)
+      - name: Expo Prebuild
         working-directory: DiksiProApp
         run: npx expo prebuild --platform android --clean
         env:
           EXPO_NO_DOTENV: 1
 
-      - name: Patch kotlinVersion (expo-modules map fix)
+      - name: Patch kotlinVersion
         working-directory: DiksiProApp/android
         run: |
-          echo "=== build.gradle (prebuild sonrasi) ==="
+          echo "=== build.gradle (oncesi) ==="
           cat build.gradle
-          echo ""
-          echo "=== gradle.properties ==="
-          cat gradle.properties
-
-          python3 - << 'PYEOF'
-import re
-
-# build.gradle patch
-with open('build.gradle', 'r') as f:
-    content = f.read()
-
-before = content
-
-# Hem single hem double quote destekle, her 1.9.x versiyonunu 1.9.22'ye cevir
-content = re.sub(
-    r"(kotlinVersion\s*=\s*)['\"]1\.9\.[0-9]+['\"]",
-    r'\g<1>"1.9.22"',
-    content
-)
-# Classpath'deki kotlin-gradle-plugin versiyonunu da degistir
-content = re.sub(
-    r'(org\.jetbrains\.kotlin:kotlin-gradle-plugin:)1\.9\.[0-9]+',
-    r'\g<1>1.9.22',
-    content
-)
-# kotlinVersion yoksa ekle
-if 'kotlinVersion' not in content:
-    content = content.replace(
-        'buildToolsVersion',
-        'kotlinVersion = "1.9.22"\n        buildToolsVersion',
-        1
-    )
-
-with open('build.gradle', 'w') as f:
-    f.write(content)
-
-if before != content:
-    print("✓ build.gradle PATCHED")
-else:
-    print("WARNING: build.gradle degismedi! Orijinal icerik:")
-    print(before[:500])
-
-# gradle.properties patch
-with open('gradle.properties', 'r') as f:
-    gp = f.read()
-
-before_gp = gp
-gp = re.sub(r'kotlinVersion=.*', 'kotlinVersion=1.9.22', gp)
-if 'kotlinVersion' not in gp:
-    gp += '\nkotlinVersion=1.9.22\n'
-
-with open('gradle.properties', 'w') as f:
-    f.write(gp)
-
-if before_gp != gp:
-    print("✓ gradle.properties PATCHED")
-PYEOF
-
-          echo ""
-          echo "=== build.gradle (patch sonrasi) ==="
+          python3 $GITHUB_WORKSPACE/.github/scripts/patch_kotlin.py
+          echo "=== build.gradle (sonrasi) ==="
           cat build.gradle
-          echo ""
-          echo "=== gradle.properties (patch sonrasi) ==="
-          cat gradle.properties
 
       - name: Build APK
         working-directory: DiksiProApp/android
@@ -120,14 +58,14 @@ PYEOF
         env:
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m"
 
-      - name: APK'yı artifact olarak yukle
+      - name: APK artifact yukle
         uses: actions/upload-artifact@v4
         with:
           name: DiksiPro-v${{ github.run_number }}
           path: DiksiProApp/android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
 
-      - name: GitHub Release olustur ve APK ekle
+      - name: GitHub Release olustur
         uses: softprops/action-gh-release@v2
         with:
           tag_name: preview-v${{ github.run_number }}
