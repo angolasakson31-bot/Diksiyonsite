@@ -50,10 +50,6 @@ export default function OnboardingScreen({ onStart }) {
           </TouchableOpacity>
         </View>
 
-        {/* Footer poem */}
-        <Text style={styles.footer}>
-          ♡ <Text style={styles.footerGold}>Tuğ</Text> için
-        </Text>
       </LinearGradient>
     </SafeAreaView>
   );
@@ -160,18 +156,5 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sansBold,
     fontSize: 16,
     color: colors.black,
-  },
-  footer: {
-    fontFamily: fonts.sans,
-    fontSize: 12,
-    color: colors.muted,
-    letterSpacing: 1,
-    marginTop: 28,
-  },
-  footerGold: {
-    fontFamily: fonts.display,
-    fontSize: 15,
-    color: colors.gold,
-    fontStyle: 'italic',
   },
 });
