@@ -7,7 +7,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { colors, fonts, spacing, radius } from '../theme';
 import { SETS, SES_GRUPLARI, BREATH_PHASES, BREATH_DURATIONS, BREATH_COLORS } from '../data/constants';
-import { SIIRLER } from '../data/poems';
 import { TEKERLEMELER } from '../data/twisters';
 import { METINLER } from '../data/texts';
 import { maxUnlocked, calcStreak, saveState } from '../storage';
@@ -347,16 +346,6 @@ function OkumaCard({ metin }) {
   );
 }
 
-// ─── Siir ──────────────────────────────────────────────────────────────────────
-function SiirCard({ poem }) {
-  return (
-    <View style={styles.siirWrap}>
-      <Text style={styles.siirLabel}>♡ Tuğ için</Text>
-      <Text style={styles.siirText}>{poem}</Text>
-    </View>
-  );
-}
-
 // ─── Done Button ───────────────────────────────────────────────────────────────
 function DoneButton({ state, onMark }) {
   const mu     = maxUnlocked(state.completedDays);
@@ -418,7 +407,6 @@ export default function HomeScreen({ state, onStateChange }) {
   const setKey    = SETS[weekIdx];
   const teks      = TEKERLEMELER[setKey]?.[dayInWeek] ?? [];
   const metin     = METINLER[day];
-  const poem      = SIIRLER[day] ?? SIIRLER[SIIRLER.length - 1];
   const isDone    = state.completedDays.includes(day);
   const scrollRef = useRef(null);
 
@@ -476,7 +464,6 @@ export default function HomeScreen({ state, onStateChange }) {
 
         <View style={styles.divider} />
         <OkumaCard metin={metin} />
-        <SiirCard poem={poem} />
         <View style={{ height: 100 }} />
       </ScrollView>
 
@@ -577,11 +564,6 @@ const styles = StyleSheet.create({
   readKategori: { fontFamily: fonts.sansMedium, fontSize: 10, color: colors.gold, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 16 },
   readBody: { fontFamily: fonts.sans, fontSize: 15, lineHeight: 28, color: '#b0c2d4', marginBottom: 4 },
   readTip: { fontFamily: fonts.sans, fontSize: 12, color: colors.sub, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 12, marginTop: 12, lineHeight: 19 },
-
-  // Poem
-  siirWrap: { alignItems: 'center', paddingVertical: 24, paddingHorizontal: 14 },
-  siirLabel: { fontFamily: fonts.display, fontSize: 13, color: colors.gold, letterSpacing: 1, marginBottom: 8, fontStyle: 'italic' },
-  siirText: { fontFamily: fonts.displayItalic, fontSize: 16, color: colors.sub, lineHeight: 28, textAlign: 'center', fontStyle: 'italic' },
 
   // Done banner
   doneBanner: { backgroundColor: 'rgba(46,158,94,0.1)', borderWidth: 1, borderColor: 'rgba(46,158,94,0.25)', borderRadius: radius.md, padding: 12, marginBottom: 14, marginTop: 10 },
