@@ -44,24 +44,74 @@ jobs:
         env:
           EXPO_NO_DOTENV: 1
 
-      - name: Patch kotlinVersion (expo-modules 1.9.24 desteklemiyor)
+      - name: Patch kotlinVersion (expo-modules map fix)
         working-directory: DiksiProApp/android
         run: |
           echo "=== build.gradle (prebuild sonrasi) ==="
           cat build.gradle
+          echo ""
+          echo "=== gradle.properties ==="
+          cat gradle.properties
 
-          # expo-modules-gradle-plugin kotlinVersion=1.9.24'u map'inde bulmuyor.
-          # 1.9.23'e downgrade edildi.
-          sed -i 's/kotlinVersion = "1\.9\.24"/kotlinVersion = "1.9.23"/' build.gradle
+          python3 - << 'PYEOF'
+import re
 
-          # Genel fallback: 1.9.x'in herhangi bir versiyonu varsa 1.9.23 yap
-          grep -q 'kotlinVersion' build.gradle || \
-            sed -i '/buildToolsVersion/a\        kotlinVersion = "1.9.23"' build.gradle
+# build.gradle patch
+with open('build.gradle', 'r') as f:
+    content = f.read()
 
+before = content
+
+# Hem single hem double quote destekle, her 1.9.x versiyonunu 1.9.22'ye cevir
+content = re.sub(
+    r"(kotlinVersion\s*=\s*)['\"]1\.9\.[0-9]+['\"]",
+    r'\g<1>"1.9.22"',
+    content
+)
+# Classpath'deki kotlin-gradle-plugin versiyonunu da degistir
+content = re.sub(
+    r'(org\.jetbrains\.kotlin:kotlin-gradle-plugin:)1\.9\.[0-9]+',
+    r'\g<1>1.9.22',
+    content
+)
+# kotlinVersion yoksa ekle
+if 'kotlinVersion' not in content:
+    content = content.replace(
+        'buildToolsVersion',
+        'kotlinVersion = "1.9.22"\n        buildToolsVersion',
+        1
+    )
+
+with open('build.gradle', 'w') as f:
+    f.write(content)
+
+if before != content:
+    print("✓ build.gradle PATCHED")
+else:
+    print("WARNING: build.gradle degismedi! Orijinal icerik:")
+    print(before[:500])
+
+# gradle.properties patch
+with open('gradle.properties', 'r') as f:
+    gp = f.read()
+
+before_gp = gp
+gp = re.sub(r'kotlinVersion=.*', 'kotlinVersion=1.9.22', gp)
+if 'kotlinVersion' not in gp:
+    gp += '\nkotlinVersion=1.9.22\n'
+
+with open('gradle.properties', 'w') as f:
+    f.write(gp)
+
+if before_gp != gp:
+    print("✓ gradle.properties PATCHED")
+PYEOF
+
+          echo ""
           echo "=== build.gradle (patch sonrasi) ==="
           cat build.gradle
-
-          echo "=== gradle.properties ==="
+          echo ""
+          echo "=== gradle.properties (patch sonrasi) ==="
           cat gradle.properties
 
       - name: Build APK
