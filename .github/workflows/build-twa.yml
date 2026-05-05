@@ -2,11 +2,10 @@ name: Build DiksiPro APK
 
 on:
   push:
-    branches: [main]
+    branches: [main, claude/google-play-app-setup-PP9Jk]
     paths:
       - '.github/workflows/build-twa.yml'
-      - 'twa-manifest.json'
-      - 'manifest.json'
+      - 'android/**'
       - 'icons/**'
   workflow_dispatch:
 
@@ -29,21 +28,32 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install librsvg & Bubblewrap
+      - name: Download Gradle 8.4
         run: |
-          sudo apt-get install -y librsvg2-bin
-          npm install -g @bubblewrap/cli@latest
+          wget -q https://services.gradle.org/distributions/gradle-8.4-bin.zip -O gradle.zip
+          unzip -q gradle.zip
+          echo "$(pwd)/gradle-8.4/bin" >> $GITHUB_PATH
 
-      - name: Generate PNG icons from SVG
+      - name: Install librsvg
+        run: sudo apt-get install -y librsvg2-bin
+
+      - name: Generate mipmap icons
         run: |
-          rsvg-convert -w 192 -h 192 icons/icon.svg -o icons/icon-192.png
-          rsvg-convert -w 512 -h 512 icons/icon.svg -o icons/icon-512.png
-          rsvg-convert -w 512 -h 512 icons/icon-maskable.svg -o icons/icon-maskable-512.png
+          mkdir -p android/app/src/main/res/mipmap-mdpi
+          mkdir -p android/app/src/main/res/mipmap-hdpi
+          mkdir -p android/app/src/main/res/mipmap-xhdpi
+          mkdir -p android/app/src/main/res/mipmap-xxhdpi
+          mkdir -p android/app/src/main/res/mipmap-xxxhdpi
+          rsvg-convert -w 48  -h 48  icons/icon.svg          -o android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          rsvg-convert -w 72  -h 72  icons/icon.svg          -o android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          rsvg-convert -w 96  -h 96  icons/icon.svg          -o android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          rsvg-convert -w 144 -h 144 icons/icon.svg          -o android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          rsvg-convert -w 192 -h 192 icons/icon.svg          -o android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          rsvg-convert -w 48  -h 48  icons/icon-maskable.svg -o android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+          rsvg-convert -w 72  -h 72  icons/icon-maskable.svg -o android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+          rsvg-convert -w 96  -h 96  icons/icon-maskable.svg -o android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+          rsvg-convert -w 144 -h 144 icons/icon-maskable.svg -o android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+          rsvg-convert -w 192 -h 192 icons/icon-maskable.svg -o android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
 
       - name: Restore keystore
         run: |
@@ -97,55 +107,45 @@ jobs:
           HGHhNDgVdzlK+gICJxA=
           KSEOF
 
-      - name: Configure Bubblewrap
+      - name: Create local.properties
+        run: echo "sdk.dir=${ANDROID_SDK_ROOT:-$ANDROID_HOME}" > android/local.properties
+
+      - name: Build signed APK
+        working-directory: android
         run: |
-          mkdir -p ~/.bubblewrap
-          echo "{\"jdkPath\":\"$JAVA_HOME\",\"androidSdkPath\":\"$ANDROID_SDK_ROOT\"}" \
-            > ~/.bubblewrap/config.json
+          gradle assembleRelease \
+            -Pandroid.injected.signing.store.file="$GITHUB_WORKSPACE/$KEYSTORE_FILE" \
+            -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
+            -Pandroid.injected.signing.key.alias="$KEYSTORE_ALIAS" \
+            -Pandroid.injected.signing.key.password="$KEYSTORE_PASSWORD"
 
-      - name: Generate Android project
-        run: bubblewrap update --skipPwaValidation
-
-      - name: Build APK / AAB
-        env:
-          KEYSTORE_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
-          KEY_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
-        run: bubblewrap build --skipPwaValidation
-
-      - name: Find built files
+      - name: Find built APK
         id: find_apk
         run: |
-          APK=$(find . -name "*.apk" | head -1)
-          AAB=$(find . -name "*.aab" | head -1)
+          APK=$(find android -name "*.apk" | grep release | head -1)
           echo "apk=$APK" >> $GITHUB_OUTPUT
-          echo "aab=$AAB" >> $GITHUB_OUTPUT
           echo "APK: $APK"
-          echo "AAB: $AAB"
 
-      - name: Create GitHub Release with APK
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v1.0.${{ github.run_number }}
           name: "DiksiPro v1.0.${{ github.run_number }}"
           body: |
-            ## DiksiPro Android Uygulamasi
+            ## DiksiPro Android Uygulaması
 
-            **APK** dosyasini indirip Android telefonuna yukle.
+            **APK** dosyasını indirip Android telefonuna yükle.
 
-            Yukleme: Ayarlar > Guvenlik > Bilinmeyen kaynaklara izin ver
-          files: |
-            ${{ steps.find_apk.outputs.apk }}
-            ${{ steps.find_apk.outputs.aab }}
+            Yükleme: Ayarlar > Güvenlik > Bilinmeyen kaynaklara izin ver
+          files: ${{ steps.find_apk.outputs.apk }}
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Artifacts (yedek)
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: DiksiPro-APK-v${{ github.run_number }}
-          path: |
-            **/*.apk
-            **/*.aab
+          path: android/**/*.apk
           retention-days: 30

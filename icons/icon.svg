@@ -1,11 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="90" fill="#080b10"/>
-  <rect x="211" y="112" width="90" height="158" rx="45" fill="#c8a84b"/>
-  <path d="M168 262 Q168 334 256 334 Q344 334 344 262" fill="none" stroke="#c8a84b" stroke-width="14" stroke-linecap="round"/>
-  <line x1="256" y1="334" x2="256" y2="395" stroke="#c8a84b" stroke-width="13" stroke-linecap="round"/>
-  <line x1="208" y1="395" x2="304" y2="395" stroke="#c8a84b" stroke-width="13" stroke-linecap="round"/>
-  <path d="M152 222 Q134 256 152 290" fill="none" stroke="#c8a84b" stroke-width="11" stroke-linecap="round" opacity="0.75"/>
-  <path d="M120 198 Q92 256 120 314" fill="none" stroke="#c8a84b" stroke-width="9" stroke-linecap="round" opacity="0.4"/>
-  <path d="M360 222 Q378 256 360 290" fill="none" stroke="#c8a84b" stroke-width="11" stroke-linecap="round" opacity="0.75"/>
-  <path d="M392 198 Q420 256 392 314" fill="none" stroke="#c8a84b" stroke-width="9" stroke-linecap="round" opacity="0.4"/>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8c96b"/>
+      <stop offset="100%" stop-color="#a87830"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="#080b10"/>
+  <rect x="90"  y="251" width="52" height="150" rx="26" fill="url(#g)" opacity="0.6"/>
+  <rect x="160" y="171" width="52" height="230" rx="26" fill="url(#g)" opacity="0.8"/>
+  <rect x="230" y="111" width="52" height="290" rx="26" fill="url(#g)"/>
+  <rect x="300" y="161" width="52" height="240" rx="26" fill="url(#g)" opacity="0.8"/>
+  <rect x="370" y="231" width="52" height="170" rx="26" fill="url(#g)" opacity="0.6"/>
 </svg>
