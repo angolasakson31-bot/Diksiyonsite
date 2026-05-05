@@ -1,0 +1,121 @@
+name: Build DiksiPro for Google Play
+
+on:
+  workflow_dispatch:
+
+env:
+  KEYSTORE_FILE: diksipro.keystore
+  KEYSTORE_ALIAS: diksipro
+  KEYSTORE_PASSWORD: "DiksiPro2025Ses!"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install librsvg & Bubblewrap
+        run: |
+          sudo apt-get install -y librsvg2-bin
+          npm install -g @bubblewrap/cli@latest
+
+      - name: Generate PNG icons from SVG
+        run: |
+          rsvg-convert -w 192 -h 192 icons/icon.svg -o icons/icon-192.png
+          rsvg-convert -w 512 -h 512 icons/icon.svg -o icons/icon-512.png
+          rsvg-convert -w 512 -h 512 icons/icon-maskable.svg -o icons/icon-maskable-512.png
+
+      - name: Restore keystore
+        run: |
+          cat <<'KSEOF' | base64 -d > $KEYSTORE_FILE
+          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
+          HGHhNDgVdzlK+gICJxA=
+          KSEOF
+
+      - name: Configure Bubblewrap
+        run: |
+          mkdir -p ~/.bubblewrap
+          echo "{\"jdkPath\":\"$JAVA_HOME\",\"androidSdkPath\":\"$ANDROID_SDK_ROOT\"}" \
+            > ~/.bubblewrap/config.json
+
+      - name: Generate Android project
+        run: bubblewrap update --skipPwaValidation
+
+      - name: Build APK / AAB
+        env:
+          KEYSTORE_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
+        run: bubblewrap build --skipPwaValidation
+
+      - name: Upload APK & AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: DiksiPro-GooglePlay-v${{ github.run_number }}
+          path: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/bundle/release/*.aab
+          retention-days: 30
+
+      - name: Build summary
+        run: |
+          echo "## DiksiPro Build Tamamlandi!" >> "$GITHUB_STEP_SUMMARY"
+          echo "APK ve AAB dosyalari **Artifacts** bolumunde." >> "$GITHUB_STEP_SUMMARY"
+          echo "Google Play Console icin **.aab** dosyasini yukle." >> "$GITHUB_STEP_SUMMARY"

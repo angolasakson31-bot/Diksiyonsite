@@ -1,11 +1,33 @@
 {
   "name": "DiksiPro — Profesyonel Ses Eğitimi",
   "short_name": "DiksiPro",
-  "description": "9 haftalık profesyonel diksiyon ve ses eğitimi programı",
-  "start_url": "/",
+  "description": "9 haftalık profesyonel diksiyon ve ses eğitimi programı. Her gün ~10 dakika, 63 günde güçlü ve net bir ses.",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#080b10",
   "theme_color": "#080b10",
   "lang": "tr",
-  "icons": []
+  "categories": ["education", "health"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }
