@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg">#080b10</color>
-    <color name="gold">#c8a84b</color>
-    <color name="text">#dce6f0</color>
-    <color name="subtext">#8fa3b8</color>
+    <color name="bg">#0A0D16</color>
+    <color name="card">#131A26</color>
+    <color name="coral">#FF6B35</color>
+    <color name="amber">#FF9D00</color>
+    <color name="blue">#4E90FF</color>
+    <color name="gold">#FFB94A</color>
+    <color name="green">#2ECC71</color>
+    <color name="text">#EEF2F8</color>
+    <color name="subtext">#8896AA</color>
+    <color name="muted">#4A6070</color>
+    <color name="border">#1D2A3A</color>
 </resources>

@@ -1,1 +1,2 @@
 -keep class com.diksipro.app.** { *; }
+-keep class org.json.** { *; }

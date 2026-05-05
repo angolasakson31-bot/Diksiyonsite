@@ -4,11 +4,11 @@
     <style name="Theme.DiksiPro" parent="android:Theme.Material">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
-        <item name="android:colorPrimary">#c8a84b</item>
-        <item name="android:colorPrimaryDark">#080b10</item>
-        <item name="android:colorAccent">#c8a84b</item>
-        <item name="android:windowBackground">#080b10</item>
-        <item name="android:statusBarColor">#080b10</item>
-        <item name="android:navigationBarColor">#080b10</item>
+        <item name="android:colorPrimary">#FF6B35</item>
+        <item name="android:colorPrimaryDark">#0A0D16</item>
+        <item name="android:colorAccent">#FF6B35</item>
+        <item name="android:windowBackground">#0A0D16</item>
+        <item name="android:statusBarColor">#0A0D16</item>
+        <item name="android:navigationBarColor">#0A0D16</item>
     </style>
 </resources>
