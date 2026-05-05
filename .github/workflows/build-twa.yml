@@ -39,21 +39,21 @@ jobs:
 
       - name: Generate mipmap icons
         run: |
-          mkdir -p android/app/src/main/res/mipmap-mdpi
-          mkdir -p android/app/src/main/res/mipmap-hdpi
-          mkdir -p android/app/src/main/res/mipmap-xhdpi
-          mkdir -p android/app/src/main/res/mipmap-xxhdpi
-          mkdir -p android/app/src/main/res/mipmap-xxxhdpi
-          rsvg-convert -w 48  -h 48  icons/icon.svg          -o android/app/src/main/res/mipmap-mdpi/ic_launcher.png
-          rsvg-convert -w 72  -h 72  icons/icon.svg          -o android/app/src/main/res/mipmap-hdpi/ic_launcher.png
-          rsvg-convert -w 96  -h 96  icons/icon.svg          -o android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
-          rsvg-convert -w 144 -h 144 icons/icon.svg          -o android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
-          rsvg-convert -w 192 -h 192 icons/icon.svg          -o android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          for density in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+            mkdir -p "android/app/src/main/res/mipmap-$density"
+          done
+          rsvg-convert -w 48  -h 48  icons/icon.svg -o android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          rsvg-convert -w 72  -h 72  icons/icon.svg -o android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          rsvg-convert -w 96  -h 96  icons/icon.svg -o android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          rsvg-convert -w 144 -h 144 icons/icon.svg -o android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          rsvg-convert -w 192 -h 192 icons/icon.svg -o android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
           rsvg-convert -w 48  -h 48  icons/icon-maskable.svg -o android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png
           rsvg-convert -w 72  -h 72  icons/icon-maskable.svg -o android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png
           rsvg-convert -w 96  -h 96  icons/icon-maskable.svg -o android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
           rsvg-convert -w 144 -h 144 icons/icon-maskable.svg -o android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
           rsvg-convert -w 192 -h 192 icons/icon-maskable.svg -o android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+          echo "=== Icons generated ==="
+          ls android/app/src/main/res/mipmap-xxxhdpi/
 
       - name: Restore keystore
         run: |
@@ -106,9 +106,22 @@ jobs:
           YIZIAWUDBAIBBQAEIIxDDtkdCQR9fgBU9e2AqgykZPtRxElnVhqetMQ2WvXKBBQdGavAIPiGXqqw
           HGHhNDgVdzlK+gICJxA=
           KSEOF
+          if [ ! -s "$KEYSTORE_FILE" ]; then
+            echo "ERROR: Keystore not created or empty"
+            exit 1
+          fi
+          echo "Keystore OK: $(du -h $KEYSTORE_FILE | cut -f1)"
 
       - name: Create local.properties
-        run: echo "sdk.dir=${ANDROID_SDK_ROOT:-$ANDROID_HOME}" > android/local.properties
+        run: |
+          SDK_DIR="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+          if [ -z "$SDK_DIR" ]; then
+            echo "ERROR: Android SDK not found"
+            exit 1
+          fi
+          echo "sdk.dir=$SDK_DIR" > android/local.properties
+          echo "Android SDK: $SDK_DIR"
+          ls "$SDK_DIR/platforms/" | grep -E 'android-3[0-9]' || true
 
       - name: Build signed APK
         working-directory: android
@@ -117,14 +130,20 @@ jobs:
             -Pandroid.injected.signing.store.file="$GITHUB_WORKSPACE/$KEYSTORE_FILE" \
             -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
             -Pandroid.injected.signing.key.alias="$KEYSTORE_ALIAS" \
-            -Pandroid.injected.signing.key.password="$KEYSTORE_PASSWORD"
+            -Pandroid.injected.signing.key.password="$KEYSTORE_PASSWORD" \
+            --stacktrace
 
-      - name: Find built APK
+      - name: Verify and locate APK
         id: find_apk
         run: |
-          APK=$(find android -name "*.apk" | grep release | head -1)
+          APK=$(find android/app/build/outputs/apk/release -name "*.apk" 2>/dev/null | head -1)
+          if [ -z "$APK" ]; then
+            echo "ERROR: APK not found"
+            find android -name "*.apk" 2>/dev/null || echo "No APK files anywhere"
+            exit 1
+          fi
           echo "apk=$APK" >> $GITHUB_OUTPUT
-          echo "APK: $APK"
+          echo "APK: $APK ($(du -h "$APK" | cut -f1))"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -147,5 +166,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: DiksiPro-APK-v${{ github.run_number }}
-          path: android/**/*.apk
+          path: android/app/build/outputs/apk/release/*.apk
           retention-days: 30

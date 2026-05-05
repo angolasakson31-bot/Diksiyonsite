@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.DiksiPro" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">#c8a84b</item>
-        <item name="colorPrimaryDark">#080b10</item>
-        <item name="colorAccent">#c8a84b</item>
+    <!-- android:Theme.Material is built-in (API 21+), no external dependencies -->
+    <style name="Theme.DiksiPro" parent="android:Theme.Material">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:colorPrimary">#c8a84b</item>
+        <item name="android:colorPrimaryDark">#080b10</item>
+        <item name="android:colorAccent">#c8a84b</item>
         <item name="android:windowBackground">#080b10</item>
         <item name="android:statusBarColor">#080b10</item>
         <item name="android:navigationBarColor">#080b10</item>
