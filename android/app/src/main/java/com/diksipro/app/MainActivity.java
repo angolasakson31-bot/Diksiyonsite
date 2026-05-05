@@ -1,5 +1,6 @@
 package com.diksipro.app;
 
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,8 +23,6 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -34,9 +33,12 @@ public class MainActivity extends Activity {
 
     private WebView webView;
     private View splashLayout;
-    private LinearLayout offlineLayout;
+    private View offlineLayout;
     private View[] bars;
+    private View[] dots;
     private ValueAnimator[] barAnimators;
+    private ObjectAnimator[] dotAnimators;
+    private ConnectivityManager.NetworkCallback networkCallback;
 
     private static final String APP_URL =
             "https://angolasakson31-bot.github.io/Diksiyonsite/";
@@ -51,29 +53,40 @@ public class MainActivity extends Activity {
         webView       = findViewById(R.id.webview);
         splashLayout  = findViewById(R.id.splash_layout);
         offlineLayout = findViewById(R.id.offline_layout);
-        Button retryBtn = findViewById(R.id.retry_button);
 
         bars = new View[]{
             findViewById(R.id.bar1), findViewById(R.id.bar2), findViewById(R.id.bar3),
-            findViewById(R.id.bar4), findViewById(R.id.bar5)
+            findViewById(R.id.bar4), findViewById(R.id.bar5), findViewById(R.id.bar6),
+            findViewById(R.id.bar7)
+        };
+        dots = new View[]{
+            findViewById(R.id.dot1), findViewById(R.id.dot2), findViewById(R.id.dot3)
         };
 
         setupWebView();
 
-        // Start equalizer animation after first layout pass
-        splashLayout.post(this::startEqualizerAnimation);
+        // Tap anywhere on offline screen to retry
+        offlineLayout.setOnClickListener(v -> retryLoad());
 
-        retryBtn.setOnClickListener(v -> {
-            offlineLayout.setVisibility(View.GONE);
-            splashLayout.setVisibility(View.VISIBLE);
-            webView.loadUrl(APP_URL);
+        // Start animations after first layout pass
+        splashLayout.post(() -> {
+            startEqualizerAnimation();
+            startDotsAnimation();
         });
 
         webView.loadUrl(APP_URL);
+        registerNetworkCallback();  // auto-retry when connection returns
 
-        // Check for updates in background after 4s
         new Handler(Looper.getMainLooper()).postDelayed(this::checkForUpdate, 4000);
     }
+
+    private void retryLoad() {
+        offlineLayout.setVisibility(View.GONE);
+        splashLayout.setVisibility(View.VISIBLE);
+        webView.loadUrl(APP_URL);
+    }
+
+    // ── WebView ──────────────────────────────────────────────────────────────
 
     private void setupWebView() {
         WebSettings s = webView.getSettings();
@@ -86,18 +99,16 @@ public class MainActivity extends Activity {
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
-            public void onPageStarted(WebView v, String url, Bitmap favicon) {
+            public void onPageStarted(WebView v, String url, Bitmap fav) {
                 splashLayout.setVisibility(View.VISIBLE);
                 webView.setVisibility(View.GONE);
                 offlineLayout.setVisibility(View.GONE);
             }
-
             @Override
             public void onPageFinished(WebView v, String url) {
                 splashLayout.setVisibility(View.GONE);
                 webView.setVisibility(View.VISIBLE);
             }
-
             @Override
             public void onReceivedError(WebView v, WebResourceRequest req,
                                         WebResourceError err) {
@@ -111,18 +122,22 @@ public class MainActivity extends Activity {
         webView.setWebChromeClient(new WebChromeClient());
     }
 
+    // ── Animations ────────────────────────────────────────────────────────────
+
     private void startEqualizerAnimation() {
-        float   density  = getResources().getDisplayMetrics().density;
-        float[] maxDp    = {34f, 54f, 74f, 54f, 34f};
-        long[]  duration = {920L, 760L, 600L, 760L, 920L};
-        long[]  delay    = {0L, 160L, 320L, 160L, 0L};
+        // Organic min scales matching the waveform shape (tallest bar = smallest min)
+        float[] minS  = {0.18f, 0.12f, 0.22f, 0.08f, 0.20f, 0.13f, 0.26f};
+        long[]  dur   = {820L,  640L,  910L,  530L,  720L,  590L,  870L};
+        long[]  delay = {0L,   140L,  270L,   60L,  210L,  150L,  330L};
 
         barAnimators = new ValueAnimator[bars.length];
         for (int i = 0; i < bars.length; i++) {
-            bars[i].setPivotY(bars[i].getHeight()); // anchor to bottom
-            final int idx = i;
-            ValueAnimator a = ValueAnimator.ofFloat(1f, 0.14f, 1f);
-            a.setDuration(duration[i]);
+            final int   idx  = i;
+            final float minScale = minS[i];
+            bars[i].setPivotY(bars[i].getHeight());
+
+            ValueAnimator a = ValueAnimator.ofFloat(1f, minScale, 1f);
+            a.setDuration(dur[i]);
             a.setStartDelay(delay[i]);
             a.setRepeatCount(ValueAnimator.INFINITE);
             a.setRepeatMode(ValueAnimator.RESTART);
@@ -136,12 +151,53 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void stopEqualizerAnimation() {
-        if (barAnimators == null) return;
-        for (ValueAnimator a : barAnimators) if (a != null) a.cancel();
+    private void startDotsAnimation() {
+        dotAnimators = new ObjectAnimator[dots.length];
+        for (int i = 0; i < dots.length; i++) {
+            ObjectAnimator a = ObjectAnimator.ofFloat(dots[i], "alpha", 0.12f, 1f, 0.12f);
+            a.setDuration(1200);
+            a.setStartDelay(i * 230L);
+            a.setRepeatCount(ValueAnimator.INFINITE);
+            a.setRepeatMode(ValueAnimator.RESTART);
+            dotAnimators[i] = a;
+            a.start();
+        }
     }
 
-    // ── Auto-update ───────────────────────────────────────────────────────────
+    private void stopAllAnimations() {
+        if (barAnimators != null)
+            for (ValueAnimator a : barAnimators) if (a != null) a.cancel();
+        if (dotAnimators != null)
+            for (ObjectAnimator a : dotAnimators) if (a != null) a.cancel();
+    }
+
+    // ── Network auto-retry ───────────────────────────────────────────────
+
+    private void registerNetworkCallback() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) return;
+        ConnectivityManager cm =
+            (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (cm == null) return;
+        networkCallback = new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(Network network) {
+                runOnUiThread(() -> {
+                    if (offlineLayout.getVisibility() == View.VISIBLE) retryLoad();
+                });
+            }
+        };
+        cm.registerDefaultNetworkCallback(networkCallback);
+    }
+
+    private void unregisterNetworkCallback() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N || networkCallback == null) return;
+        ConnectivityManager cm =
+            (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (cm != null) cm.unregisterNetworkCallback(networkCallback);
+        networkCallback = null;
+    }
+
+    // ── Auto-update ─────────────────────────────────────────────────────────
 
     private void checkForUpdate() {
         new Thread(() -> {
@@ -151,36 +207,30 @@ public class MainActivity extends Activity {
                 conn.setRequestProperty("Accept", "application/vnd.github+json");
                 conn.setConnectTimeout(6000);
                 conn.setReadTimeout(6000);
-
                 if (conn.getResponseCode() != 200) return;
 
-                BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
                 StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) sb.append(line);
-                reader.close();
-
-                String json    = sb.toString();
-                String tagName = extractJson(json, "tag_name");
-                String apkUrl  = extractJson(json, "browser_download_url");
-
-                if (tagName.isEmpty() || apkUrl.isEmpty()) return;
-
-                int latestCode  = parseVersionCode(tagName);
-                int currentCode = BuildConfig.VERSION_CODE;
-
-                if (latestCode > currentCode && !isDestroyed()) {
-                    runOnUiThread(() -> showUpdateDialog(tagName, apkUrl));
+                try (BufferedReader r = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream()))) {
+                    String line;
+                    while ((line = r.readLine()) != null) sb.append(line);
                 }
+                String json   = sb.toString();
+                String tag    = extractJson(json, "tag_name");
+                String apkUrl = extractJson(json, "browser_download_url");
+                if (tag.isEmpty() || apkUrl.isEmpty()) return;
+
+                if (parseVersionCode(tag) > BuildConfig.VERSION_CODE && !isDestroyed())
+                    runOnUiThread(() -> showUpdateDialog(tag, apkUrl));
+
             } catch (Exception ignored) {}
         }).start();
     }
 
     private void showUpdateDialog(String version, String url) {
         new AlertDialog.Builder(this)
-            .setTitle("Yeni Sürüm Mevcut")
-            .setMessage("DiksiPro " + version + " yayınlandı. Güncellemek ister misiniz?")
+            .setTitle("Yeni Sürüm")
+            .setMessage("DiksiPro " + version + " hazır. Güncellemek ister misiniz?")
             .setPositiveButton("Güncelle", (d, w) ->
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))))
             .setNegativeButton("Daha Sonra", null)
@@ -190,12 +240,12 @@ public class MainActivity extends Activity {
     // ── Utilities ─────────────────────────────────────────────────────────────
 
     private static String extractJson(String json, String key) {
-        String search = "\"" + key + "\":\"";
-        int start = json.indexOf(search);
-        if (start < 0) return "";
-        start += search.length();
-        int end = json.indexOf('"', start);
-        return end > start ? json.substring(start, end) : "";
+        String s = "\"" + key + "\":\"";
+        int i = json.indexOf(s);
+        if (i < 0) return "";
+        i += s.length();
+        int j = json.indexOf('"', i);
+        return j > i ? json.substring(i, j) : "";
     }
 
     private static int parseVersionCode(String tag) {
@@ -205,23 +255,7 @@ public class MainActivity extends Activity {
         } catch (Exception e) { return 0; }
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager cm =
-            (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        if (cm == null) return false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Network net = cm.getActiveNetwork();
-            if (net == null) return false;
-            NetworkCapabilities caps = cm.getNetworkCapabilities(net);
-            return caps != null &&
-                caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
-        }
-        @SuppressWarnings("deprecation")
-        NetworkInfo info = cm.getActiveNetworkInfo();
-        return info != null && info.isConnected();
-    }
-
-    // ── Lifecycle ─────────────────────────────────────────────────────────────
+    // ── Lifecycle ────────────────────────────────────────────────────────────
 
     @Override
     public void onBackPressed() {
@@ -231,7 +265,8 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        stopEqualizerAnimation();
+        stopAllAnimations();
+        unregisterNetworkCallback();
         super.onDestroy();
     }
 }
