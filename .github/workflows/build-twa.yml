@@ -49,11 +49,12 @@ jobs:
           rsvg-convert -w 512 -h 512 icons/icon-maskable.svg -o icons/icon-maskable-512.png
           echo "Icons OK"
 
-      - name: Start local HTTP server
+      - name: Start local HTTP server for icons
         run: |
           python3 -m http.server 8888 &
           sleep 2
-          curl -s -o /dev/null -w "%{http_code}" http://localhost:8888/icons/icon-512.png
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8888/icons/icon-512.png)
+          echo "Icon server status: $STATUS"
 
       - name: Update twa-manifest to use local server
         run: |
@@ -63,6 +64,8 @@ jobs:
             .monochromeIconUrl = "http://localhost:8888/icons/icon-512.png" |
             .webManifestUrl = "http://localhost:8888/manifest.json"
           ' twa-manifest.json > twa-ci.json && mv twa-ci.json twa-manifest.json
+          echo "Manifest updated:"
+          jq '.iconUrl, .webManifestUrl' twa-manifest.json
 
       - name: Restore keystore
         run: |
@@ -115,24 +118,47 @@ jobs:
           YIZIAWUDBAIBBQAEIIxDDtkdCQR9fgBU9e2AqgykZPtRxElnVhqetMQ2WvXKBBQdGavAIPiGXqqw
           HGHhNDgVdzlK+gICJxA=
           KSEOF
+          echo "Keystore OK: $(ls -lh $KEYSTORE_FILE)"
+
+      - name: Detect & verify Android SDK
+        run: |
+          SDK="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          echo "SDK path: $SDK"
+          ls "$SDK"
+          echo "Build-tools:"
+          ls "$SDK/build-tools" 2>/dev/null || echo "No build-tools dir"
+          echo "Platforms:"
+          ls "$SDK/platforms" 2>/dev/null || echo "No platforms dir"
+          # Export for all subsequent steps
+          echo "ANDROID_SDK_ROOT=$SDK" >> $GITHUB_ENV
+          echo "ANDROID_HOME=$SDK" >> $GITHUB_ENV
+          # Write local.properties for Gradle
+          echo "sdk.dir=$SDK" > local.properties
 
       - name: Configure Bubblewrap
         run: |
           mkdir -p ~/.bubblewrap
-          echo "{\"jdkPath\":\"$JAVA_HOME\",\"androidSdkPath\":\"$ANDROID_SDK_ROOT\"}" \
-            > ~/.bubblewrap/config.json
+          printf '{"jdkPath":"%s","androidSdkPath":"%s"}\n' \
+            "$JAVA_HOME" "$ANDROID_SDK_ROOT" > ~/.bubblewrap/config.json
+          echo "Bubblewrap config:"
+          cat ~/.bubblewrap/config.json
 
       - name: Generate Android project (non-interactive)
         run: |
-          # Bubblewrap asks: versionName, versionCode — send defaults via stdin
           printf '1.0.0\n1\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n' \
             | bubblewrap update --skipPwaValidation
+          echo "Android project files:"
+          ls -la
 
-      - name: Build APK / AAB
-        env:
-          KEYSTORE_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
-          KEY_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
-        run: bubblewrap build --skipPwaValidation
+      - name: Build APK & AAB with Gradle
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease bundleRelease \
+            -Pandroid.injected.signing.store.file="$(pwd)/$KEYSTORE_FILE" \
+            -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
+            -Pandroid.injected.signing.key.alias="$KEYSTORE_ALIAS" \
+            -Pandroid.injected.signing.key.password="$KEYSTORE_PASSWORD" \
+            --no-daemon
 
       - name: Find built files
         id: find_apk
@@ -141,9 +167,10 @@ jobs:
           AAB=$(find . -name "*.aab" ! -path "*/intermediates/*" | head -1)
           echo "apk=$APK" >> $GITHUB_OUTPUT
           echo "aab=$AAB" >> $GITHUB_OUTPUT
-          ls -lh "$APK" "$AAB" 2>/dev/null || echo "Dosya bulunamadi"
+          echo "=== Built files ==="
+          ls -lh "$APK" "$AAB" 2>/dev/null || echo "HATA: Dosya bulunamadi"
 
-      - name: Create GitHub Release with APK
+      - name: Create GitHub Release
         if: steps.find_apk.outputs.apk != ''
         uses: softprops/action-gh-release@v2
         with:
@@ -160,6 +187,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: DiksiPro-APK-v${{ github.run_number }}
