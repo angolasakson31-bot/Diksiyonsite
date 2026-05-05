@@ -1,6 +1,13 @@
-name: Build DiksiPro for Google Play
+name: Build DiksiPro APK
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-twa.yml'
+      - 'twa-manifest.json'
+      - 'manifest.json'
+      - 'icons/**'
   workflow_dispatch:
 
 env:
@@ -105,17 +112,40 @@ jobs:
           KEY_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
         run: bubblewrap build --skipPwaValidation
 
-      - name: Upload APK & AAB
+      - name: Find built files
+        id: find_apk
+        run: |
+          APK=$(find . -name "*.apk" | head -1)
+          AAB=$(find . -name "*.aab" | head -1)
+          echo "apk=$APK" >> $GITHUB_OUTPUT
+          echo "aab=$AAB" >> $GITHUB_OUTPUT
+          echo "APK: $APK"
+          echo "AAB: $AAB"
+
+      - name: Create GitHub Release with APK
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: "DiksiPro v1.0.${{ github.run_number }}"
+          body: |
+            ## DiksiPro Android Uygulamasi
+
+            **APK** dosyasini indirip Android telefonuna yukle.
+
+            Yukleme: Ayarlar > Guvenlik > Bilinmeyen kaynaklara izin ver
+          files: |
+            ${{ steps.find_apk.outputs.apk }}
+            ${{ steps.find_apk.outputs.aab }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Artifacts (yedek)
         uses: actions/upload-artifact@v4
         with:
-          name: DiksiPro-GooglePlay-v${{ github.run_number }}
+          name: DiksiPro-APK-v${{ github.run_number }}
           path: |
-            app/build/outputs/apk/release/*.apk
-            app/build/outputs/bundle/release/*.aab
+            **/*.apk
+            **/*.aab
           retention-days: 30
-
-      - name: Build summary
-        run: |
-          echo "## DiksiPro Build Tamamlandi!" >> "$GITHUB_STEP_SUMMARY"
-          echo "APK ve AAB dosyalari **Artifacts** bolumunde." >> "$GITHUB_STEP_SUMMARY"
-          echo "Google Play Console icin **.aab** dosyasini yukle." >> "$GITHUB_STEP_SUMMARY"
