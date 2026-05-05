@@ -10,8 +10,12 @@ android {
         applicationId 'com.diksipro.app'
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName '1.0.0'
+        versionCode project.hasProperty('appVersionCode') ? project.appVersionCode.toInteger() : 1
+        versionName project.hasProperty('appVersionName') ? project.appVersionName : '1.0.0'
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     buildTypes {
