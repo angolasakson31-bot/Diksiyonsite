@@ -1429,6 +1429,7 @@ function installPrompt(){
 
 loadState();
 if(state.started) showMain();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 </script>
 </body>
 </html>
