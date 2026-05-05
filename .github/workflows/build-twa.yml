@@ -34,16 +34,27 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install librsvg & Bubblewrap
+      - name: Install tools
         run: |
-          sudo apt-get install -y librsvg2-bin
+          sudo apt-get install -y librsvg2-bin jq
           npm install -g @bubblewrap/cli@latest
 
       - name: Generate PNG icons from SVG
         run: |
+          mkdir -p icons
           rsvg-convert -w 192 -h 192 icons/icon.svg -o icons/icon-192.png
           rsvg-convert -w 512 -h 512 icons/icon.svg -o icons/icon-512.png
           rsvg-convert -w 512 -h 512 icons/icon-maskable.svg -o icons/icon-maskable-512.png
+          echo "Icons generated"
+
+      - name: Update twa-manifest icon paths for CI
+        run: |
+          ICON="$(pwd)/icons/icon-512.png"
+          MASKABLE="$(pwd)/icons/icon-maskable-512.png"
+          jq --arg i "$ICON" --arg m "$MASKABLE" \
+            '.iconUrl = $i | .maskableIconUrl = $m | .monochromeIconUrl = $i' \
+            twa-manifest.json > twa-ci.json
+          mv twa-ci.json twa-manifest.json
 
       - name: Restore keystore
         run: |
@@ -115,33 +126,35 @@ jobs:
       - name: Find built files
         id: find_apk
         run: |
-          APK=$(find . -name "*.apk" | head -1)
-          AAB=$(find . -name "*.aab" | head -1)
+          APK=$(find . -name "*.apk" ! -path "*/intermediates/*" | head -1)
+          AAB=$(find . -name "*.aab" ! -path "*/intermediates/*" | head -1)
           echo "apk=$APK" >> $GITHUB_OUTPUT
           echo "aab=$AAB" >> $GITHUB_OUTPUT
+          ls -lh $APK $AAB 2>/dev/null || echo "Dosyalar bulunamadi"
 
       - name: Create GitHub Release with APK
+        if: steps.find_apk.outputs.apk != ''
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v1.0.${{ github.run_number }}
           name: "DiksiPro v1.0.${{ github.run_number }}"
           body: |
             ## DiksiPro Android Uygulamasi
-            APK dosyasini indirip Android telefonuna yukle.
+
+            **APK** dosyasini indirip Android telefonuna yukle.
             Yukleme: Ayarlar > Guvenlik > Bilinmeyen kaynaklara izin ver
           files: |
             ${{ steps.find_apk.outputs.apk }}
             ${{ steps.find_apk.outputs.aab }}
-          draft: false
-          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Artifacts (yedek)
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: DiksiPro-APK-v${{ github.run_number }}
           path: |
             **/*.apk
             **/*.aab
+          if-no-files-found: warn
           retention-days: 30
