@@ -44,20 +44,25 @@ jobs:
 
       - name: Generate PNG icons from SVG
         run: |
-          mkdir -p icons
           rsvg-convert -w 192 -h 192 icons/icon.svg -o icons/icon-192.png
           rsvg-convert -w 512 -h 512 icons/icon.svg -o icons/icon-512.png
           rsvg-convert -w 512 -h 512 icons/icon-maskable.svg -o icons/icon-maskable-512.png
-          echo "Icons generated"
+          echo "Icons OK"
 
-      - name: Update twa-manifest icon paths for CI
+      - name: Start local HTTP server for icons
         run: |
-          ICON="$(pwd)/icons/icon-512.png"
-          MASKABLE="$(pwd)/icons/icon-maskable-512.png"
-          jq --arg i "$ICON" --arg m "$MASKABLE" \
-            '.iconUrl = $i | .maskableIconUrl = $m | .monochromeIconUrl = $i' \
-            twa-manifest.json > twa-ci.json
-          mv twa-ci.json twa-manifest.json
+          python3 -m http.server 8888 &
+          sleep 2
+          curl -s -o /dev/null -w "%{http_code}" http://localhost:8888/icons/icon-512.png
+
+      - name: Update twa-manifest to use local server
+        run: |
+          jq '
+            .iconUrl = "http://localhost:8888/icons/icon-512.png" |
+            .maskableIconUrl = "http://localhost:8888/icons/icon-maskable-512.png" |
+            .monochromeIconUrl = "http://localhost:8888/icons/icon-512.png" |
+            .webManifestUrl = "http://localhost:8888/manifest.json"
+          ' twa-manifest.json > twa-ci.json && mv twa-ci.json twa-manifest.json
 
       - name: Restore keystore
         run: |
@@ -133,7 +138,7 @@ jobs:
           AAB=$(find . -name "*.aab" ! -path "*/intermediates/*" | head -1)
           echo "apk=$APK" >> $GITHUB_OUTPUT
           echo "aab=$AAB" >> $GITHUB_OUTPUT
-          ls -lh $APK $AAB 2>/dev/null || echo "Dosyalar bulunamadi"
+          ls -lh "$APK" "$AAB" 2>/dev/null || echo "Dosya bulunamadi"
 
       - name: Create GitHub Release with APK
         if: steps.find_apk.outputs.apk != ''
@@ -143,8 +148,7 @@ jobs:
           name: "DiksiPro v1.0.${{ github.run_number }}"
           body: |
             ## DiksiPro Android Uygulamasi
-
-            **APK** dosyasini indirip Android telefonuna yukle.
+            APK dosyasini indir, Android telefonuna yukle.
             Yukleme: Ayarlar > Guvenlik > Bilinmeyen kaynaklara izin ver
           files: |
             ${{ steps.find_apk.outputs.apk }}
