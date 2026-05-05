@@ -49,7 +49,7 @@ jobs:
           rsvg-convert -w 512 -h 512 icons/icon-maskable.svg -o icons/icon-maskable-512.png
           echo "Icons OK"
 
-      - name: Start local HTTP server for icons
+      - name: Start local HTTP server
         run: |
           python3 -m http.server 8888 &
           sleep 2
@@ -122,8 +122,11 @@ jobs:
           echo "{\"jdkPath\":\"$JAVA_HOME\",\"androidSdkPath\":\"$ANDROID_SDK_ROOT\"}" \
             > ~/.bubblewrap/config.json
 
-      - name: Generate Android project
-        run: bubblewrap update --skipPwaValidation
+      - name: Generate Android project (non-interactive)
+        run: |
+          # Bubblewrap asks: versionName, versionCode — send defaults via stdin
+          printf '1.0.0\n1\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n' \
+            | bubblewrap update --skipPwaValidation
 
       - name: Build APK / AAB
         env:
