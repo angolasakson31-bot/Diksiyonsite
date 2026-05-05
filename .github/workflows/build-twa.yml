@@ -54,8 +54,7 @@ jobs:
           rsvg-convert -w 96  -h 96  icons/icon-maskable.svg -o android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
           rsvg-convert -w 144 -h 144 icons/icon-maskable.svg -o android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
           rsvg-convert -w 192 -h 192 icons/icon-maskable.svg -o android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
-          echo "=== Icons generated ==="
-          ls android/app/src/main/res/mipmap-xxxhdpi/
+          echo "Icons OK"
 
       - name: Restore keystore
         run: |
@@ -108,43 +107,33 @@ jobs:
           YIZIAWUDBAIBBQAEIIxDDtkdCQR9fgBU9e2AqgykZPtRxElnVhqetMQ2WvXKBBQdGavAIPiGXqqw
           HGHhNDgVdzlK+gICJxA=
           KSEOF
-          if [ ! -s "$KEYSTORE_FILE" ]; then
-            echo "ERROR: Keystore not created or empty"
-            exit 1
-          fi
-          echo "Keystore OK: $(du -h $KEYSTORE_FILE | cut -f1)"
+          [ -s "$KEYSTORE_FILE" ] || { echo "Keystore empty"; exit 1; }
 
       - name: Create local.properties
         run: |
-          SDK_DIR="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
-          if [ -z "$SDK_DIR" ]; then
-            echo "ERROR: Android SDK not found"
-            exit 1
-          fi
-          echo "sdk.dir=$SDK_DIR" > android/local.properties
-          echo "Android SDK: $SDK_DIR"
+          SDK="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+          [ -z "$SDK" ] && { echo "SDK not found"; exit 1; }
+          echo "sdk.dir=$SDK" > android/local.properties
 
       - name: Build signed APK
         working-directory: android
         run: |
           gradle assembleRelease \
+            -PappVersionCode=${{ github.run_number }} \
+            -PappVersionName=1.0.${{ github.run_number }} \
             -Pandroid.injected.signing.store.file="$GITHUB_WORKSPACE/$KEYSTORE_FILE" \
             -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
             -Pandroid.injected.signing.key.alias="$KEYSTORE_ALIAS" \
             -Pandroid.injected.signing.key.password="$KEYSTORE_PASSWORD" \
             --stacktrace
 
-      - name: Verify and locate APK
+      - name: Locate APK
         id: find_apk
         run: |
           APK=$(find android/app/build/outputs/apk/release -name "*.apk" 2>/dev/null | head -1)
-          if [ -z "$APK" ]; then
-            echo "ERROR: APK not found"
-            find android -name "*.apk" 2>/dev/null || echo "No APK files anywhere"
-            exit 1
-          fi
+          [ -z "$APK" ] && { echo "APK not found"; exit 1; }
           echo "apk=$APK" >> $GITHUB_OUTPUT
-          echo "APK: $APK ($(du -h \"$APK\" | cut -f1))"
+          echo "APK: $APK"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
