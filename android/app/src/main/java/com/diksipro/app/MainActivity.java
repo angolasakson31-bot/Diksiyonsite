@@ -29,16 +29,16 @@ public class MainActivity extends Activity {
     static final String KEY_COMPLETED = "completed";
     static final String KEY_STREAK    = "streak";
 
-    // Minimalist depth palette
-    static final int BG     = 0xFF060A14;
-    static final int S1     = 0xFF0D1322;
-    static final int S2     = 0xFF121A2A;
-    static final int BORDER = 0xFF192538;
-    static final int GOLD   = 0xFFCAAA50;
-    static final int TEXT   = 0xFFE6EEF8;
-    static final int SUB    = 0xFF8EA3BE;
-    static final int MUTED  = 0xFF4A617C;
-    static final int GREEN  = 0xFF26A05A;
+    // Minimalist depth palette — warm orange
+    static final int BG     = 0xFF0C0906;
+    static final int S1     = 0xFF141009;
+    static final int S2     = 0xFF1D1510;
+    static final int BORDER = 0xFF2D2016;
+    static final int GOLD   = 0xFFD97D2E;
+    static final int TEXT   = 0xFFEEE0CC;
+    static final int SUB    = 0xFF9C8670;
+    static final int MUTED  = 0xFF5C4838;
+    static final int GREEN  = 0xFF30A858;
 
     JSONArray programData;
 
@@ -152,7 +152,7 @@ public class MainActivity extends Activity {
         cta.setText("Programa Başla");
         cta.setTextSize(16);
         cta.setTypeface(Typeface.DEFAULT_BOLD);
-        cta.setTextColor(0xFF050810);
+        cta.setTextColor(0xFF0C0906);
         cta.setGravity(Gravity.CENTER);
         cta.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
         cta.setOnClickListener(v -> {
@@ -267,8 +267,8 @@ public class MainActivity extends Activity {
         setChip.setTextColor(GOLD);
         setChip.setPadding(dp(10), dp(5), dp(10), dp(5));
         GradientDrawable chipGd = rd(dp(20));
-        chipGd.setColor(0x14CAAA50);
-        chipGd.setStroke(1, 0x38CAAA50);
+        chipGd.setColor(0x14D97D2E);
+        chipGd.setStroke(1, 0x38D97D2E);
         setChip.setBackgroundDrawable(chipGd);
         LinearLayout.LayoutParams chipLp = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -366,7 +366,7 @@ public class MainActivity extends Activity {
             replayBtn.setTypeface(Typeface.DEFAULT_BOLD);
             replayBtn.setTextColor(GOLD);
             replayBtn.setPadding(dp(16), dp(10), dp(16), dp(10));
-            GradientDrawable rpGd = rd(dp(12)); rpGd.setColor(0x10CAAA50); rpGd.setStroke(1, 0x30CAAA50);
+            GradientDrawable rpGd = rd(dp(12)); rpGd.setColor(0x10D97D2E); rpGd.setStroke(1, 0x30D97D2E);
             replayBtn.setBackgroundDrawable(rpGd);
             replayBtn.setOnClickListener(v -> openLesson(fCur));
             doneRow.addView(replayBtn);
@@ -376,7 +376,7 @@ public class MainActivity extends Activity {
             startBtn.setText("Derse Başla  →");
             startBtn.setTextSize(17);
             startBtn.setTypeface(Typeface.DEFAULT_BOLD);
-            startBtn.setTextColor(0xFF050810);
+            startBtn.setTextColor(0xFF0C0906);
             startBtn.setGravity(Gravity.CENTER);
             startBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
             startBtn.setOnClickListener(v -> openLesson(fCur));
@@ -472,7 +472,7 @@ public class MainActivity extends Activity {
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setPadding(dp(18), dp(15), dp(18), dp(15));
-        if (isToday) row.setBackgroundColor(0x0DCAAA50);
+        if (isToday) row.setBackgroundColor(0x0DD97D2E);
 
         // Circle with day number
         FrameLayout circ = new FrameLayout(this);
@@ -485,7 +485,7 @@ public class MainActivity extends Activity {
         numTv.setText(String.valueOf(day + 1));
         numTv.setTextSize(12);
         numTv.setTypeface(Typeface.DEFAULT_BOLD);
-        numTv.setTextColor(isDone || isToday ? 0xFF050810 : MUTED);
+        numTv.setTextColor(isDone || isToday ? 0xFF0C0906 : MUTED);
         numTv.setGravity(Gravity.CENTER);
         circ.addView(numTv, new FrameLayout.LayoutParams(csz, csz));
         LinearLayout.LayoutParams cLp = new LinearLayout.LayoutParams(csz, csz);
