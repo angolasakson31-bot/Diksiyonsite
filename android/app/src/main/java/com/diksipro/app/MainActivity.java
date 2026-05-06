@@ -22,24 +22,22 @@ import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends Activity {
 
-    static final String PREFS           = "diksipro";
-    static final String KEY_STARTED     = "started";
-    static final String KEY_CURRENT     = "currentDay";
-    static final String KEY_COMPLETED   = "completed";
-    static final String KEY_STREAK      = "streak";
+    static final String PREFS         = "diksipro";
+    static final String KEY_STARTED   = "started";
+    static final String KEY_CURRENT   = "currentDay";
+    static final String KEY_COMPLETED = "completed";
+    static final String KEY_STREAK    = "streak";
 
-    // Site palette
-    static final int BG     = 0xFF080b10;
-    static final int S1     = 0xFF0f1520;
-    static final int S2     = 0xFF16202e;
-    static final int S3     = 0xFF1e2d40;
-    static final int GOLD   = 0xFFc8a84b;
-    static final int TEXT   = 0xFFdce6f0;
-    static final int SUB    = 0xFF8fa3b8;
-    static final int MUTED  = 0xFF4a5d72;
-    static final int GREEN  = 0xFF2e9e5e;
-    static final int BORDER = 0xFF1e2d40;
-    static final int CORAL  = 0xFFFF6B35;
+    static final int BG     = 0xFF07090F;
+    static final int S1     = 0xFF0D1220;
+    static final int S2     = 0xFF131B2C;
+    static final int GOLD   = 0xFFCFAB52;
+    static final int GOLD2  = 0xFFE8CC80;
+    static final int TEXT   = 0xFFE2EAF4;
+    static final int SUB    = 0xFF8FA3BC;
+    static final int MUTED  = 0xFF4D617A;
+    static final int GREEN  = 0xFF2EA868;
+    static final int BORDER = 0xFF1C2A3F;
 
     JSONArray programData;
 
@@ -50,10 +48,9 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setStatusBarColor(BG);
-        getWindow().setNavigationBarColor(BG);
+        getWindow().setNavigationBarColor(S1);
         loadData();
-        SharedPreferences p = prefs();
-        if (!p.getBoolean(KEY_STARTED, false)) showSetup();
+        if (!prefs().getBoolean(KEY_STARTED, false)) showSetup();
         else showMain();
     }
 
@@ -61,15 +58,14 @@ public class MainActivity extends Activity {
         try {
             InputStream is = getAssets().open("program.json");
             byte[] buf = new byte[is.available()];
-            is.read(buf);
-            is.close();
+            is.read(buf); is.close();
             programData = new JSONArray(new String(buf, StandardCharsets.UTF_8));
         } catch (Exception e) { programData = new JSONArray(); }
     }
 
     SharedPreferences prefs() { return getSharedPreferences(PREFS, MODE_PRIVATE); }
 
-    // ── SETUP SCREEN ──────────────────────────────────────────────────────────
+    // ── SETUP ──────────────────────────────────────────────────────────────────
 
     void showSetup() {
         ScrollView sv = new ScrollView(this);
@@ -79,76 +75,134 @@ public class MainActivity extends Activity {
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setGravity(Gravity.CENTER_HORIZONTAL);
-        root.setPadding(dp(20), dp(60), dp(20), dp(40));
+        root.setPadding(dp(28), dp(72), dp(28), dp(52));
+
+        // D-wave logo approximation
+        LinearLayout logoArea = new LinearLayout(this);
+        logoArea.setOrientation(LinearLayout.HORIZONTAL);
+        logoArea.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams laLp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        laLp.setMargins(0, 0, 0, dp(8));
+        logoArea.setLayoutParams(laLp);
+
+        // Bar
+        View bar = new View(this);
+        android.graphics.drawable.GradientDrawable barGd = new android.graphics.drawable.GradientDrawable();
+        barGd.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
+        barGd.setColor(GOLD);
+        barGd.setCornerRadius(dp(6));
+        bar.setBackgroundDrawable(barGd);
+        LinearLayout.LayoutParams barLp = new LinearLayout.LayoutParams(dp(8), dp(54));
+        barLp.setMargins(0, 0, dp(3), 0);
+        logoArea.addView(bar, barLp);
+
+        // Arcs as text
+        String[] arcs = {")", ")", ")"};
+        int[] alphas = {0xFF, 0xAA, 0x55};
+        for (int i = 0; i < arcs.length; i++) {
+            TextView a = new TextView(this);
+            a.setText(arcs[i]);
+            a.setTextSize(36);
+            a.setTypeface(Typeface.DEFAULT_BOLD);
+            a.setTextColor((alphas[i] << 24) | (GOLD & 0xFFFFFF));
+            LinearLayout.LayoutParams aLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            aLp.setMargins(i == 0 ? 0 : -dp(8), 0, 0, 0);
+            logoArea.addView(a, aLp);
+        }
+        root.addView(logoArea);
 
         // Brand
         TextView brand = new TextView(this);
         brand.setText("DiksiPro");
-        brand.setTextSize(56);
+        brand.setTextSize(46);
         brand.setTypeface(Typeface.DEFAULT_BOLD);
         brand.setTextColor(TEXT);
         brand.setGravity(Gravity.CENTER);
-        brand.setLetterSpacing(-0.04f);
-        root.addView(brand, fullW());
+        brand.setLetterSpacing(-0.03f);
+        LinearLayout.LayoutParams bLp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        bLp.setMargins(0, 0, 0, dp(8));
+        root.addView(brand, bLp);
 
-        TextView brandSub = new TextView(this);
-        brandSub.setText("PROFESYONEL SES EĞİTİMİ");
-        brandSub.setTextSize(10);
-        brandSub.setLetterSpacing(0.3f);
-        brandSub.setTextColor(MUTED);
-        brandSub.setGravity(Gravity.CENTER);
-        LinearLayout.LayoutParams subLp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        subLp.setMargins(0, dp(8), 0, dp(48));
-        root.addView(brandSub, subLp);
+        TextView tagline = new TextView(this);
+        tagline.setText("PROFESYONEL SES & DİKSİYON EĞİTİMİ");
+        tagline.setTextSize(9);
+        tagline.setLetterSpacing(0.28f);
+        tagline.setTextColor(MUTED);
+        tagline.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams tLp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tLp.setMargins(0, 0, 0, dp(56));
+        root.addView(tagline, tLp);
 
-        // Setup card
-        LinearLayout card = new LinearLayout(this);
-        card.setOrientation(LinearLayout.VERTICAL);
-        card.setBackgroundDrawable(getDrawable(R.drawable.card_bg));
-        card.setPadding(dp(22), dp(26), dp(22), dp(26));
+        // Feature pills
+        LinearLayout feats = new LinearLayout(this);
+        feats.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams fLp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        fLp.setMargins(0, 0, 0, dp(44));
+        feats.setLayoutParams(fLp);
 
-        TextView h2 = new TextView(this);
-        h2.setText("Hoş Geldin");
-        h2.setTextSize(24);
-        h2.setTypeface(Typeface.DEFAULT_BOLD);
-        h2.setTextColor(TEXT);
-        h2.setPadding(0, 0, 0, dp(8));
-        card.addView(h2, fullW());
+        String[][] items = {{"9", "HAFTA"}, {"63", "GÜN"}, {"~10dk", "GÜNLÜK"}};
+        for (int i = 0; i < 3; i++) {
+            LinearLayout.LayoutParams fp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+            if (i < 2) fp.setMargins(0, 0, dp(10), 0);
+            feats.addView(featPill(items[i][0], items[i][1]), fp);
+        }
+        root.addView(feats);
 
-        TextView desc = new TextView(this);
-        desc.setText("9 haftalık profesyonel diksiyon programı. Her gün yaklaşık 10 dakika. Kendi hızında ilerle.");
-        desc.setTextSize(13);
-        desc.setTextColor(SUB);
-        desc.setLineSpacing(dp(4), 1f);
-        LinearLayout.LayoutParams descLp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        descLp.setMargins(0, 0, 0, dp(24));
-        card.addView(desc, descLp);
+        // Desc card
+        LinearLayout descCard = new LinearLayout(this);
+        descCard.setOrientation(LinearLayout.VERTICAL);
+        descCard.setBackgroundDrawable(getDrawable(R.drawable.card_bg));
+        descCard.setPadding(dp(20), dp(20), dp(20), dp(20));
+        LinearLayout.LayoutParams dcLp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dcLp.setMargins(0, 0, 0, dp(24));
 
-        // Pills
-        LinearLayout pills = new LinearLayout(this);
-        pills.setOrientation(LinearLayout.HORIZONTAL);
-        pills.setGravity(Gravity.CENTER);
-        LinearLayout.LayoutParams pillAreaLp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        pillAreaLp.setMargins(0, 0, 0, dp(24));
-        pills.setLayoutParams(pillAreaLp);
+        String[] points = {
+            "Nefes ve diyafram teknikleri",
+            "Ses grubu tekerlemeleri (günlük değişen)",
+            "Rezonans ve artikülasyon ısınmaları",
+            "Sesli okuma metinleri"
+        };
+        for (String pt : points) {
+            LinearLayout ptRow = new LinearLayout(this);
+            ptRow.setOrientation(LinearLayout.HORIZONTAL);
+            ptRow.setGravity(Gravity.TOP);
+            LinearLayout.LayoutParams ptLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ptLp.setMargins(0, 0, 0, dp(10));
+            ptRow.setLayoutParams(ptLp);
 
-        LinearLayout.LayoutParams pLp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        pLp.setMargins(0, 0, dp(8), 0);
-        pills.addView(pill("9", "Hafta"), pLp);
-        pills.addView(pill("63", "Gün"), pLp);
-        LinearLayout.LayoutParams pLp3 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        pills.addView(pill("~10dk", "Günlük"), pLp3);
-        card.addView(pills);
+            TextView dot = new TextView(this);
+            dot.setText("▸");
+            dot.setTextSize(13);
+            dot.setTextColor(GOLD);
+            LinearLayout.LayoutParams dLp = new LinearLayout.LayoutParams(dp(22), ViewGroup.LayoutParams.WRAP_CONTENT);
+            ptRow.addView(dot, dLp);
 
-        // Start button
-        TextView startBtn = new TextView(this);
-        startBtn.setText("Programa Başla →");
-        startBtn.setTextSize(15);
-        startBtn.setTypeface(Typeface.DEFAULT_BOLD);
-        startBtn.setTextColor(0xFF000000);
-        startBtn.setGravity(Gravity.CENTER);
-        startBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
-        startBtn.setOnClickListener(v -> {
+            TextView ptTv = new TextView(this);
+            ptTv.setText(pt);
+            ptTv.setTextSize(13);
+            ptTv.setTextColor(SUB);
+            ptTv.setLineSpacing(dp(2), 1.3f);
+            ptRow.addView(ptTv, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+            descCard.addView(ptRow);
+        }
+        root.addView(descCard, dcLp);
+
+        // CTA
+        TextView cta = new TextView(this);
+        cta.setText("Programa Başla  →");
+        cta.setTextSize(17);
+        cta.setTypeface(Typeface.DEFAULT_BOLD);
+        cta.setTextColor(0xFF060910);
+        cta.setGravity(Gravity.CENTER);
+        cta.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
+        cta.setOnClickListener(v -> {
             prefs().edit()
                 .putBoolean(KEY_STARTED, true)
                 .putInt(KEY_CURRENT, 0)
@@ -157,244 +211,166 @@ public class MainActivity extends Activity {
                 .apply();
             showMain();
         });
-        card.addView(startBtn, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(52)));
-
-        LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        card.setLayoutParams(cardLp);
-        root.addView(card);
+        root.addView(cta, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(58)));
 
         sv.addView(root);
         setContentView(sv);
     }
 
-    // ── MAIN SCREEN ───────────────────────────────────────────────────────────
+    // ── MAIN ───────────────────────────────────────────────────────────────────
 
     void showMain() {
         SharedPreferences p = prefs();
-        int cur     = p.getInt(KEY_CURRENT, 0);
-        int streak  = p.getInt(KEY_STREAK, 0);
+        int cur    = p.getInt(KEY_CURRENT, 0);
+        int streak = p.getInt(KEY_STREAK, 0);
         boolean[] done = parseDone(p.getString(KEY_COMPLETED, ""));
         int maxUnlocked = calcMaxUnlocked(done);
+
+        FrameLayout root = new FrameLayout(this);
+        root.setBackgroundColor(BG);
 
         ScrollView sv = new ScrollView(this);
         sv.setBackgroundColor(BG);
 
-        LinearLayout root = new LinearLayout(this);
-        root.setOrientation(LinearLayout.VERTICAL);
-        root.setPadding(0, 0, 0, dp(20));
+        LinearLayout content = new LinearLayout(this);
+        content.setOrientation(LinearLayout.VERTICAL);
+        content.setPadding(0, 0, 0, dp(84));
 
-        // ── Header
-        root.addView(buildHeader(cur, streak, done));
+        content.addView(buildAppBar(streak));
+        content.addView(buildHero(cur, done, maxUnlocked));
+        content.addView(buildStats(done, streak));
+        content.addView(buildWeekSection(cur, done, maxUnlocked));
 
-        // ── Nav bar
-        root.addView(buildNav(cur, maxUnlocked, done));
+        sv.addView(content, new ScrollView.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        root.addView(sv, new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        // ── Content
-        root.addView(buildDayContent(cur, maxUnlocked, done));
+        FrameLayout.LayoutParams navLp = new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        navLp.gravity = Gravity.BOTTOM;
+        root.addView(buildBottomNav(cur, maxUnlocked), navLp);
 
-        // ── Done bar (sticky)
-        root.addView(buildDoneButton(cur, maxUnlocked, done));
-
-        sv.addView(root);
-        setContentView(sv);
+        setContentView(root);
     }
 
-    View buildHeader(int cur, int streak, boolean[] done) {
-        LinearLayout hdr = new LinearLayout(this);
-        hdr.setOrientation(LinearLayout.VERTICAL);
-        hdr.setBackgroundColor(S1);
-
-        // Row 1: logo + streak
-        LinearLayout r1 = new LinearLayout(this);
-        r1.setOrientation(LinearLayout.HORIZONTAL);
-        r1.setGravity(Gravity.CENTER_VERTICAL);
-        r1.setPadding(dp(18), dp(14), dp(18), dp(12));
+    View buildAppBar(int streak) {
+        LinearLayout bar = new LinearLayout(this);
+        bar.setOrientation(LinearLayout.HORIZONTAL);
+        bar.setGravity(Gravity.CENTER_VERTICAL);
+        bar.setBackgroundColor(S1);
+        bar.setPadding(dp(20), dp(16), dp(20), dp(16));
 
         TextView logo = new TextView(this);
         logo.setText("DiksiPro");
-        logo.setTextSize(22);
+        logo.setTextSize(20);
         logo.setTypeface(Typeface.DEFAULT_BOLD);
         logo.setTextColor(TEXT);
-        r1.addView(logo, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        logo.setLetterSpacing(-0.02f);
+        bar.addView(logo, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 
-        // Streak badge
-        LinearLayout badge = new LinearLayout(this);
-        badge.setOrientation(LinearLayout.HORIZONTAL);
-        badge.setGravity(Gravity.CENTER);
-        badge.setPadding(dp(10), dp(5), dp(10), dp(5));
-        badge.setBackgroundDrawable(getDrawable(streak > 0 ? R.drawable.badge_hot : R.drawable.badge_normal));
-        TextView badgeTv = new TextView(this);
-        badgeTv.setText((streak > 0 ? "🔥 " : "") + streak + " gün");
-        badgeTv.setTextSize(13);
-        badgeTv.setTypeface(Typeface.DEFAULT_BOLD);
-        badgeTv.setTextColor(streak > 0 ? GOLD : SUB);
-        badge.addView(badgeTv);
-        r1.addView(badge);
-        hdr.addView(r1, fullW());
+        LinearLayout chip = new LinearLayout(this);
+        chip.setOrientation(LinearLayout.HORIZONTAL);
+        chip.setGravity(Gravity.CENTER_VERTICAL);
+        chip.setPadding(dp(11), dp(6), dp(11), dp(6));
+        chip.setBackgroundDrawable(getDrawable(streak > 2 ? R.drawable.badge_hot : R.drawable.badge_normal));
 
-        // Row 2: set label + week dots
-        LinearLayout r2 = new LinearLayout(this);
-        r2.setOrientation(LinearLayout.HORIZONTAL);
-        r2.setGravity(Gravity.CENTER_VERTICAL);
-        r2.setPadding(dp(18), 0, dp(18), dp(12));
-
-        TextView setLbl = new TextView(this);
-        String setName = getSetName(cur);
-        int setWeek = (cur / 7) % 3 + 1;
-        setLbl.setText("Set " + setName.charAt(0) + " · " + setWeek + ". Hafta");
-        setLbl.setTextSize(10);
-        setLbl.setLetterSpacing(0.18f);
-        setLbl.setTextColor(MUTED);
-        r2.addView(setLbl, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-
-        // Week dots
-        LinearLayout dotsRow = new LinearLayout(this);
-        dotsRow.setOrientation(LinearLayout.HORIZONTAL);
-        dotsRow.setGravity(Gravity.CENTER_VERTICAL);
-        int weekStart = (cur / 7) * 7;
-        for (int d = weekStart; d < weekStart + 7 && d <= 62; d++) {
-            View dot = new View(this);
-            int sz = (d == cur) ? dp(10) : dp(7);
-            LinearLayout.LayoutParams dLp = new LinearLayout.LayoutParams(sz, sz);
-            dLp.setMargins(dp(3), 0, dp(3), 0);
-            dot.setLayoutParams(dLp);
-            if (done[d]) dot.setBackgroundDrawable(getDrawable(R.drawable.dot_green));
-            else if (d == cur) dot.setBackgroundDrawable(getDrawable(R.drawable.dot_gold));
-            else dot.setBackgroundDrawable(getDrawable(R.drawable.dot_muted));
-            dotsRow.addView(dot);
-        }
-        r2.addView(dotsRow);
-        hdr.addView(r2, fullW());
-
-        // Border
-        View border = new View(this);
-        border.setBackgroundColor(BORDER);
-        hdr.addView(border, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
-        return hdr;
-    }
-
-    View buildNav(int cur, int maxUnlocked, boolean[] done) {
-        LinearLayout nav = new LinearLayout(this);
-        nav.setOrientation(LinearLayout.HORIZONTAL);
-        nav.setGravity(Gravity.CENTER_VERTICAL);
-        nav.setBackgroundColor(S2);
-        nav.setPadding(dp(16), dp(10), dp(16), dp(10));
-
-        // Prev button
-        TextView prev = new TextView(this);
-        prev.setText("← Önceki");
-        prev.setTextSize(13);
-        prev.setTextColor(cur == 0 ? MUTED : SUB);
-        prev.setPadding(dp(12), dp(7), dp(12), dp(7));
-        prev.setBackgroundDrawable(getDrawable(cur == 0 ? R.drawable.btn_nav_disabled : R.drawable.btn_nav));
-        prev.setAlpha(cur == 0 ? 0.4f : 1f);
-        prev.setOnClickListener(v -> {
-            if (cur > 0) {
-                prefs().edit().putInt(KEY_CURRENT, cur - 1).apply();
-                showMain();
-            }
-        });
-        nav.addView(prev, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        LinearLayout mid = new LinearLayout(this);
-        mid.setOrientation(LinearLayout.VERTICAL);
-        mid.setGravity(Gravity.CENTER);
-        mid.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-
-        TextView dayN = new TextView(this);
-        dayN.setText("Gün " + (cur + 1));
-        dayN.setTextSize(15);
-        dayN.setTypeface(Typeface.DEFAULT_BOLD);
-        dayN.setTextColor(TEXT);
-        dayN.setGravity(Gravity.CENTER);
-        mid.addView(dayN, fullW());
-
-        boolean isDone = done[cur];
-        boolean isLocked = cur > maxUnlocked;
-        String subText = isDone ? "Tamamlandı" : (cur == maxUnlocked && !isDone) ? "Bugünün egzersizi" : isLocked ? "Kilitli" : "Geçmiş gün";
-        TextView subN = new TextView(this);
-        subN.setText(subText);
-        subN.setTextSize(11);
-        subN.setTextColor(MUTED);
-        subN.setGravity(Gravity.CENTER);
-        mid.addView(subN, fullW());
-        nav.addView(mid);
-
-        // Next button
-        boolean canNext = cur < maxUnlocked;
-        TextView next = new TextView(this);
-        next.setText("Sonraki →");
-        next.setTextSize(13);
-        next.setTextColor(canNext ? SUB : MUTED);
-        next.setPadding(dp(12), dp(7), dp(12), dp(7));
-        next.setBackgroundDrawable(getDrawable(canNext ? R.drawable.btn_nav : R.drawable.btn_nav_disabled));
-        next.setAlpha(canNext ? 1f : 0.4f);
-        next.setOnClickListener(v -> {
-            if (canNext) {
-                prefs().edit().putInt(KEY_CURRENT, cur + 1).apply();
-                showMain();
-            }
-        });
-        nav.addView(next, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        TextView chipTv = new TextView(this);
+        chipTv.setText((streak > 2 ? "🔥 " : "◈ ") + streak + " gün");
+        chipTv.setTextSize(12);
+        chipTv.setTypeface(Typeface.DEFAULT_BOLD);
+        chipTv.setTextColor(streak > 2 ? GOLD : SUB);
+        chip.addView(chipTv);
+        bar.addView(chip);
 
         LinearLayout wrapper = new LinearLayout(this);
         wrapper.setOrientation(LinearLayout.VERTICAL);
-        wrapper.setBackgroundColor(S2);
-        wrapper.addView(nav, fullW());
-        View border = new View(this);
-        border.setBackgroundColor(BORDER);
-        wrapper.addView(border, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+        wrapper.addView(bar, fullW());
+        View div = new View(this);
+        div.setBackgroundColor(BORDER);
+        wrapper.addView(div, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
         return wrapper;
     }
 
-    View buildDayContent(int cur, int maxUnlocked, boolean[] done) {
-        LinearLayout content = new LinearLayout(this);
-        content.setOrientation(LinearLayout.VERTICAL);
-        content.setPadding(dp(14), dp(16), dp(14), dp(8));
+    View buildHero(int cur, boolean[] done, int maxUnlocked) {
+        boolean isDone   = done[cur];
+        boolean isLocked = cur > maxUnlocked;
 
-        // Done banner
-        if (done[cur]) {
-            TextView banner = new TextView(this);
-            banner.setText("✓ Bu günü tamamladın");
-            banner.setTextSize(13);
-            banner.setTypeface(Typeface.DEFAULT_BOLD);
-            banner.setTextColor(GREEN);
-            banner.setGravity(Gravity.CENTER);
-            banner.setBackgroundDrawable(getDrawable(R.drawable.banner_done));
-            banner.setPadding(dp(14), dp(10), dp(14), dp(10));
-            LinearLayout.LayoutParams bannerLp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            bannerLp.setMargins(0, 0, 0, dp(14));
-            content.addView(banner, bannerLp);
+        LinearLayout wrap = new LinearLayout(this);
+        wrap.setOrientation(LinearLayout.VERTICAL);
+        wrap.setPadding(dp(16), dp(20), dp(16), dp(4));
+
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setBackgroundDrawable(getDrawable(R.drawable.card_bg));
+        card.setPadding(dp(22), dp(24), dp(22), dp(22));
+
+        // Set + week chip
+        String set = getSetName(cur);
+        int setWeek = (cur / 7) % 3 + 1;
+        LinearLayout topRow = new LinearLayout(this);
+        topRow.setOrientation(LinearLayout.HORIZONTAL);
+        topRow.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout.LayoutParams trLp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        trLp.setMargins(0, 0, 0, dp(12));
+
+        TextView setChip = new TextView(this);
+        setChip.setText("Set " + set + "  ·  " + setWeek + ". Hafta");
+        setChip.setTextSize(10);
+        setChip.setLetterSpacing(0.18f);
+        setChip.setTypeface(Typeface.DEFAULT_BOLD);
+        setChip.setTextColor(GOLD);
+        setChip.setPadding(dp(10), dp(4), dp(10), dp(4));
+        android.graphics.drawable.GradientDrawable chipGd = new android.graphics.drawable.GradientDrawable();
+        chipGd.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
+        chipGd.setColor(0x18CFAB52);
+        chipGd.setStroke(1, 0x40CFAB52);
+        chipGd.setCornerRadius(dp(20));
+        setChip.setBackgroundDrawable(chipGd);
+        topRow.addView(setChip);
+        topRow.addView(spacer(1f));
+
+        if (isDone) {
+            TextView donePill = new TextView(this);
+            donePill.setText("✓ Tamamlandı");
+            donePill.setTextSize(10);
+            donePill.setTypeface(Typeface.DEFAULT_BOLD);
+            donePill.setTextColor(GREEN);
+            donePill.setPadding(dp(10), dp(4), dp(10), dp(4));
+            android.graphics.drawable.GradientDrawable dpGd = new android.graphics.drawable.GradientDrawable();
+            dpGd.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
+            dpGd.setColor(0x182EA868);
+            dpGd.setStroke(1, 0x502EA868);
+            dpGd.setCornerRadius(dp(20));
+            donePill.setBackgroundDrawable(dpGd);
+            topRow.addView(donePill);
         }
+        card.addView(topRow, trLp);
 
-        // Day summary card
-        LinearLayout sumCard = new LinearLayout(this);
-        sumCard.setOrientation(LinearLayout.VERTICAL);
-        sumCard.setBackgroundDrawable(getDrawable(R.drawable.card_bg));
-        sumCard.setPadding(dp(16), dp(18), dp(16), dp(18));
-        LinearLayout.LayoutParams scLp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        scLp.setMargins(0, 0, 0, dp(14));
-        sumCard.setLayoutParams(scLp);
+        // Big day number
+        TextView dayBig = new TextView(this);
+        dayBig.setText("GÜN " + (cur + 1));
+        dayBig.setTextSize(54);
+        dayBig.setTypeface(Typeface.DEFAULT_BOLD);
+        dayBig.setTextColor(isDone ? MUTED : TEXT);
+        dayBig.setLetterSpacing(-0.04f);
+        LinearLayout.LayoutParams dlLp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dlLp.setMargins(0, 0, 0, dp(6));
+        card.addView(dayBig, dlLp);
 
         // Ses grubu
         try {
-            String sesGrubu = programData.getJSONObject(cur).getString("sesGrubu");
+            String sg = programData.getJSONObject(cur).getString("sesGrubu");
             TextView sgTv = new TextView(this);
-            sgTv.setText(sesGrubu);
-            sgTv.setTextSize(12);
-            sgTv.setTypeface(Typeface.DEFAULT_BOLD);
-            sgTv.setTextColor(GOLD);
-            sgTv.setPadding(0, 0, 0, dp(6));
-            sumCard.addView(sgTv, fullW());
-
-            String okumaBaslik = programData.getJSONObject(cur)
-                .getJSONObject("okuma").getString("baslik");
-            TextView okTv = new TextView(this);
-            okTv.setText("Okuma: " + okumaBaslik);
-            okTv.setTextSize(13);
-            okTv.setTextColor(SUB);
-            okTv.setPadding(0, 0, 0, dp(16));
-            sumCard.addView(okTv, fullW());
+            sgTv.setText(sg);
+            sgTv.setTextSize(16);
+            sgTv.setTextColor(isDone ? MUTED : GOLD);
+            LinearLayout.LayoutParams sgLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            sgLp.setMargins(0, 0, 0, dp(22));
+            card.addView(sgTv, sgLp);
         } catch (Exception ignored) {}
 
         // Progress bar
@@ -405,234 +381,256 @@ public class MainActivity extends Activity {
         LinearLayout progRow = new LinearLayout(this);
         progRow.setOrientation(LinearLayout.HORIZONTAL);
         progRow.setGravity(Gravity.CENTER_VERTICAL);
-        progRow.setPadding(0, 0, 0, dp(16));
+        LinearLayout.LayoutParams prLp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        prLp.setMargins(0, 0, 0, dp(22));
+        progRow.setLayoutParams(prLp);
 
         FrameLayout track = new FrameLayout(this);
         track.setBackgroundDrawable(getDrawable(R.drawable.progress_track));
-        LinearLayout.LayoutParams trackLp = new LinearLayout.LayoutParams(0, dp(5), 1f);
-        track.setLayoutParams(trackLp);
+        LinearLayout.LayoutParams trkLp = new LinearLayout.LayoutParams(0, dp(5), 1f);
+        track.setLayoutParams(trkLp);
         View fill = new View(this);
         fill.setBackgroundDrawable(getDrawable(R.drawable.progress_fill));
-        track.addView(fill, new FrameLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT));
-        track.post(() -> {
-            int w = track.getWidth();
-            fill.setLayoutParams(new FrameLayout.LayoutParams((int)(w * pct / 100.0), ViewGroup.LayoutParams.MATCH_PARENT));
-        });
-        progRow.addView(track, trackLp);
+        fill.setLayoutParams(new FrameLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT));
+        track.addView(fill);
+        track.post(() -> fill.setLayoutParams(new FrameLayout.LayoutParams(
+            (int)(track.getWidth() * pct / 100.0), ViewGroup.LayoutParams.MATCH_PARENT)));
+        progRow.addView(track, trkLp);
 
         TextView pctTv = new TextView(this);
         pctTv.setText(pct + "%");
-        pctTv.setTextSize(11);
+        pctTv.setTextSize(12);
         pctTv.setTypeface(Typeface.DEFAULT_BOLD);
         pctTv.setTextColor(GOLD);
-        LinearLayout.LayoutParams pLp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        pLp.setMargins(dp(10), 0, 0, 0);
-        progRow.addView(pctTv, pLp);
-        sumCard.addView(progRow, fullW());
+        LinearLayout.LayoutParams pctLp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        pctLp.setMargins(dp(12), 0, 0, 0);
+        progRow.addView(pctTv, pctLp);
+        card.addView(progRow);
 
-        // Action button
-        boolean isLocked = cur > maxUnlocked;
-        boolean isDone   = done[cur];
-        TextView actionBtn = new TextView(this);
-        if (isDone) {
-            actionBtn.setText("✓  Tamamlandı");
-            actionBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_done_card));
-            actionBtn.setTextColor(GREEN);
-        } else if (isLocked) {
-            actionBtn.setText("🔒  Önceki günü tamamla");
-            actionBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_locked_card));
-            actionBtn.setTextColor(MUTED);
-        } else {
-            actionBtn.setText("Derse Başla →");
-            actionBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
-            actionBtn.setTextColor(0xFF000000);
-        }
-        actionBtn.setTextSize(15);
-        actionBtn.setTypeface(Typeface.DEFAULT_BOLD);
-        actionBtn.setGravity(Gravity.CENTER);
+        // Action
         final int fCur = cur;
-        actionBtn.setOnClickListener(v -> {
-            if (!isLocked) openLesson(fCur);
-        });
-        sumCard.addView(actionBtn, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(50)));
-        content.addView(sumCard);
+        if (isLocked) {
+            TextView lockTv = new TextView(this);
+            lockTv.setText("🔒  Önceki günü tamamla");
+            lockTv.setTextSize(14);
+            lockTv.setTypeface(Typeface.DEFAULT_BOLD);
+            lockTv.setTextColor(MUTED);
+            lockTv.setGravity(Gravity.CENTER);
+            lockTv.setBackgroundDrawable(getDrawable(R.drawable.btn_locked_card));
+            lockTv.setAlpha(0.7f);
+            card.addView(lockTv, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(54)));
+        } else if (isDone) {
+            TextView replayBtn = new TextView(this);
+            replayBtn.setText("↺  Dersi Tekrar Aç");
+            replayBtn.setTextSize(14);
+            replayBtn.setTypeface(Typeface.DEFAULT_BOLD);
+            replayBtn.setTextColor(GREEN);
+            replayBtn.setGravity(Gravity.CENTER);
+            replayBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_green_outline));
+            replayBtn.setOnClickListener(v -> openLesson(fCur));
+            card.addView(replayBtn, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(54)));
+        } else {
+            TextView startBtn = new TextView(this);
+            startBtn.setText("Derse Başla  →");
+            startBtn.setTextSize(17);
+            startBtn.setTypeface(Typeface.DEFAULT_BOLD);
+            startBtn.setTextColor(0xFF060910);
+            startBtn.setGravity(Gravity.CENTER);
+            startBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
+            startBtn.setOnClickListener(v -> openLesson(fCur));
+            card.addView(startBtn, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(58)));
+        }
 
-        // Stats row
-        LinearLayout stats = new LinearLayout(this);
-        stats.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams stLp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        stLp.setMargins(0, 0, 0, dp(16));
-        stats.setLayoutParams(stLp);
+        wrap.addView(card, fullW());
+        return wrap;
+    }
 
-        int streak = prefs().getInt(KEY_STREAK, 0);
-        LinearLayout.LayoutParams sLp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        sLp.setMargins(0, 0, dp(8), 0);
-        LinearLayout.LayoutParams sLp2 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        sLp2.setMargins(0, 0, dp(8), 0);
-        LinearLayout.LayoutParams sLp3 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        stats.addView(statCard(String.valueOf(totalDone), "Tamamlanan"), sLp);
-        stats.addView(statCard(String.valueOf(63 - totalDone), "Kalan"), sLp2);
-        stats.addView(statCard(streak + " gün", "Seri"), sLp3);
-        content.addView(stats);
+    View buildStats(boolean[] done, int streak) {
+        int totalDone = 0;
+        for (boolean b : done) if (b) totalDone++;
 
-        // Week list
-        int weekStart = (cur / 7) * 7;
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams rLp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        rLp.setMargins(dp(16), 0, dp(16), dp(20));
+        row.setLayoutParams(rLp);
+
+        LinearLayout.LayoutParams sp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        LinearLayout.LayoutParams sm = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        sm.setMargins(dp(8), 0, dp(8), 0);
+
+        row.addView(statCard("" + totalDone, "Tamamlanan", GREEN), sp);
+        row.addView(statCard("" + (63 - totalDone), "Kalan gün", MUTED), sm);
+        row.addView(statCard(streak + " gün", "Seri", streak > 2 ? GOLD : MUTED), sp);
+        return row;
+    }
+
+    View buildWeekSection(int cur, boolean[] done, int maxUnlocked) {
+        LinearLayout section = new LinearLayout(this);
+        section.setOrientation(LinearLayout.VERTICAL);
+        section.setPadding(dp(16), 0, dp(16), dp(8));
+
+        LinearLayout header = new LinearLayout(this);
+        header.setOrientation(LinearLayout.HORIZONTAL);
+        header.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout.LayoutParams hLp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        hLp.setMargins(0, 0, 0, dp(12));
+        header.setLayoutParams(hLp);
+
+        TextView lbl = new TextView(this);
+        lbl.setText("BU HAFTA");
+        lbl.setTextSize(10);
+        lbl.setLetterSpacing(0.22f);
+        lbl.setTypeface(Typeface.DEFAULT_BOLD);
+        lbl.setTextColor(MUTED);
+        header.addView(lbl);
+
+        View hLine = new View(this);
+        hLine.setBackgroundColor(BORDER);
+        LinearLayout.LayoutParams hlLp = new LinearLayout.LayoutParams(0, 1, 1f);
+        hlLp.setMargins(dp(12), 0, 0, 0);
+        header.addView(hLine, hlLp);
+        section.addView(header);
+
         LinearLayout weekCard = new LinearLayout(this);
         weekCard.setOrientation(LinearLayout.VERTICAL);
         weekCard.setBackgroundDrawable(getDrawable(R.drawable.card_bg));
-        LinearLayout.LayoutParams wcLp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        weekCard.setLayoutParams(wcLp);
 
-        // Week header
-        LinearLayout weekHdr = new LinearLayout(this);
-        weekHdr.setOrientation(LinearLayout.HORIZONTAL);
-        weekHdr.setGravity(Gravity.CENTER_VERTICAL);
-        weekHdr.setPadding(dp(16), dp(12), dp(16), dp(12));
-        TextView weekLbl = new TextView(this);
-        weekLbl.setText("BU HAFTA");
-        weekLbl.setTextSize(9);
-        weekLbl.setLetterSpacing(0.22f);
-        weekLbl.setTextColor(MUTED);
-        weekHdr.addView(weekLbl, fullW());
-        weekCard.addView(weekHdr, fullW());
-        View hdrBorder = new View(this);
-        hdrBorder.setBackgroundColor(BORDER);
-        weekCard.addView(hdrBorder, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
-
+        int weekStart = (cur / 7) * 7;
         for (int d = weekStart; d < weekStart + 7 && d <= 62; d++) {
             weekCard.addView(buildWeekRow(d, cur, done, maxUnlocked));
+            if (d < weekStart + 6 && d < 62) {
+                View div = new View(this);
+                div.setBackgroundColor(BORDER);
+                weekCard.addView(div, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+            }
         }
-        content.addView(weekCard);
-
-        return content;
+        section.addView(weekCard, fullW());
+        return section;
     }
 
     View buildWeekRow(int day, int cur, boolean[] done, int maxUnlocked) {
-        LinearLayout wrapper = new LinearLayout(this);
-        wrapper.setOrientation(LinearLayout.VERTICAL);
-        if (day == cur) wrapper.setBackgroundColor(0x0AC8A84B);
+        boolean isDone  = done[day];
+        boolean isToday = day == cur;
+        boolean isLocked = day > maxUnlocked;
 
         LinearLayout row = new LinearLayout(this);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
-        row.setPadding(dp(16), dp(12), dp(16), dp(12));
+        row.setPadding(dp(16), dp(14), dp(16), dp(14));
+        if (isToday) row.setBackgroundColor(0x0FCFAB52);
 
-        // Day circle
-        FrameLayout circle = new FrameLayout(this);
-        int sz = dp(34);
-        circle.setBackgroundDrawable(getDrawable(
-            done[day] ? R.drawable.circle_green :
-            day == cur ? R.drawable.circle_gold :
+        // Circle
+        FrameLayout circ = new FrameLayout(this);
+        int csz = dp(38);
+        circ.setBackgroundDrawable(getDrawable(
+            isDone ? R.drawable.circle_green :
+            isToday ? R.drawable.circle_gold :
             R.drawable.circle_muted));
-        TextView dayNum = new TextView(this);
-        dayNum.setText(String.valueOf(day + 1));
-        dayNum.setTextSize(12);
-        dayNum.setTypeface(Typeface.DEFAULT_BOLD);
-        dayNum.setGravity(Gravity.CENTER);
-        dayNum.setTextColor(done[day] ? 0xFF000000 : day == cur ? 0xFF000000 : MUTED);
-        circle.addView(dayNum, new FrameLayout.LayoutParams(sz, sz));
-        LinearLayout.LayoutParams cLp = new LinearLayout.LayoutParams(sz, sz);
+        TextView numTv = new TextView(this);
+        numTv.setText(String.valueOf(day + 1));
+        numTv.setTextSize(12);
+        numTv.setTypeface(Typeface.DEFAULT_BOLD);
+        numTv.setTextColor(isDone || isToday ? 0xFF050810 : MUTED);
+        numTv.setGravity(Gravity.CENTER);
+        circ.addView(numTv, new FrameLayout.LayoutParams(csz, csz));
+        LinearLayout.LayoutParams cLp = new LinearLayout.LayoutParams(csz, csz);
         cLp.setMargins(0, 0, dp(14), 0);
-        row.addView(circle, cLp);
+        row.addView(circ, cLp);
 
-        // Text column
+        // Text
         LinearLayout col = new LinearLayout(this);
         col.setOrientation(LinearLayout.VERTICAL);
         col.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 
-        String sesGrubu = "";
-        try { sesGrubu = programData.getJSONObject(day).getString("sesGrubu"); } catch (Exception ignored) {}
-        TextView t1 = new TextView(this);
-        t1.setText(sesGrubu);
-        t1.setTextSize(13);
-        t1.setTypeface(Typeface.DEFAULT_BOLD);
-        t1.setTextColor(done[day] ? MUTED : day == cur ? TEXT : SUB);
-        col.addView(t1, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        String sg = "";
+        try { sg = programData.getJSONObject(day).getString("sesGrubu"); } catch (Exception ignored) {}
+        TextView sg1 = new TextView(this);
+        sg1.setText(sg);
+        sg1.setTextSize(13);
+        sg1.setTypeface(isToday ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
+        sg1.setTextColor(isDone ? SUB : isToday ? TEXT : SUB);
+        col.addView(sg1);
 
-        String status = done[day] ? "Tamamlandı" : day == cur ? "Bugün" : day > maxUnlocked ? "Kilitli" : "Devam et";
-        TextView t2 = new TextView(this);
-        t2.setText(status);
-        t2.setTextSize(11);
-        t2.setTextColor(done[day] ? GREEN : day == cur ? GOLD : MUTED);
-        col.addView(t2, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        String status = isDone ? "Tamamlandı" :
+            isToday ? "Devam et" :
+            isLocked ? "Kilitli" : "Başlanmadı";
+        TextView stTv = new TextView(this);
+        stTv.setText(status);
+        stTv.setTextSize(11);
+        stTv.setTextColor(isDone ? GREEN : isToday ? GOLD : MUTED);
+        col.addView(stTv);
         row.addView(col);
 
+        // Right icon
+        TextView arrow = new TextView(this);
+        arrow.setText(isDone ? "✓" : isLocked ? "🔒" : "›");
+        arrow.setTextSize(isLocked ? 11 : 20);
+        arrow.setTextColor(isDone ? GREEN : MUTED);
+        row.addView(arrow);
+
         final int d = day;
-        final boolean locked = day > maxUnlocked;
         row.setOnClickListener(v -> {
-            if (!locked) {
+            if (!isLocked) {
                 prefs().edit().putInt(KEY_CURRENT, d).apply();
                 openLesson(d);
             }
         });
-        wrapper.addView(row, fullW());
-        View border = new View(this);
-        border.setBackgroundColor(BORDER);
-        wrapper.addView(border, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
-        return wrapper;
+        return row;
     }
 
-    View buildDoneButton(int cur, int maxUnlocked, boolean[] done) {
-        boolean isDone   = done[cur];
-        boolean isLocked = cur > maxUnlocked;
-        TextView btn = new TextView(this);
-        if (isDone) {
-            btn.setText("✓ Tamamlandı");
-            btn.setBackgroundDrawable(getDrawable(R.drawable.btn_done_card));
-            btn.setTextColor(GREEN);
-        } else if (isLocked) {
-            btn.setText("🔒 Önceki günü tamamla");
-            btn.setBackgroundDrawable(getDrawable(R.drawable.btn_locked_card));
-            btn.setTextColor(MUTED);
-        } else {
-            btn.setText("✓ Bugünü Tamamladım");
-            btn.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
-            btn.setTextColor(0xFF000000);
-        }
-        btn.setTextSize(15);
-        btn.setTypeface(Typeface.DEFAULT_BOLD);
-        btn.setGravity(Gravity.CENTER);
-        final int fCur = cur;
-        btn.setOnClickListener(v -> {
-            if (!isDone && !isLocked) {
-                markDone(fCur, done);
+    View buildBottomNav(int cur, int maxUnlocked) {
+        boolean canPrev = cur > 0;
+        boolean canNext = cur < maxUnlocked;
+
+        LinearLayout nav = new LinearLayout(this);
+        nav.setOrientation(LinearLayout.HORIZONTAL);
+        nav.setGravity(Gravity.CENTER_VERTICAL);
+        nav.setBackgroundColor(S1);
+        nav.setPadding(dp(16), dp(12), dp(16), dp(26));
+
+        LinearLayout wrapper = new LinearLayout(this);
+        wrapper.setOrientation(LinearLayout.VERTICAL);
+        View topBorder = new View(this);
+        topBorder.setBackgroundColor(BORDER);
+        wrapper.addView(topBorder, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+
+        TextView prev = navBtn("← Önceki", canPrev);
+        prev.setOnClickListener(v -> {
+            if (canPrev) {
+                prefs().edit().putInt(KEY_CURRENT, cur - 1).apply();
                 showMain();
             }
         });
-        LinearLayout.LayoutParams btnLp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(54));
-        btnLp.setMargins(dp(14), dp(8), dp(14), dp(14));
-        btn.setLayoutParams(btnLp);
-        return btn;
+
+        TextView midTv = new TextView(this);
+        midTv.setText("Gün " + (cur + 1) + " / 63");
+        midTv.setTextSize(12);
+        midTv.setTextColor(MUTED);
+        midTv.setGravity(Gravity.CENTER);
+
+        TextView next = navBtn("Sonraki →", canNext);
+        next.setOnClickListener(v -> {
+            if (canNext) {
+                prefs().edit().putInt(KEY_CURRENT, cur + 1).apply();
+                showMain();
+            }
+        });
+
+        nav.addView(prev);
+        nav.addView(midTv, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        nav.addView(next);
+
+        wrapper.setBackgroundColor(S1);
+        wrapper.addView(nav, fullW());
+        return wrapper;
     }
 
-    // ── MARK DONE ─────────────────────────────────────────────────────────────
-
-    void markDone(int day, boolean[] done) {
-        done[day] = true;
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 63; i++) {
-            if (done[i]) { if (sb.length() > 0) sb.append(","); sb.append(i); }
-        }
-        int streak = 0;
-        for (int i = 62; i >= 0; i--) {
-            if (done[i]) streak++;
-            else break;
-        }
-        // Find streak from end of completed set
-        int streakCount = 0;
-        java.util.List<Integer> list = new java.util.ArrayList<>();
-        for (int i = 0; i < 63; i++) if (done[i]) list.add(i);
-        for (int i = list.size() - 1; i >= 0; i--) {
-            if (i == list.size() - 1 || list.get(i) == list.get(i + 1) - 1) streakCount++;
-            else break;
-        }
-        prefs().edit()
-            .putString(KEY_COMPLETED, sb.toString())
-            .putInt(KEY_STREAK, streakCount)
-            .apply();
-    }
-
-    // ── HELPERS ───────────────────────────────────────────────────────────────
+    // ── HELPERS ────────────────────────────────────────────────────────────────
 
     void openLesson(int day) {
         prefs().edit().putInt(KEY_CURRENT, day).apply();
@@ -651,7 +649,7 @@ public class MainActivity extends Activity {
         boolean[] done = new boolean[63];
         if (!s.isEmpty()) {
             for (String tok : s.split(",")) {
-                try { done[Integer.parseInt(tok)] = true; } catch (Exception ignored) {}
+                try { done[Integer.parseInt(tok.trim())] = true; } catch (Exception ignored) {}
             }
         }
         return done;
@@ -670,44 +668,45 @@ public class MainActivity extends Activity {
         return wi < sets.length ? sets[wi] : "C3";
     }
 
-    // ── VIEW FACTORIES ────────────────────────────────────────────────────────
+    // ── VIEW FACTORIES ─────────────────────────────────────────────────────────
 
-    View pill(String big, String small) {
+    View featPill(String num, String label) {
         LinearLayout p = new LinearLayout(this);
         p.setOrientation(LinearLayout.VERTICAL);
         p.setGravity(Gravity.CENTER);
         p.setBackgroundDrawable(getDrawable(R.drawable.card_s2));
-        p.setPadding(dp(10), dp(12), dp(10), dp(12));
+        p.setPadding(dp(10), dp(18), dp(10), dp(18));
 
-        TextView bt = new TextView(this);
-        bt.setText(big);
-        bt.setTextSize(22);
-        bt.setTypeface(Typeface.DEFAULT_BOLD);
-        bt.setTextColor(GOLD);
-        bt.setGravity(Gravity.CENTER);
-        p.addView(bt, fullW());
+        TextView nv = new TextView(this);
+        nv.setText(num);
+        nv.setTextSize(28);
+        nv.setTypeface(Typeface.DEFAULT_BOLD);
+        nv.setTextColor(GOLD);
+        nv.setGravity(Gravity.CENTER);
+        p.addView(nv, fullW());
 
-        TextView st = new TextView(this);
-        st.setText(small);
-        st.setTextSize(10);
-        st.setTextColor(MUTED);
-        st.setGravity(Gravity.CENTER);
-        p.addView(st, fullW());
+        TextView lv = new TextView(this);
+        lv.setText(label);
+        lv.setTextSize(9);
+        lv.setLetterSpacing(0.2f);
+        lv.setTextColor(MUTED);
+        lv.setGravity(Gravity.CENTER);
+        p.addView(lv, fullW());
         return p;
     }
 
-    View statCard(String val, String label) {
+    View statCard(String val, String label, int color) {
         LinearLayout c = new LinearLayout(this);
         c.setOrientation(LinearLayout.VERTICAL);
         c.setGravity(Gravity.CENTER);
         c.setBackgroundDrawable(getDrawable(R.drawable.card_bg));
-        c.setPadding(dp(10), dp(14), dp(10), dp(14));
+        c.setPadding(dp(10), dp(18), dp(10), dp(18));
 
         TextView vt = new TextView(this);
         vt.setText(val);
-        vt.setTextSize(18);
+        vt.setTextSize(22);
         vt.setTypeface(Typeface.DEFAULT_BOLD);
-        vt.setTextColor(TEXT);
+        vt.setTextColor(color);
         vt.setGravity(Gravity.CENTER);
         c.addView(vt, fullW());
 
@@ -718,6 +717,24 @@ public class MainActivity extends Activity {
         lt.setGravity(Gravity.CENTER);
         c.addView(lt, fullW());
         return c;
+    }
+
+    TextView navBtn(String text, boolean enabled) {
+        TextView btn = new TextView(this);
+        btn.setText(text);
+        btn.setTextSize(13);
+        btn.setTypeface(Typeface.DEFAULT_BOLD);
+        btn.setTextColor(enabled ? SUB : MUTED);
+        btn.setPadding(dp(14), dp(8), dp(14), dp(8));
+        btn.setBackgroundDrawable(getDrawable(enabled ? R.drawable.btn_nav : R.drawable.btn_nav_disabled));
+        btn.setAlpha(enabled ? 1f : 0.35f);
+        return btn;
+    }
+
+    View spacer(float weight) {
+        View v = new View(this);
+        v.setLayoutParams(new LinearLayout.LayoutParams(0, 0, weight));
+        return v;
     }
 
     LinearLayout.LayoutParams fullW() {

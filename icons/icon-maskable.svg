@@ -1,24 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FF6B35"/>
-      <stop offset="100%" stop-color="#FF9D00"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111828"/>
+      <stop offset="100%" stop-color="#080B16"/>
     </linearGradient>
   </defs>
+
+  <!-- Full bleed background for maskable (OS applies mask shape) -->
   <rect width="512" height="512" fill="url(#bg)"/>
-  <g transform="translate(51.2,51.2) scale(0.8)">
-    <path fill-rule="evenodd" fill="white"
-          d="M118,92 L118,420 L250,420
-             C385,420 424,338 424,256
-             C424,174 385,92 250,92 Z
-             M170,144 L246,144
-             C346,144 372,198 372,256
-             C372,314 346,368 246,368
-             L170,368 Z"/>
-    <rect x="210" y="222" width="16" height="68"  rx="8" fill="#FF6B35"/>
-    <rect x="235" y="196" width="16" height="120" rx="8" fill="#FF6B35"/>
-    <rect x="260" y="172" width="16" height="168" rx="8" fill="#FF6B35"/>
-    <rect x="285" y="198" width="16" height="116" rx="8" fill="#FF6B35"/>
-    <rect x="310" y="224" width="16" height="64"  rx="8" fill="#FF6B35"/>
+
+  <!-- Design scaled to 76% centered — fits Android maskable safe zone -->
+  <g transform="translate(60, 60) scale(0.765)">
+    <path d="M 164,68 A 188,188 0 0 1 164,444"
+          fill="none" stroke="#CFAB52" stroke-width="16" stroke-opacity="0.18" stroke-linecap="round"/>
+    <path d="M 164,112 A 144,144 0 0 1 164,400"
+          fill="none" stroke="#CFAB52" stroke-width="24" stroke-opacity="0.42" stroke-linecap="round"/>
+    <path d="M 164,158 A 98,98 0 0 1 164,354"
+          fill="none" stroke="#CFAB52" stroke-width="32" stroke-opacity="0.70" stroke-linecap="round"/>
+    <path d="M 164,206 A 50,50 0 0 1 164,306"
+          fill="none" stroke="#CFAB52" stroke-width="40" stroke-opacity="1" stroke-linecap="round"/>
+    <rect x="100" y="96" width="60" height="320" rx="30" fill="#CFAB52"/>
+    <ellipse cx="164" cy="256" rx="7" ry="10" fill="#FFE8A8" opacity="0.85"/>
   </g>
 </svg>
