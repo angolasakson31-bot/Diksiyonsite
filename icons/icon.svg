@@ -1,40 +1,43 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#111828"/>
-      <stop offset="100%" stop-color="#080B16"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#111E35"/>
+      <stop offset="100%" stop-color="#060A14"/>
     </linearGradient>
-    <clipPath id="clip">
-      <rect width="512" height="512" rx="108"/>
-    </clipPath>
   </defs>
 
   <!-- Background -->
-  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
 
-  <g clip-path="url(#clip)">
-    <!-- D-wave: vertical bar + concentric right-facing arcs forming letter D -->
+  <!--
+    Logo concept: "Phoneme D"
+    A bold letter D formed by a solid vertical bar + three concentric
+    right-facing semicircular arcs at decreasing opacity — the arcs
+    represent sound/voice radiating outward in layers (depth).
+    A white pill in the hollow represents the voice / phoneme itself.
+    All arcs are centered at the bar's right edge (x=200, y=256).
+  -->
 
-    <!-- Outer arc — faintest halo -->
-    <path d="M 164,68 A 188,188 0 0 1 164,444"
-          fill="none" stroke="#CFAB52" stroke-width="16" stroke-opacity="0.18" stroke-linecap="round"/>
+  <!-- Outer arc — faintest layer, gives spatial depth -->
+  <path d="M 200,100 A 156,156 0 0 1 200,412"
+        fill="none" stroke="#CAAA50" stroke-width="10"
+        stroke-opacity="0.18" stroke-linecap="round"/>
 
-    <!-- Middle-outer arc -->
-    <path d="M 164,112 A 144,144 0 0 1 164,400"
-          fill="none" stroke="#CFAB52" stroke-width="24" stroke-opacity="0.42" stroke-linecap="round"/>
+  <!-- Middle arc — mid depth -->
+  <path d="M 200,134 A 122,122 0 0 1 200,378"
+        fill="none" stroke="#CAAA50" stroke-width="22"
+        stroke-opacity="0.50" stroke-linecap="round"/>
 
-    <!-- Middle-inner arc -->
-    <path d="M 164,158 A 98,98 0 0 1 164,354"
-          fill="none" stroke="#CFAB52" stroke-width="32" stroke-opacity="0.70" stroke-linecap="round"/>
+  <!-- Inner arc — primary form, full brightness -->
+  <path d="M 200,170 A 86,86 0 0 1 200,342"
+        fill="none" stroke="#CAAA50" stroke-width="38"
+        stroke-opacity="1.0" stroke-linecap="round"/>
 
-    <!-- Inner arc — full brightness -->
-    <path d="M 164,206 A 50,50 0 0 1 164,306"
-          fill="none" stroke="#CFAB52" stroke-width="40" stroke-opacity="1" stroke-linecap="round"/>
+  <!-- Vertical bar — the spine of the D -->
+  <rect x="144" y="100" width="52" height="312" rx="14" fill="#CAAA50"/>
 
-    <!-- Vertical bar of the D -->
-    <rect x="100" y="96" width="60" height="320" rx="30" fill="#CFAB52"/>
-
-    <!-- Junction highlight — small bright oval where bar meets arcs -->
-    <ellipse cx="164" cy="256" rx="7" ry="10" fill="#FFE8A8" opacity="0.85"/>
-  </g>
+  <!-- Voice pill — white capsule in the hollow of the D -->
+  <!-- Hollow spans x=200 to x=267 (inner arc inner edge at y=256). Centered at x=233. -->
+  <rect x="208" y="238" width="52" height="36" rx="18"
+        fill="white" opacity="0.88"/>
 </svg>

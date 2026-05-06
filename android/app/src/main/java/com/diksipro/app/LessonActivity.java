@@ -32,23 +32,17 @@ public class LessonActivity extends Activity {
     int dayIndex;
     JSONObject dayData;
 
-    static final int BG     = 0xFF07090F;
-    static final int CARD   = 0xFF0D1220;
-    static final int CARD2  = 0xFF131B2C;
-    static final int BORDER = 0xFF1C2A3F;
-    static final int GOLD   = 0xFFCFAB52;
-    static final int TEXT   = 0xFFE2EAF4;
-    static final int SUB    = 0xFF8FA3BC;
-    static final int MUTED  = 0xFF4D617A;
-    static final int GREEN  = 0xFF2EA868;
+    // Minimalist depth palette
+    static final int BG     = 0xFF060A14;
+    static final int CARD   = 0xFF0D1322;
+    static final int CARD2  = 0xFF121A2A;
+    static final int BORDER = 0xFF192538;
+    static final int GOLD   = 0xFFCAAA50;
+    static final int TEXT   = 0xFFE6EEF8;
+    static final int SUB    = 0xFF8EA3BE;
+    static final int MUTED  = 0xFF4A617C;
+    static final int GREEN  = 0xFF26A05A;
     static final int BLUE   = 0xFF4E8CF5;
-
-    // Section accent colors
-    static final int ACCENT_BREATH  = 0xFF4E8CF5;
-    static final int ACCENT_REZON   = 0xFFCFAB52;
-    static final int ACCENT_ISINMA  = 0xFF2EA868;
-    static final int ACCENT_TEK     = 0xFFCFAB52;
-    static final int ACCENT_OKUMA   = 0xFF8FA3BC;
 
     static final String[] BREATH_PHASES = {"NEFES AL", "TUT", "NEFES VER"};
     static final int[]    BREATH_DUR    = {4, 2, 6};
@@ -98,25 +92,29 @@ public class LessonActivity extends Activity {
 
         content.addView(buildTopBar());
 
-        content.addView(sectionLabel("DİYAFRAM NEFESİ", ACCENT_BREATH));
+        content.addView(secLabel("DİYAFRAM NEFESİ", BLUE));
         content.addView(buildBreathCard());
 
-        content.addView(sectionLabel("REZONANS", ACCENT_REZON));
+        content.addView(secLabel("REZONANS", GOLD));
         content.addView(buildRezonansCard());
 
-        content.addView(sectionLabel("ARTİKÜLASYON ISINMASI", ACCENT_ISINMA));
+        content.addView(secLabel("ARTİKÜLASYON ISINMASI", GREEN));
         content.addView(buildIsinmaCard());
 
         buildTekerlemeler(content);
 
-        content.addView(sectionLabel("SESLİ OKUMA METNİ", ACCENT_OKUMA));
+        content.addView(secLabel("SESLİ OKUMA METNİ", SUB));
         content.addView(buildOkumaCard());
 
         sv.addView(content, new ScrollView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         root.addView(sv, new FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        root.addView(buildDoneBar(), doneBarLp());
+
+        FrameLayout.LayoutParams barLp = new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        barLp.gravity = Gravity.BOTTOM;
+        root.addView(buildDoneBar(), barLp);
 
         setContentView(root);
     }
@@ -128,13 +126,13 @@ public class LessonActivity extends Activity {
         bar.setOrientation(LinearLayout.HORIZONTAL);
         bar.setGravity(Gravity.CENTER_VERTICAL);
         bar.setBackgroundColor(CARD);
-        bar.setPadding(dp(16), dp(16), dp(20), dp(16));
+        bar.setPadding(dp(18), dp(16), dp(22), dp(16));
 
         TextView back = new TextView(this);
         back.setText("←");
-        back.setTextSize(24);
+        back.setTextSize(22);
         back.setTextColor(SUB);
-        back.setPadding(0, 0, dp(16), 0);
+        back.setPadding(0, 0, dp(18), 0);
         back.setOnClickListener(v -> finish());
         bar.addView(back);
 
@@ -159,106 +157,88 @@ public class LessonActivity extends Activity {
         col.addView(dayTv);
         bar.addView(col);
 
-        // Done indicator
         if (isDone()) {
-            TextView doneTv = new TextView(this);
-            doneTv.setText("✓");
-            doneTv.setTextSize(16);
-            doneTv.setTypeface(Typeface.DEFAULT_BOLD);
-            doneTv.setTextColor(GREEN);
-            doneTv.setPadding(dp(10), dp(5), dp(10), dp(5));
-            GradientDrawable dGd = new GradientDrawable();
-            dGd.setShape(GradientDrawable.OVAL);
-            dGd.setColor(0x182EA868);
-            doneTv.setBackgroundDrawable(dGd);
-            bar.addView(doneTv);
+            TextView doneMark = new TextView(this);
+            doneMark.setText("✓");
+            doneMark.setTextSize(15);
+            doneMark.setTypeface(Typeface.DEFAULT_BOLD);
+            doneMark.setTextColor(GREEN);
+            GradientDrawable dGd = oval(); dGd.setColor(0x1426A05A);
+            doneMark.setBackgroundDrawable(dGd);
+            doneMark.setPadding(dp(10), dp(5), dp(10), dp(5));
+            bar.addView(doneMark);
         }
 
-        LinearLayout wrapper = new LinearLayout(this);
-        wrapper.setOrientation(LinearLayout.VERTICAL);
-        wrapper.setBackgroundColor(CARD);
-        wrapper.addView(bar, fullW());
-        View div = new View(this);
-        div.setBackgroundColor(BORDER);
-        wrapper.addView(div, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
-        return wrapper;
+        LinearLayout w = new LinearLayout(this);
+        w.setOrientation(LinearLayout.VERTICAL);
+        w.setBackgroundColor(CARD);
+        w.addView(bar, fullW());
+        View div = new View(this); div.setBackgroundColor(BORDER);
+        w.addView(div, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+        return w;
     }
 
     // ── BREATH CARD ───────────────────────────────────────────────────────────
 
     View buildBreathCard() {
-        LinearLayout card = card(ACCENT_BREATH);
+        LinearLayout card = makeCard();
 
-        TextView title = new TextView(this);
-        title.setText("4 · 2 · 6 Nefes Tekniği");
-        title.setTextSize(16);
-        title.setTypeface(Typeface.DEFAULT_BOLD);
-        title.setTextColor(TEXT);
-        title.setPadding(0, 0, 0, dp(6));
-        card.addView(title, fullW());
+        title(card, "4 · 2 · 6 Nefes Tekniği");
+        sub(card, "Sesin gücü diyaframdan gelir. Uzun nefes verme diyaframı aktive eder. 5 set yapılır.", dp(16));
 
-        TextView sub = new TextView(this);
-        sub.setText("Sesin gücü diyaframdan gelir. Uzun nefes verme diyaframı aktive eder. 5 set yapılır.");
-        sub.setTextSize(13);
-        sub.setTextColor(SUB);
-        sub.setLineSpacing(dp(3), 1.4f);
-        LinearLayout.LayoutParams subLp = new LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        subLp.setMargins(0, 0, 0, dp(16));
-        card.addView(sub, subLp);
+        card.addView(stepRow("4s", "Burundan nefes al — yalnızca karın şişsin, göğüs hareketsiz."));
+        card.addView(stepRow("2s", "Nefesi tut — karın şişkin sabit, omuzlar düşük."));
+        card.addView(stepRow("6s", "Ağızdan yavaşça ver — karın içeri çekilsin, ses buradan beslenir."));
 
-        card.addView(stepRow("4", "Burundan nefes al — yalnızca karın şişsin, göğüs hareketsiz kalsın."));
-        card.addView(stepRow("2", "Nefesi tut — karın şişkin sabit, omuzlar düşük."));
-        card.addView(stepRow("6", "Ağızdan yavaşça ver — karın içeri çekilsin."));
-
+        // Timer button
         breathBtn = new TextView(this);
         breathBtn.setText("▶  Zamanlayıcıyı Başlat");
         breathBtn.setTextSize(14);
         breathBtn.setTypeface(Typeface.DEFAULT_BOLD);
-        breathBtn.setTextColor(0xFF060910);
+        breathBtn.setTextColor(0xFF050810);
         breathBtn.setGravity(Gravity.CENTER);
         breathBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
         breathBtn.setOnClickListener(v -> toggleBreath());
         LinearLayout.LayoutParams btnLp = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, dp(50));
-        btnLp.setMargins(0, dp(16), 0, dp(10));
+        btnLp.setMargins(0, dp(18), 0, dp(10));
         card.addView(breathBtn, btnLp);
 
-        // Breath display
+        // Breath display (hidden until started)
         LinearLayout disp = new LinearLayout(this);
         disp.setOrientation(LinearLayout.VERTICAL);
         disp.setGravity(Gravity.CENTER);
         disp.setVisibility(View.GONE);
-        disp.setPadding(0, dp(6), 0, dp(10));
+        disp.setPadding(0, dp(8), 0, dp(8));
         breathDisplay = disp;
 
-        // Circular display container
-        FrameLayout circleContainer = new FrameLayout(this);
-        GradientDrawable cirGd = new GradientDrawable();
-        cirGd.setShape(GradientDrawable.OVAL);
-        cirGd.setColor(0x18000000);
-        cirGd.setStroke(dp(2), 0x40CFAB52);
-        int csz = dp(130);
-        circleContainer.setBackgroundDrawable(cirGd);
+        // Ring-style countdown container
+        FrameLayout ring = new FrameLayout(this);
+        GradientDrawable ringGd = oval();
+        ringGd.setColor(0x10000000);
+        ringGd.setStroke(dp(2), 0x30CAAA50);
+        int rsz = dp(136);
+        ring.setBackgroundDrawable(ringGd);
 
-        LinearLayout cirInner = new LinearLayout(this);
-        cirInner.setOrientation(LinearLayout.VERTICAL);
-        cirInner.setGravity(Gravity.CENTER);
+        LinearLayout ringInner = new LinearLayout(this);
+        ringInner.setOrientation(LinearLayout.VERTICAL);
+        ringInner.setGravity(Gravity.CENTER);
 
         breathPhaseTv = new TextView(this);
         breathPhaseTv.setText("NEFES AL");
         breathPhaseTv.setTextSize(9);
-        breathPhaseTv.setLetterSpacing(0.2f);
+        breathPhaseTv.setLetterSpacing(0.22f);
         breathPhaseTv.setTypeface(Typeface.DEFAULT_BOLD);
         breathPhaseTv.setTextColor(MUTED);
         breathPhaseTv.setGravity(Gravity.CENTER);
 
         breathCountTv = new TextView(this);
         breathCountTv.setText("4");
-        breathCountTv.setTextSize(64);
+        breathCountTv.setTextSize(66);
         breathCountTv.setTypeface(Typeface.DEFAULT_BOLD);
         breathCountTv.setTextColor(BLUE);
         breathCountTv.setGravity(Gravity.CENTER);
+        breathCountTv.setIncludeFontPadding(false);
 
         breathSetTv = new TextView(this);
         breathSetTv.setText("Set 1 / 5");
@@ -266,29 +246,18 @@ public class LessonActivity extends Activity {
         breathSetTv.setTextColor(MUTED);
         breathSetTv.setGravity(Gravity.CENTER);
 
-        cirInner.addView(breathPhaseTv, fullW());
-        cirInner.addView(breathCountTv, fullW());
-        cirInner.addView(breathSetTv, fullW());
+        ringInner.addView(breathPhaseTv, fullW());
+        ringInner.addView(breathCountTv, fullW());
+        ringInner.addView(breathSetTv, fullW());
+        ring.addView(ringInner, new FrameLayout.LayoutParams(rsz, rsz, Gravity.CENTER));
 
-        circleContainer.addView(cirInner, new FrameLayout.LayoutParams(csz, csz));
-        LinearLayout.LayoutParams cirLp = new LinearLayout.LayoutParams(csz, csz);
-        cirLp.gravity = Gravity.CENTER_HORIZONTAL;
-        disp.addView(circleContainer, cirLp);
+        LinearLayout.LayoutParams ringLp = new LinearLayout.LayoutParams(rsz, rsz);
+        ringLp.gravity = Gravity.CENTER_HORIZONTAL;
+        disp.addView(ring, ringLp);
         card.addView(disp, fullW());
 
-        TextView note = new TextView(this);
-        note.setText("5 seti bitirince: cümle ortasında nefes tükenmez, ses titreşmez.");
-        note.setTextSize(12);
-        note.setTextColor(MUTED);
-        note.setLineSpacing(dp(2), 1.4f);
-        note.setBackgroundDrawable(getDrawable(R.drawable.note_border_top));
-        note.setPadding(0, dp(10), 0, 0);
-        LinearLayout.LayoutParams noteLp = new LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        noteLp.setMargins(0, dp(10), 0, 0);
-        card.addView(note, noteLp);
-
-        return wrapCard(card);
+        noteRow(card, "5 seti bitirince: cümle ortasında nefes tükenmez, ses titreşmez.");
+        return card;
     }
 
     void toggleBreath() {
@@ -310,7 +279,7 @@ public class LessonActivity extends Activity {
         if (bTimer != null) { bTimer.cancel(); bTimer = null; }
         breathBtn.setText("▶  Zamanlayıcıyı Başlat");
         breathBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
-        breathBtn.setTextColor(0xFF060910);
+        breathBtn.setTextColor(0xFF050810);
     }
 
     void scheduleTick() {
@@ -350,82 +319,59 @@ public class LessonActivity extends Activity {
     // ── REZONANS CARD ─────────────────────────────────────────────────────────
 
     View buildRezonansCard() {
-        LinearLayout card = card(ACCENT_REZON);
+        LinearLayout card = makeCard();
 
         TextView hum = new TextView(this);
         hum.setText("M · N · NG");
         hum.setTextSize(30);
         hum.setTypeface(Typeface.DEFAULT_BOLD);
         hum.setTextColor(GOLD);
-        hum.setLetterSpacing(0.08f);
-        LinearLayout.LayoutParams humLp = new LinearLayout.LayoutParams(
+        hum.setLetterSpacing(0.06f);
+        LinearLayout.LayoutParams hLp = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        humLp.setMargins(0, 0, 0, dp(6));
-        card.addView(hum, humLp);
+        hLp.setMargins(0, 0, 0, dp(8));
+        card.addView(hum, hLp);
 
-        TextView sub = new TextView(this);
-        sub.setText("Sesi göğse çeker, kalınlaştırır. Sıra: M → N → NG → Mmm-maa/mee/mii/moo/muu → Ha×5. Toplam 3 set.");
-        sub.setTextSize(13);
-        sub.setTextColor(SUB);
-        sub.setLineSpacing(dp(3), 1.4f);
-        LinearLayout.LayoutParams subLp = new LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        subLp.setMargins(0, 0, 0, dp(14));
-        card.addView(sub, subLp);
+        sub(card, "Sesi göğse çeker, kalınlaştırır. Sıra: M → N → NG → Mmm-maa/mee/mii/moo/muu → Ha×5. Toplam 3 set.", dp(16));
 
         card.addView(turBox(new String[][]{
             {"M",  "Mmm — 5 saniye → geçiş ↓"},
             {"N",  "Nnnnn — 5 saniye → geçiş ↓"},
             {"NG", "Ngngng — 5 saniye → geçiş ↓"},
             {"+",  "Mmm-maa · mee · mii · moo · muu → geçiş ↓"},
-            {"✓",  "Ha-ha-ha × 5 → 1 set bitti, 3-5 sn nefes, tekrar"}
+            {"✓",  "Ha-ha-ha × 5 → 1 set bitti · 3-5 sn nefes · tekrar"}
         }));
 
-        card.addView(posTitle("M — Ağız Pozisyonu"));
-        card.addView(posNote("Dudaklar kapalı, dişler ayrık. İşaret parmağını dudağına daya: titreşim hissedilmeli."));
-        card.addView(posTitle("N — Ağız Pozisyonu"));
-        card.addView(posNote("Dil ucunu üst dişlerin hemen arkasına daya. Parmağını burnunun üstüne koy: titreşim hissedilmeli."));
-        card.addView(posTitle("NG — Ağız Pozisyonu"));
-        card.addView(posNote("Dil kökü yumuşak damağa değiyor. Elini kafanın arkasına koy: titreşim oradan gelmeli."));
-
-        return wrapCard(card);
+        posSection(card, "M", "Dudaklar kapalı, dişler ayrık. İşaret parmağını dudağına daya: titreşim hissedilmeli.");
+        posSection(card, "N", "Dil ucunu üst dişlerin hemen arkasına daya. Burnun üstüne koy: titreşim hissedilmeli.");
+        posSection(card, "NG", "Dil kökü yumuşak damağa değiyor. Kafanın arkasına koy: titreşim oradan gelmeli.");
+        return card;
     }
 
     // ── ISINMA CARD ───────────────────────────────────────────────────────────
 
     View buildIsinmaCard() {
-        LinearLayout card = card(ACCENT_ISINMA);
+        LinearLayout card = makeCard();
 
         TextView vowels = new TextView(this);
         vowels.setText("A · E · I · İ · O · Ö · U · Ü");
-        vowels.setTextSize(20);
+        vowels.setTextSize(19);
         vowels.setTypeface(Typeface.DEFAULT_BOLD);
         vowels.setTextColor(GREEN);
-        vowels.setLetterSpacing(0.04f);
+        vowels.setLetterSpacing(0.03f);
         LinearLayout.LayoutParams vLp = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        vLp.setMargins(0, 0, 0, dp(14));
+        vLp.setMargins(0, 0, 0, dp(16));
         card.addView(vowels, vLp);
 
         card.addView(turBox(new String[][]{
             {"1", "Yavaş ve abartarak — her ünlüde çene maksimum açılsın → 1 nefes ↓"},
             {"2", "Normal hızda — akıcı ve temiz, biri diğerine karışmasın → 1 nefes ↓"},
-            {"3", "Hızlı — maksimum hız ama netlik düşmesin, buruna kaçma. Bitti."}
+            {"3", "Hızlı — maksimum hız ama netlik düşmesin, buruna kaçma."}
         }));
 
-        TextView note = new TextView(this);
-        note.setText("Sesler arası direkt geçiş — bekleme yok. Burun sesi fark edersen ağzı daha da aç.");
-        note.setTextSize(12);
-        note.setTextColor(MUTED);
-        note.setLineSpacing(dp(2), 1.4f);
-        note.setBackgroundDrawable(getDrawable(R.drawable.note_border_top));
-        note.setPadding(0, dp(10), 0, 0);
-        LinearLayout.LayoutParams noteLp = new LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        noteLp.setMargins(0, dp(12), 0, 0);
-        card.addView(note, noteLp);
-
-        return wrapCard(card);
+        noteRow(card, "Sesler arası direkt geçiş — bekleme yok. Burun sesi fark edersen ağzı daha da aç.");
+        return card;
     }
 
     // ── TEKERLEMELER ──────────────────────────────────────────────────────────
@@ -434,22 +380,21 @@ public class LessonActivity extends Activity {
         try {
             String sesGrubu = safeStr(dayData, "sesGrubu");
 
-            // Ses grubu section label (special)
+            // Custom section label with ses grubu chip
             LinearLayout sgRow = new LinearLayout(this);
             sgRow.setOrientation(LinearLayout.HORIZONTAL);
             sgRow.setGravity(Gravity.CENTER_VERTICAL);
-            sgRow.setPadding(dp(16), dp(26), dp(16), dp(10));
+            sgRow.setPadding(dp(16), dp(28), dp(16), dp(10));
 
-            // Colored accent bar
-            View accent = new View(this);
-            GradientDrawable accGd = new GradientDrawable();
-            accGd.setShape(GradientDrawable.RECTANGLE);
-            accGd.setColor(GOLD);
-            accGd.setCornerRadius(dp(2));
-            accent.setBackgroundDrawable(accGd);
-            LinearLayout.LayoutParams aLp = new LinearLayout.LayoutParams(dp(4), dp(16));
-            aLp.setMargins(0, 0, dp(10), 0);
-            sgRow.addView(accent, aLp);
+            View dot = new View(this);
+            GradientDrawable dotGd = new GradientDrawable();
+            dotGd.setShape(GradientDrawable.RECTANGLE);
+            dotGd.setColor(GOLD);
+            dotGd.setCornerRadius(dp(2));
+            dot.setBackgroundDrawable(dotGd);
+            LinearLayout.LayoutParams dLp = new LinearLayout.LayoutParams(dp(4), dp(14));
+            dLp.setMargins(0, 0, dp(10), 0);
+            sgRow.addView(dot, dLp);
 
             TextView sgLabel = new TextView(this);
             sgLabel.setText("TEKERLEME");
@@ -459,29 +404,24 @@ public class LessonActivity extends Activity {
             sgLabel.setTextColor(SUB);
             sgRow.addView(sgLabel);
 
-            View line = new View(this);
-            line.setBackgroundColor(BORDER);
+            View line = new View(this); line.setBackgroundColor(BORDER);
             LinearLayout.LayoutParams lLp = new LinearLayout.LayoutParams(0, 1, 1f);
-            lLp.setMargins(dp(12), 0, 0, 0);
+            lLp.setMargins(dp(12), 0, dp(10), 0);
             sgRow.addView(line, lLp);
 
-            // Ses grubu chip
             TextView sgChip = new TextView(this);
-            sgChip.setText("  " + sesGrubu + "  ");
+            sgChip.setText(sesGrubu);
             sgChip.setTextSize(10);
             sgChip.setTypeface(Typeface.DEFAULT_BOLD);
             sgChip.setTextColor(GOLD);
+            sgChip.setPadding(dp(10), dp(4), dp(10), dp(4));
             GradientDrawable scGd = new GradientDrawable();
             scGd.setShape(GradientDrawable.RECTANGLE);
-            scGd.setColor(0x1ACFAB52);
-            scGd.setStroke(1, 0x40CFAB52);
+            scGd.setColor(0x14CAAA50);
+            scGd.setStroke(1, 0x36CAAA50);
             scGd.setCornerRadius(dp(20));
             sgChip.setBackgroundDrawable(scGd);
-            sgChip.setPadding(dp(10), dp(4), dp(10), dp(4));
-            LinearLayout.LayoutParams chipLp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            chipLp.setMargins(dp(10), 0, 0, 0);
-            sgRow.addView(sgChip, chipLp);
+            sgRow.addView(sgChip);
 
             parent.addView(sgRow, fullW());
 
@@ -504,7 +444,7 @@ public class LessonActivity extends Activity {
 
         LinearLayout col = new LinearLayout(this);
         col.setOrientation(LinearLayout.VERTICAL);
-        col.setPadding(dp(18), dp(18), dp(16), dp(16));
+        col.setPadding(dp(20), dp(20), dp(18), dp(18));
 
         TextView num = new TextView(this);
         num.setText("TEKERLEME " + (idx + 1));
@@ -514,14 +454,14 @@ public class LessonActivity extends Activity {
         num.setTextColor(MUTED);
         LinearLayout.LayoutParams nLp = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        nLp.setMargins(0, 0, 0, dp(12));
+        nLp.setMargins(0, 0, 0, dp(14));
         col.addView(num, nLp);
 
         TextView txt = new TextView(this);
         txt.setText(metin);
-        txt.setTextSize(19);
+        txt.setTextSize(20);
         txt.setTextColor(TEXT);
-        txt.setLineSpacing(dp(5), 1.3f);
+        txt.setLineSpacing(dp(6), 1.25f);
         LinearLayout.LayoutParams tLp = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         tLp.setMargins(0, 0, 0, dp(14));
@@ -536,12 +476,12 @@ public class LessonActivity extends Activity {
         noteTv.setPadding(0, dp(10), 0, dp(14));
         col.addView(noteTv, fullW());
 
-        col.addView(turBoxTek(idx));
+        col.addView(buildTurBox(idx));
         outer.addView(col);
         return outer;
     }
 
-    View turBoxTek(int tekIdx) {
+    View buildTurBox(int tekIdx) {
         LinearLayout box = new LinearLayout(this);
         box.setOrientation(LinearLayout.VERTICAL);
         box.setBackgroundDrawable(getDrawable(R.drawable.card_inner));
@@ -555,13 +495,13 @@ public class LessonActivity extends Activity {
         title.setTextColor(MUTED);
         LinearLayout.LayoutParams tlLp = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        tlLp.setMargins(0, 0, 0, dp(12));
+        tlLp.setMargins(0, 0, 0, dp(14));
         box.addView(title, tlLp);
 
-        String[] turNames = {"5× Yavaş", "5× Normal", "5× Hızlı"};
-        String[] turDescs = {"Her heceyi abartarak", "Doğal konuşma hızı", "Maks hız — ses yutulmasın"};
+        String[] names = {"5× Yavaş", "5× Normal", "5× Hızlı"};
+        String[] descs = {"Her heceyi abartarak", "Doğal konuşma hızı", "Maks hız — ses yutulmasın"};
         for (int j = 0; j < 3; j++) {
-            box.addView(buildTurRow(tekIdx, j, turNames[j], turDescs[j]));
+            box.addView(buildTurRow(tekIdx, j, names[j], descs[j]));
         }
         return box;
     }
@@ -572,7 +512,7 @@ public class LessonActivity extends Activity {
         row.setGravity(Gravity.CENTER_VERTICAL);
         LinearLayout.LayoutParams rowLp = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        rowLp.setMargins(0, 0, 0, turIdx < 2 ? dp(12) : 0);
+        rowLp.setMargins(0, 0, 0, turIdx < 2 ? dp(14) : 0);
         row.setLayoutParams(rowLp);
 
         // Number circle
@@ -587,7 +527,7 @@ public class LessonActivity extends Activity {
         ncLp.setMargins(0, 0, dp(12), 0);
         row.addView(nc, ncLp);
 
-        // Text
+        // Labels
         LinearLayout col = new LinearLayout(this);
         col.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams cLp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
@@ -608,37 +548,37 @@ public class LessonActivity extends Activity {
         col.addView(descTv);
         row.addView(col);
 
-        // 5 tap dots (larger = more tappable)
-        LinearLayout dotsRow = new LinearLayout(this);
-        dotsRow.setOrientation(LinearLayout.HORIZONTAL);
-        dotsRow.setGravity(Gravity.CENTER_VERTICAL);
-        View[] dots = new View[5];
+        // 5 tap dots
+        LinearLayout dots = new LinearLayout(this);
+        dots.setOrientation(LinearLayout.HORIZONTAL);
+        dots.setGravity(Gravity.CENTER_VERTICAL);
+        View[] dotViews = new View[5];
         for (int d = 0; d < 5; d++) {
             View dot = new View(this);
             int dsz = dp(28);
             LinearLayout.LayoutParams dLp = new LinearLayout.LayoutParams(dsz, dsz);
-            dLp.setMargins(0, 0, d < 4 ? dp(5) : 0, 0);
+            dLp.setMargins(0, 0, d < 4 ? dp(6) : 0, 0);
             dot.setLayoutParams(dLp);
             dot.setBackgroundDrawable(getDrawable(R.drawable.dot_idle));
-            dots[d] = dot;
+            dotViews[d] = dot;
             final int di = d;
             dot.setOnClickListener(v -> {
                 turCounts[tekIdx][turIdx] = (di < turCounts[tekIdx][turIdx]) ? di : di + 1;
                 for (int dd = 0; dd < 5; dd++) {
-                    dots[dd].setBackgroundDrawable(getDrawable(
+                    dotViews[dd].setBackgroundDrawable(getDrawable(
                         dd < turCounts[tekIdx][turIdx] ? R.drawable.dot_active : R.drawable.dot_idle));
                 }
             });
-            dotsRow.addView(dot);
+            dots.addView(dot);
         }
-        row.addView(dotsRow);
+        row.addView(dots);
         return row;
     }
 
     // ── OKUMA CARD ────────────────────────────────────────────────────────────
 
     View buildOkumaCard() {
-        LinearLayout card = card(ACCENT_OKUMA);
+        LinearLayout card = makeCard();
         try {
             JSONObject okuma = dayData.getJSONObject("okuma");
             String baslik   = okuma.getString("baslik");
@@ -666,7 +606,7 @@ public class LessonActivity extends Activity {
             bas.setLineSpacing(dp(4), 1.2f);
             LinearLayout.LayoutParams bLp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            bLp.setMargins(0, 0, 0, dp(20));
+            bLp.setMargins(0, 0, 0, dp(22));
             card.addView(bas, bLp);
 
             for (String para : body.split("\n+")) {
@@ -687,10 +627,10 @@ public class LessonActivity extends Activity {
                 vBox.setOrientation(LinearLayout.VERTICAL);
                 vBox.setBackgroundDrawable(getDrawable(R.drawable.card_inner));
                 vBox.setPadding(dp(14), dp(14), dp(14), dp(14));
-                LinearLayout.LayoutParams vBoxLp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams vLp = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                vBoxLp.setMargins(0, 0, 0, dp(14));
-                vBox.setLayoutParams(vBoxLp);
+                vLp.setMargins(0, 0, 0, dp(14));
+                vBox.setLayoutParams(vLp);
 
                 TextView vLbl = new TextView(this);
                 vLbl.setText("VURGU PRATİĞİ");
@@ -698,10 +638,10 @@ public class LessonActivity extends Activity {
                 vLbl.setLetterSpacing(0.2f);
                 vLbl.setTypeface(Typeface.DEFAULT_BOLD);
                 vLbl.setTextColor(MUTED);
-                LinearLayout.LayoutParams vLblLp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams vlLp = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                vLblLp.setMargins(0, 0, 0, dp(10));
-                vBox.addView(vLbl, vLblLp);
+                vlLp.setMargins(0, 0, 0, dp(10));
+                vBox.addView(vLbl, vlLp);
 
                 for (int i = 0; i < vurgu.length(); i++) {
                     JSONObject v = vurgu.getJSONObject(i);
@@ -722,12 +662,12 @@ public class LessonActivity extends Activity {
                     nsLp.setMargins(0, 0, dp(8), 0);
                     vRow.addView(ns, nsLp);
 
-                    TextView tv = new TextView(this);
-                    tv.setText(v.getString("t"));
-                    tv.setTextSize(13);
-                    tv.setTextColor(SUB);
-                    tv.setLineSpacing(dp(2), 1.4f);
-                    vRow.addView(tv, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+                    TextView vt = new TextView(this);
+                    vt.setText(v.getString("t"));
+                    vt.setTextSize(13);
+                    vt.setTextColor(SUB);
+                    vt.setLineSpacing(dp(2), 1.4f);
+                    vRow.addView(vt, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
                     vBox.addView(vRow);
                 }
                 card.addView(vBox);
@@ -744,7 +684,7 @@ public class LessonActivity extends Activity {
                 card.addView(tipTv, fullW());
             }
         } catch (Exception ignored) {}
-        return wrapCard(card);
+        return card;
     }
 
     // ── DONE BAR ──────────────────────────────────────────────────────────────
@@ -752,7 +692,7 @@ public class LessonActivity extends Activity {
     View buildDoneBar() {
         LinearLayout bar = new LinearLayout(this);
         bar.setOrientation(LinearLayout.VERTICAL);
-        bar.setPadding(dp(16), dp(10), dp(16), dp(26));
+        bar.setPadding(dp(18), dp(12), dp(18), dp(28));
         bar.setBackgroundDrawable(getDrawable(R.drawable.bottom_fade));
 
         boolean done = isDone();
@@ -761,31 +701,21 @@ public class LessonActivity extends Activity {
         btn.setTextSize(16);
         btn.setTypeface(Typeface.DEFAULT_BOLD);
         btn.setGravity(Gravity.CENTER);
-        btn.setTextColor(done ? GREEN : 0xFF060910);
+        btn.setTextColor(done ? GREEN : 0xFF050810);
         btn.setBackgroundDrawable(getDrawable(done ? R.drawable.btn_green_outline : R.drawable.btn_gold));
-        btn.setOnClickListener(v -> {
-            if (!isDone()) markDone();
-            finish();
-        });
+        btn.setOnClickListener(v -> { if (!isDone()) markDone(); finish(); });
         bar.addView(btn, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(58)));
         return bar;
-    }
-
-    FrameLayout.LayoutParams doneBarLp() {
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.gravity = Gravity.BOTTOM;
-        return lp;
     }
 
     // ── MARK DONE ─────────────────────────────────────────────────────────────
 
     void markDone() {
         SharedPreferences prefs = getSharedPreferences(MainActivity.PREFS, MODE_PRIVATE);
-        String completedStr = prefs.getString(MainActivity.KEY_COMPLETED, "");
         Set<Integer> set = new HashSet<>();
-        if (!completedStr.isEmpty()) {
-            for (String s : completedStr.split(",")) {
+        String cs = prefs.getString(MainActivity.KEY_COMPLETED, "");
+        if (!cs.isEmpty()) {
+            for (String s : cs.split(",")) {
                 try { set.add(Integer.parseInt(s.trim())); } catch (Exception ignored) {}
             }
         }
@@ -817,12 +747,26 @@ public class LessonActivity extends Activity {
 
     // ── SHARED BUILDERS ───────────────────────────────────────────────────────
 
-    View sectionLabel(String text, int accentColor) {
+    // Standard card: card_bg, consistent margins and padding
+    LinearLayout makeCard() {
+        LinearLayout c = new LinearLayout(this);
+        c.setOrientation(LinearLayout.VERTICAL);
+        c.setBackgroundDrawable(getDrawable(R.drawable.card_bg));
+        c.setPadding(dp(20), dp(22), dp(20), dp(22));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(dp(14), 0, dp(14), dp(12));
+        c.setLayoutParams(lp);
+        return c;
+    }
+
+    View secLabel(String text, int accentColor) {
         LinearLayout row = new LinearLayout(this);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
-        row.setPadding(dp(16), dp(26), dp(16), dp(10));
+        row.setPadding(dp(16), dp(28), dp(16), dp(10));
 
+        // Colored accent bar
         View accent = new View(this);
         GradientDrawable agd = new GradientDrawable();
         agd.setShape(GradientDrawable.RECTANGLE);
@@ -841,56 +785,69 @@ public class LessonActivity extends Activity {
         tv.setTextColor(SUB);
         row.addView(tv);
 
-        View line = new View(this);
-        line.setBackgroundColor(BORDER);
+        View line = new View(this); line.setBackgroundColor(BORDER);
         LinearLayout.LayoutParams lLp = new LinearLayout.LayoutParams(0, 1, 1f);
         lLp.setMargins(dp(10), 0, 0, 0);
         row.addView(line, lLp);
         return row;
     }
 
-    // card() with thin colored top accent
-    LinearLayout card(int accentColor) {
-        LinearLayout outer = new LinearLayout(this);
-        outer.setOrientation(LinearLayout.VERTICAL);
-
-        View topAccent = new View(this);
-        topAccent.setBackgroundColor(accentColor & 0x40FFFFFF | (accentColor & 0x00FFFFFF));
-        // Just use a subtle version via alpha
-        topAccent.setBackgroundColor((accentColor & 0x00FFFFFF) | 0x30000000);
-        // Actually set it properly:
-        topAccent.setBackgroundColor(accentColor);
-        topAccent.setAlpha(0.5f);
-        outer.addView(topAccent, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(2)));
-
-        LinearLayout inner = new LinearLayout(this);
-        inner.setOrientation(LinearLayout.VERTICAL);
-        inner.setPadding(dp(18), dp(18), dp(18), dp(18));
-        outer.addView(inner, fullW());
-        return inner; // caller adds children to inner; outer is the real card
-    }
-
-    View wrapCard(LinearLayout inner) {
-        // inner's parent is the outer LinearLayout created in card()
-        LinearLayout outer = (LinearLayout) inner.getParent();
-        if (outer == null) {
-            // Fallback: plain card
-            FrameLayout frame = new FrameLayout(this);
-            frame.setBackgroundDrawable(getDrawable(R.drawable.card_bg));
-            frame.addView(inner, new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(dp(14), 0, dp(14), dp(12));
-            frame.setLayoutParams(lp);
-            return frame;
-        }
-        outer.setBackgroundDrawable(getDrawable(R.drawable.card_bg));
+    void title(LinearLayout card, String text) {
+        TextView tv = new TextView(this);
+        tv.setText(text);
+        tv.setTextSize(17);
+        tv.setTypeface(Typeface.DEFAULT_BOLD);
+        tv.setTextColor(TEXT);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(dp(14), 0, dp(14), dp(12));
-        outer.setLayoutParams(lp);
-        return outer;
+        lp.setMargins(0, 0, 0, dp(6));
+        card.addView(tv, lp);
+    }
+
+    void sub(LinearLayout card, String text, int bottomMargin) {
+        TextView tv = new TextView(this);
+        tv.setText(text);
+        tv.setTextSize(13);
+        tv.setTextColor(SUB);
+        tv.setLineSpacing(dp(3), 1.4f);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0, 0, 0, bottomMargin);
+        card.addView(tv, lp);
+    }
+
+    void noteRow(LinearLayout card, String text) {
+        TextView tv = new TextView(this);
+        tv.setText(text);
+        tv.setTextSize(12);
+        tv.setTextColor(MUTED);
+        tv.setLineSpacing(dp(2), 1.4f);
+        tv.setBackgroundDrawable(getDrawable(R.drawable.note_border_top));
+        tv.setPadding(0, dp(10), 0, 0);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0, dp(12), 0, 0);
+        card.addView(tv, lp);
+    }
+
+    void posSection(LinearLayout card, String name, String body) {
+        TextView lbl = new TextView(this);
+        lbl.setText(name + " — Ağız Pozisyonu");
+        lbl.setTextSize(10);
+        lbl.setLetterSpacing(0.1f);
+        lbl.setTypeface(Typeface.DEFAULT_BOLD);
+        lbl.setTextColor(MUTED);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0, dp(14), 0, dp(6));
+        card.addView(lbl, lp);
+
+        TextView tv = new TextView(this);
+        tv.setText(body);
+        tv.setTextSize(13);
+        tv.setTextColor(SUB);
+        tv.setLineSpacing(dp(2), 1.4f);
+        card.addView(tv, fullW());
     }
 
     View stepRow(String num, String text) {
@@ -902,18 +859,17 @@ public class LessonActivity extends Activity {
         rowLp.setMargins(0, 0, 0, dp(10));
         row.setLayoutParams(rowLp);
 
-        // Number badge
+        // Badge (solid filled circle)
         TextView nc = new TextView(this);
         nc.setText(num);
-        nc.setTextSize(11);
+        nc.setTextSize(9);
         nc.setTypeface(Typeface.DEFAULT_BOLD);
-        nc.setTextColor(0xFF060910);
+        nc.setTextColor(0xFF050810);
         nc.setGravity(Gravity.CENTER);
-        GradientDrawable ngd = new GradientDrawable();
-        ngd.setShape(GradientDrawable.OVAL);
-        ngd.setColor(BLUE);
+        nc.setIncludeFontPadding(false);
+        GradientDrawable ngd = oval(); ngd.setColor(BLUE);
         nc.setBackgroundDrawable(ngd);
-        LinearLayout.LayoutParams ncLp = new LinearLayout.LayoutParams(dp(24), dp(24));
+        LinearLayout.LayoutParams ncLp = new LinearLayout.LayoutParams(dp(26), dp(26));
         ncLp.setMargins(0, dp(1), dp(12), 0);
         row.addView(nc, ncLp);
 
@@ -951,7 +907,7 @@ public class LessonActivity extends Activity {
             sym.setTypeface(Typeface.DEFAULT_BOLD);
             sym.setTextColor(GOLD);
             sym.setGravity(Gravity.CENTER);
-            LinearLayout.LayoutParams sLp = new LinearLayout.LayoutParams(dp(34), dp(24));
+            LinearLayout.LayoutParams sLp = new LinearLayout.LayoutParams(dp(34), dp(22));
             sLp.setMargins(0, 0, dp(10), 0);
             row.addView(sym, sLp);
 
@@ -966,31 +922,17 @@ public class LessonActivity extends Activity {
         return box;
     }
 
-    View posTitle(String text) {
-        TextView tv = new TextView(this);
-        tv.setText(text);
-        tv.setTextSize(10);
-        tv.setLetterSpacing(0.1f);
-        tv.setTypeface(Typeface.DEFAULT_BOLD);
-        tv.setTextColor(MUTED);
-        tv.setPadding(0, dp(14), 0, dp(6));
-        return tv;
-    }
-
-    View posNote(String text) {
-        TextView tv = new TextView(this);
-        tv.setText(text);
-        tv.setTextSize(13);
-        tv.setTextColor(SUB);
-        tv.setLineSpacing(dp(2), 1.4f);
-        return tv;
-    }
-
     // ── LAYOUT HELPERS ────────────────────────────────────────────────────────
 
     LinearLayout.LayoutParams fullW() {
         return new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    GradientDrawable oval() {
+        GradientDrawable gd = new GradientDrawable();
+        gd.setShape(GradientDrawable.OVAL);
+        return gd;
     }
 
     String safeStr(JSONObject obj, String key) {
