@@ -30,15 +30,15 @@ public class MainActivity extends Activity {
     static final String KEY_STREAK    = "streak";
 
     // Minimalist depth palette — warm orange
-    static final int BG     = 0xFF0C0906;
-    static final int S1     = 0xFF141009;
-    static final int S2     = 0xFF1D1510;
-    static final int BORDER = 0xFF2D2016;
-    static final int GOLD   = 0xFFD97D2E;
-    static final int TEXT   = 0xFFEEE0CC;
-    static final int SUB    = 0xFF9C8670;
-    static final int MUTED  = 0xFF5C4838;
-    static final int GREEN  = 0xFF30A858;
+    static final int BG     = 0xFF0E0D0A;
+    static final int S1     = 0xFF1A1611;
+    static final int S2     = 0xFF231E16;
+    static final int BORDER = 0xFF342B1E;
+    static final int GOLD   = 0xFFC49860;
+    static final int TEXT   = 0xFFF5F0E8;
+    static final int SUB    = 0xFFA08B70;
+    static final int MUTED  = 0xFF635040;
+    static final int GREEN  = 0xFF4EAF6D;
 
     JSONArray programData;
 
@@ -152,7 +152,7 @@ public class MainActivity extends Activity {
         cta.setText("Programa Başla");
         cta.setTextSize(16);
         cta.setTypeface(Typeface.DEFAULT_BOLD);
-        cta.setTextColor(0xFF0C0906);
+        cta.setTextColor(0xFF0E0D0A);
         cta.setGravity(Gravity.CENTER);
         cta.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
         cta.setOnClickListener(v -> {
@@ -267,8 +267,8 @@ public class MainActivity extends Activity {
         setChip.setTextColor(GOLD);
         setChip.setPadding(dp(10), dp(5), dp(10), dp(5));
         GradientDrawable chipGd = rd(dp(20));
-        chipGd.setColor(0x14D97D2E);
-        chipGd.setStroke(1, 0x38D97D2E);
+        chipGd.setColor(0x14C49860);
+        chipGd.setStroke(1, 0x38C49860);
         setChip.setBackgroundDrawable(chipGd);
         LinearLayout.LayoutParams chipLp = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -366,7 +366,7 @@ public class MainActivity extends Activity {
             replayBtn.setTypeface(Typeface.DEFAULT_BOLD);
             replayBtn.setTextColor(GOLD);
             replayBtn.setPadding(dp(16), dp(10), dp(16), dp(10));
-            GradientDrawable rpGd = rd(dp(12)); rpGd.setColor(0x10D97D2E); rpGd.setStroke(1, 0x30D97D2E);
+            GradientDrawable rpGd = rd(dp(12)); rpGd.setColor(0x10C49860); rpGd.setStroke(1, 0x30C49860);
             replayBtn.setBackgroundDrawable(rpGd);
             replayBtn.setOnClickListener(v -> openLesson(fCur));
             doneRow.addView(replayBtn);
@@ -376,7 +376,7 @@ public class MainActivity extends Activity {
             startBtn.setText("Derse Başla  →");
             startBtn.setTextSize(17);
             startBtn.setTypeface(Typeface.DEFAULT_BOLD);
-            startBtn.setTextColor(0xFF0C0906);
+            startBtn.setTextColor(0xFF0E0D0A);
             startBtn.setGravity(Gravity.CENTER);
             startBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
             startBtn.setOnClickListener(v -> openLesson(fCur));
@@ -472,7 +472,7 @@ public class MainActivity extends Activity {
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setPadding(dp(18), dp(15), dp(18), dp(15));
-        if (isToday) row.setBackgroundColor(0x0DD97D2E);
+        if (isToday) row.setBackgroundColor(0x0DC49860);
 
         // Circle with day number
         FrameLayout circ = new FrameLayout(this);
@@ -485,7 +485,7 @@ public class MainActivity extends Activity {
         numTv.setText(String.valueOf(day + 1));
         numTv.setTextSize(12);
         numTv.setTypeface(Typeface.DEFAULT_BOLD);
-        numTv.setTextColor(isDone || isToday ? 0xFF0C0906 : MUTED);
+        numTv.setTextColor(isDone || isToday ? 0xFF0E0D0A : MUTED);
         numTv.setGravity(Gravity.CENTER);
         circ.addView(numTv, new FrameLayout.LayoutParams(csz, csz));
         LinearLayout.LayoutParams cLp = new LinearLayout.LayoutParams(csz, csz);

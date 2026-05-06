@@ -33,15 +33,15 @@ public class LessonActivity extends Activity {
     JSONObject dayData;
 
     // Minimalist depth palette — warm orange
-    static final int BG     = 0xFF0C0906;
-    static final int CARD   = 0xFF141009;
-    static final int CARD2  = 0xFF1D1510;
-    static final int BORDER = 0xFF2D2016;
-    static final int GOLD   = 0xFFD97D2E;
-    static final int TEXT   = 0xFFEEE0CC;
-    static final int SUB    = 0xFF9C8670;
-    static final int MUTED  = 0xFF5C4838;
-    static final int GREEN  = 0xFF30A858;
+    static final int BG     = 0xFF0E0D0A;
+    static final int CARD   = 0xFF1A1611;
+    static final int CARD2  = 0xFF231E16;
+    static final int BORDER = 0xFF342B1E;
+    static final int GOLD   = 0xFFC49860;
+    static final int TEXT   = 0xFFF5F0E8;
+    static final int SUB    = 0xFFA08B70;
+    static final int MUTED  = 0xFF635040;
+    static final int GREEN  = 0xFF4EAF6D;
     static final int BLUE   = 0xFF4E8CF5;
 
     static final String[] BREATH_PHASES = {"NEFES AL", "TUT", "NEFES VER"};
@@ -163,7 +163,7 @@ public class LessonActivity extends Activity {
             doneMark.setTextSize(15);
             doneMark.setTypeface(Typeface.DEFAULT_BOLD);
             doneMark.setTextColor(GREEN);
-            GradientDrawable dGd = oval(); dGd.setColor(0x1430A858);
+            GradientDrawable dGd = oval(); dGd.setColor(0x144EAF6D);
             doneMark.setBackgroundDrawable(dGd);
             doneMark.setPadding(dp(10), dp(5), dp(10), dp(5));
             bar.addView(doneMark);
@@ -195,7 +195,7 @@ public class LessonActivity extends Activity {
         breathBtn.setText("▶  Zamanlayıcıyı Başlat");
         breathBtn.setTextSize(14);
         breathBtn.setTypeface(Typeface.DEFAULT_BOLD);
-        breathBtn.setTextColor(0xFF0C0906);
+        breathBtn.setTextColor(0xFF0E0D0A);
         breathBtn.setGravity(Gravity.CENTER);
         breathBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
         breathBtn.setOnClickListener(v -> toggleBreath());
@@ -216,7 +216,7 @@ public class LessonActivity extends Activity {
         FrameLayout ring = new FrameLayout(this);
         GradientDrawable ringGd = oval();
         ringGd.setColor(0x10000000);
-        ringGd.setStroke(dp(2), 0x30D97D2E);
+        ringGd.setStroke(dp(2), 0x30C49860);
         int rsz = dp(136);
         ring.setBackgroundDrawable(ringGd);
 
@@ -279,7 +279,7 @@ public class LessonActivity extends Activity {
         if (bTimer != null) { bTimer.cancel(); bTimer = null; }
         breathBtn.setText("▶  Zamanlayıcıyı Başlat");
         breathBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
-        breathBtn.setTextColor(0xFF0C0906);
+        breathBtn.setTextColor(0xFF0E0D0A);
     }
 
     void scheduleTick() {
@@ -417,8 +417,8 @@ public class LessonActivity extends Activity {
             sgChip.setPadding(dp(10), dp(4), dp(10), dp(4));
             GradientDrawable scGd = new GradientDrawable();
             scGd.setShape(GradientDrawable.RECTANGLE);
-            scGd.setColor(0x14D97D2E);
-            scGd.setStroke(1, 0x36D97D2E);
+            scGd.setColor(0x14C49860);
+            scGd.setStroke(1, 0x36C49860);
             scGd.setCornerRadius(dp(20));
             sgChip.setBackgroundDrawable(scGd);
             sgRow.addView(sgChip);
@@ -614,7 +614,7 @@ public class LessonActivity extends Activity {
                 TextView pt = new TextView(this);
                 pt.setText(para.trim());
                 pt.setTextSize(15);
-                pt.setTextColor(0xFFBBA898);
+                pt.setTextColor(0xFFB8AA96);
                 pt.setLineSpacing(dp(5), 1.55f);
                 LinearLayout.LayoutParams pLp = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -701,7 +701,7 @@ public class LessonActivity extends Activity {
         btn.setTextSize(16);
         btn.setTypeface(Typeface.DEFAULT_BOLD);
         btn.setGravity(Gravity.CENTER);
-        btn.setTextColor(done ? GREEN : 0xFF0C0906);
+        btn.setTextColor(done ? GREEN : 0xFF0E0D0A);
         btn.setBackgroundDrawable(getDrawable(done ? R.drawable.btn_green_outline : R.drawable.btn_gold));
         btn.setOnClickListener(v -> { if (!isDone()) markDone(); finish(); });
         bar.addView(btn, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(58)));
@@ -864,7 +864,7 @@ public class LessonActivity extends Activity {
         nc.setText(num);
         nc.setTextSize(9);
         nc.setTypeface(Typeface.DEFAULT_BOLD);
-        nc.setTextColor(0xFF0C0906);
+        nc.setTextColor(0xFF0E0D0A);
         nc.setGravity(Gravity.CENTER);
         nc.setIncludeFontPadding(false);
         GradientDrawable ngd = oval(); ngd.setColor(BLUE);
