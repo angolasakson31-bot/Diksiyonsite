@@ -29,16 +29,16 @@ public class MainActivity extends Activity {
     static final String KEY_COMPLETED = "completed";
     static final String KEY_STREAK    = "streak";
 
-    // Muted cognac palette — dark chocolate + amber
-    static final int BG     = 0xFF1A1008;
-    static final int S1     = 0xFF241408;
-    static final int S2     = 0xFF2E1C0C;
-    static final int BORDER = 0xFF422E14;
-    static final int GOLD   = 0xFFD07820;
-    static final int TEXT   = 0xFFF5EDD8;
-    static final int SUB    = 0xFFA08050;
-    static final int MUTED  = 0xFF6E5030;
-    static final int GREEN  = 0xFF4EAF6D;
+    // Website palette — dark navy + gold
+    static final int BG     = 0xFF080B10;
+    static final int S1     = 0xFF0F1520;
+    static final int S2     = 0xFF16202E;
+    static final int BORDER = 0xFF1E2D40;
+    static final int GOLD   = 0xFFC8A84B;
+    static final int TEXT   = 0xFFDCE6F0;
+    static final int SUB    = 0xFF8FA3B8;
+    static final int MUTED  = 0xFF4A5D72;
+    static final int GREEN  = 0xFF2E9E5E;
 
     JSONArray programData;
 
@@ -152,7 +152,7 @@ public class MainActivity extends Activity {
         cta.setText("Programa Başla");
         cta.setTextSize(16);
         cta.setTypeface(Typeface.DEFAULT_BOLD);
-        cta.setTextColor(0xFF1A1008);
+        cta.setTextColor(0xFF080B10);
         cta.setGravity(Gravity.CENTER);
         cta.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
         cta.setOnClickListener(v -> {
@@ -267,8 +267,8 @@ public class MainActivity extends Activity {
         setChip.setTextColor(GOLD);
         setChip.setPadding(dp(10), dp(5), dp(10), dp(5));
         GradientDrawable chipGd = rd(dp(20));
-        chipGd.setColor(0x14D07820);
-        chipGd.setStroke(1, 0x38D07820);
+        chipGd.setColor(0x14C8A84B);
+        chipGd.setStroke(1, 0x38C8A84B);
         setChip.setBackgroundDrawable(chipGd);
         LinearLayout.LayoutParams chipLp = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -366,7 +366,7 @@ public class MainActivity extends Activity {
             replayBtn.setTypeface(Typeface.DEFAULT_BOLD);
             replayBtn.setTextColor(GOLD);
             replayBtn.setPadding(dp(16), dp(10), dp(16), dp(10));
-            GradientDrawable rpGd = rd(dp(12)); rpGd.setColor(0x10D07820); rpGd.setStroke(1, 0x30D07820);
+            GradientDrawable rpGd = rd(dp(12)); rpGd.setColor(0x10C8A84B); rpGd.setStroke(1, 0x30C8A84B);
             replayBtn.setBackgroundDrawable(rpGd);
             replayBtn.setOnClickListener(v -> openLesson(fCur));
             doneRow.addView(replayBtn);
@@ -376,7 +376,7 @@ public class MainActivity extends Activity {
             startBtn.setText("Derse Başla  →");
             startBtn.setTextSize(17);
             startBtn.setTypeface(Typeface.DEFAULT_BOLD);
-            startBtn.setTextColor(0xFF1A1008);
+            startBtn.setTextColor(0xFF080B10);
             startBtn.setGravity(Gravity.CENTER);
             startBtn.setBackgroundDrawable(getDrawable(R.drawable.btn_gold));
             startBtn.setOnClickListener(v -> openLesson(fCur));
@@ -472,7 +472,7 @@ public class MainActivity extends Activity {
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setPadding(dp(18), dp(15), dp(18), dp(15));
-        if (isToday) row.setBackgroundColor(0x0DD07820);
+        if (isToday) row.setBackgroundColor(0x0DC8A84B);
 
         // Circle with day number
         FrameLayout circ = new FrameLayout(this);
@@ -485,7 +485,7 @@ public class MainActivity extends Activity {
         numTv.setText(String.valueOf(day + 1));
         numTv.setTextSize(12);
         numTv.setTypeface(Typeface.DEFAULT_BOLD);
-        numTv.setTextColor(isDone || isToday ? 0xFF1A1008 : MUTED);
+        numTv.setTextColor(isDone || isToday ? 0xFF080B10 : MUTED);
         numTv.setGravity(Gravity.CENTER);
         circ.addView(numTv, new FrameLayout.LayoutParams(csz, csz));
         LinearLayout.LayoutParams cLp = new LinearLayout.LayoutParams(csz, csz);
