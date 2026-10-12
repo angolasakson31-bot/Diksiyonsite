@@ -92,7 +92,7 @@ public class LessonActivity extends Activity {
 
         content.addView(buildTopBar());
 
-        content.addView(secLabel("DİYAFRAM NEFESİ", BLUE));
+        content.addView(secLabel("NEFES KONTROLÜ", BLUE));
         content.addView(buildBreathCard());
 
         content.addView(secLabel("REZONANS", GOLD));
@@ -101,10 +101,19 @@ public class LessonActivity extends Activity {
         content.addView(secLabel("ARTİKÜLASYON ISINMASI", GREEN));
         content.addView(buildIsinmaCard());
 
+        View ipucu = buildIpucuCard();
+        if (ipucu != null) {
+            content.addView(secLabel("TÜRKÇE SÖYLEYİŞ · GÜNÜN İPUCU", GOLD));
+            content.addView(ipucu);
+        }
+
         buildTekerlemeler(content);
 
         content.addView(secLabel("SESLİ OKUMA METNİ", SUB));
         content.addView(buildOkumaCard());
+
+        content.addView(secLabel("SES SAĞLIĞI", SUB));
+        content.addView(buildSaglikCard());
 
         sv.addView(content, new ScrollView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -184,11 +193,11 @@ public class LessonActivity extends Activity {
         LinearLayout card = makeCard();
 
         title(card, "4 · 2 · 6 Nefes Tekniği");
-        sub(card, "Sesin gücü diyaframdan gelir. Uzun nefes verme diyaframı aktive eder. 5 set yapılır.", dp(16));
+        sub(card, "Sesin enerjisi akciğerlerdeki havadan gelir. Diyafram nefes alırken kasılır; nefes verirken karın ve kaburga kasları havayı kontrollü bırakır. Uzun, eşit nefes verme havayı idareli kullanmayı öğretir. 5 set yapılır.", dp(16));
 
-        card.addView(stepRow("4s", "Burundan nefes al — yalnızca karın şişsin, göğüs hareketsiz."));
-        card.addView(stepRow("2s", "Nefesi tut — karın şişkin sabit, omuzlar düşük."));
-        card.addView(stepRow("6s", "Ağızdan yavaşça ver — karın içeri çekilsin, ses buradan beslenir."));
+        card.addView(stepRow("4s", "Burundan nefes al — karın ve alt kaburgalar yanlara genişlesin, omuzlar kalkmasın."));
+        card.addView(stepRow("2s", "Bekle — nefesi boğazda kilitleme; gırtlak açık, omuzlar düşük, çene serbest."));
+        card.addView(stepRow("6s", "Hafif bir \"sss\" sesiyle yavaşça ver — karın kendiliğinden içeri gelsin, akış eşit olsun."));
 
         // Timer button
         breathBtn = new TextView(this);
@@ -256,7 +265,7 @@ public class LessonActivity extends Activity {
         disp.addView(ring, ringLp);
         card.addView(disp, fullW());
 
-        noteRow(card, "5 seti bitirince: cümle ortasında nefes tükenmez, ses titreşmez.");
+        noteRow(card, "Amaç: cümle boyunca havayı eşit dağıtmak. Başın dönerse ara ver; astım ya da kalp-damar rahatsızlığın varsa bekleme adımını atla.");
         return card;
     }
 
@@ -332,9 +341,10 @@ public class LessonActivity extends Activity {
         hLp.setMargins(0, 0, 0, dp(8));
         card.addView(hum, hLp);
 
-        sub(card, "Sesi göğse çeker, kalınlaştırır. Sıra: M → N → NG → Mmm-maa/mee/mii/moo/muu → Ha×5. Toplam 3 set.", dp(16));
+        sub(card, "Dudak titreşimi ve mırıldanma sesi öne (dudak, burun, yüz) taşır; boğazı zorlamadan dolgun ve taşıyıcı bir tını kurar. Sıra: Brrr → M → N → NG → Mmm-maa/mee/mii/moo/muu → Ha×5. Toplam 3 set.", dp(16));
 
         card.addView(turBox(new String[][]{
+            {"B",  "Brrr (dudak titretme) — 5 sn, alçaktan yükseğe kaydır → geçiş ↓"},
             {"M",  "Mmm — 5 saniye → geçiş ↓"},
             {"N",  "Nnnnn — 5 saniye → geçiş ↓"},
             {"NG", "Ngngng — 5 saniye → geçiş ↓"},
@@ -343,8 +353,27 @@ public class LessonActivity extends Activity {
         }));
 
         posSection(card, "M", "Dudaklar kapalı, dişler ayrık. İşaret parmağını dudağına daya: titreşim hissedilmeli.");
-        posSection(card, "N", "Dil ucunu üst dişlerin hemen arkasına daya. Burnun üstüne koy: titreşim hissedilmeli.");
-        posSection(card, "NG", "Dil kökü yumuşak damağa değiyor. Kafanın arkasına koy: titreşim oradan gelmeli.");
+        posSection(card, "N", "Dil ucunu üst dişlerin hemen arkasına daya. Parmağını burun kanadına koy: titreşim hissedilmeli.");
+        posSection(card, "NG", "Dil sırtı yumuşak damağa değiyor (\"renk\" kelimesindeki n gibi). Titreşimi burun boşluğunda hissedersin.");
+        posSection(card, "BRRR", "Dudaklar gevşek; havayı üfleyip dudakları titret, sesini ekle. Olmazsa yanakları parmakla destekle ya da pipetle \"uuu\" de. Ses tellerini en az yoran ısınmalardan biridir.");
+        return card;
+    }
+
+    // ── İPUCU & SAĞLIK ────────────────────────────────────────────────────────
+
+    View buildIpucuCard() {
+        JSONObject ip = dayData.optJSONObject("ipucu");
+        if (ip == null) return null;
+        LinearLayout card = makeCard();
+        title(card, safeStr(ip, "t"));
+        sub(card, safeStr(ip, "b"), 0);
+        return card;
+    }
+
+    View buildSaglikCard() {
+        LinearLayout card = makeCard();
+        sub(card, "Bu program genel diksiyon pratiği içindir, tedavi yerine geçmez. 2 haftadan uzun süren ses kısıklığı ya da konuşurken ağrı varsa KBB / foniatri uzmanına; kekemelik ya da bazı sesleri (R, S gibi) hiç çıkaramama durumunda dil ve konuşma terapistine danış.", dp(8));
+        noteRow(card, "Egzersiz sırasında boğazında ağrı olursa dur. Ertesi gün daha yavaş ve yumuşak devam et.");
         return card;
     }
 
@@ -365,12 +394,12 @@ public class LessonActivity extends Activity {
         card.addView(vowels, vLp);
 
         card.addView(turBox(new String[][]{
-            {"1", "Yavaş ve abartarak — her ünlüde çene maksimum açılsın → 1 nefes ↓"},
+            {"1", "Yavaş ve belirgin — A, E, O, Ö'de çene açık; I, İ, U, Ü'de neredeyse kapalı; O, Ö, U, Ü'de dudaklar yuvarlak → 1 nefes ↓"},
             {"2", "Normal hızda — akıcı ve temiz, biri diğerine karışmasın → 1 nefes ↓"},
-            {"3", "Hızlı — maksimum hız ama netlik düşmesin, buruna kaçma."}
+            {"3", "Hızlı ama kontrollü — netlik bozulduğu an yavaşla."}
         }));
 
-        noteRow(card, "Sesler arası direkt geçiş — bekleme yok. Burun sesi fark edersen ağzı daha da aç.");
+        noteRow(card, "Sesler arası direkt geçiş — bekleme yok. Ses genizden geliyorsa ağzı biraz daha aç.");
         return card;
     }
 
