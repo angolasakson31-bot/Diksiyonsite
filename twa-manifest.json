@@ -27,7 +27,7 @@
   "webManifestUrl": "https://angolasakson31-bot.github.io/Diksiyonsite/manifest.json",
   "sdkVersion": 21,
   "targetSdkVersion": 34,
-  "minSdkVersion": 21,
+  "minSdkVersion": 24,
   "orientation": "portrait",
   "fingerprints": [],
   "isChromeOSOnly": false,
